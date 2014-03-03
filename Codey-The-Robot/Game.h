@@ -13,9 +13,11 @@ public:
 	Game();
 	~Game();
 
+	static int TILE_SIZE;
+
 private:
 	void eventLoop();
-	void update();
+	void update(int elapsedTimeInMs);
 	void draw(Graphics& graphics);
 
 	std::unique_ptr<Sprite> sprite;

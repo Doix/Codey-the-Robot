@@ -14,12 +14,17 @@ public:
 		int xLocation, int yLocation, 
 		int width, int height);
 
-	~Sprite();
+	virtual ~Sprite();
+
+	virtual void update(int /*elapsed time in ms*/){}
 
 	void draw(Graphics& graphics, int x, int y) const;
+
+protected:
+	SDL_Rect sourceRect;
+
 private:
 	SDL_Texture* texture;
-	SDL_Rect sourceRect;
 
 };
 

@@ -3,18 +3,18 @@
 #include "SDL.h"
 #include <stdio.h>
 
-#include "Sprite.h"
+#include "AnimatedSprite.h"
 
 //Constants
 namespace{
 	const int FPS = 60;
-	const int SCREEN_WIDTH = 640;
-	const int SCREEN_HEIGHT = 480;
 }
 
+//static
+int Game::TILE_SIZE = 80;
+
 Game::Game()
-{
-	
+{	
 	SDL_Init(SDL_INIT_EVERYTHING);
 	eventLoop();
 }
@@ -30,8 +30,9 @@ void Game::eventLoop(){
 	Graphics graphics;
 	SDL_Event event;
 
-	sprite.reset(new Sprite(graphics, "content/codey.png", 0, 0, 79, 82));
-
+	sprite.reset(new AnimatedSprite(graphics, "content/codey.png", 0, 0, TILE_SIZE, TILE_SIZE, 15, 9));
+	//set time for animation sprite update
+	int lastUpdateTimeMs = SDL_GetTicks();
 
 	bool running = true;
 	while (running){
@@ -53,8 +54,12 @@ void Game::eventLoop(){
 			}
 		}
 
+		//check time elapsed since last update method called 
+		const int currentTimeMs = SDL_GetTicks();
+
 		//update the screen
-		update();
+		update(currentTimeMs - lastUpdateTimeMs);
+		lastUpdateTimeMs = currentTimeMs;
 
 		//draw all items on the screen
 		draw(graphics);
@@ -68,9 +73,9 @@ void Game::eventLoop(){
 
 }
 
-void Game::update()
+void Game::update(int elapsedTimeInMs)
 {
-
+	sprite->update(elapsedTimeInMs);
 }
 
 void Game::draw(Graphics& graphics)

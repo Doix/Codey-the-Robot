@@ -5,10 +5,12 @@
 
 #include "Player.h"
 #include "Input.h"
+#include <algorithm>
 
 //Constants
 namespace{
 	const int FPS = 60;
+	const int MAX_FRAME_TIME = 4 * 1000 / 60;
 }
 
 //static
@@ -25,6 +27,7 @@ Game::~Game()
 {
 	SDL_Quit();
 }
+
 
 void Game::eventLoop(){
 	//call graphics constructor
@@ -88,8 +91,10 @@ void Game::eventLoop(){
 		//check time elapsed since last update method called 
 		const int currentTimeMs = SDL_GetTicks();
 
+		const int frameElapsedTime = currentTimeMs - lastUpdateTimeMs;
+
 		//update the screen
-		update(currentTimeMs - lastUpdateTimeMs);
+		update(std::min(frameElapsedTime, MAX_FRAME_TIME));
 		lastUpdateTimeMs = currentTimeMs;
 
 		//draw all items on the screen
@@ -99,7 +104,11 @@ void Game::eventLoop(){
 		const int elapsedTimeMs = SDL_GetTicks() - startTimeMs;
 
 		//delay next frame till 1000/60th of a second has elapsed (less time taken to draw frame)
-		SDL_Delay(1000 /*ms*/ / FPS - elapsedTimeMs /*ms*/);
+		//If statement to ensure that the elapsed time !> the 100 / FPS otherwise freezes
+		if (elapsedTimeMs < 1000 /*ms*/ / FPS){
+			SDL_Delay(1000 /*ms*/ / FPS - elapsedTimeMs /*ms*/);
+		}
+		
 	} 
 
 }

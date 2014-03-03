@@ -1,5 +1,4 @@
 #include "AnimatedSprite.h"
-
 #include "Game.h"
 
 

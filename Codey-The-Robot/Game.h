@@ -2,7 +2,7 @@
 #define GAME_H_
 
 
-class Sprite;
+class Player;
 class Graphics;
 
 #include <memory>
@@ -20,7 +20,7 @@ private:
 	void update(int elapsedTimeInMs);
 	void draw(Graphics& graphics);
 
-	std::unique_ptr<Sprite> sprite;
+	std::unique_ptr<Player> player;
 };
 
 #endif // GAME_H_

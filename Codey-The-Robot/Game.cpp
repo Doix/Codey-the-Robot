@@ -3,7 +3,8 @@
 #include "SDL.h"
 #include <stdio.h>
 
-#include "AnimatedSprite.h"
+#include "Player.h"
+#include "Input.h"
 
 //Constants
 namespace{
@@ -29,8 +30,9 @@ void Game::eventLoop(){
 	//call graphics constructor
 	Graphics graphics;
 	SDL_Event event;
+	Input input;
 
-	sprite.reset(new AnimatedSprite(graphics, "content/codey.png", 0, 0, TILE_SIZE, TILE_SIZE, 15, 9));
+	player.reset(new Player(graphics, 320, 240));
 	//set time for animation sprite update
 	int lastUpdateTimeMs = SDL_GetTicks();
 
@@ -40,19 +42,48 @@ void Game::eventLoop(){
 		//start time for the current frame
 		const int startTimeMs = SDL_GetTicks();
 
+		//start new frame for keyboard inputs
+		input.beginNewFrame();
+
 		//handle events
 		while (SDL_PollEvent(&event)){
 			switch (event.type){
-			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_ESCAPE){
-					running = false;
-					break;
-				}
 
-				default:
-					break;
+			case SDL_KEYDOWN:
+				input.KeyDownEvent(event);
+				break;
+
+			case SDL_KEYUP:
+				input.KeyUpEvent(event);
+				break;
+
+			default:
+				break;
 			}
 		}
+
+		if (input.wasKeyPressed(SDLK_ESCAPE)){
+			running = false;
+		}
+
+		//Check direction arrows being pushed - THIS WILL NEED TO BE UPDATED TO RESPOND TO COMMANDS ORDERED BY PLAYER
+		if (input.isKeyHeld(SDLK_RIGHT)){
+			player->startMovingRight();
+		}
+		else if (input.isKeyHeld(SDLK_LEFT)){
+			player->startMovingLeft();
+		}
+		else if (input.isKeyHeld(SDLK_UP)){
+			player->startMovingUp();
+		}
+		else if (input.isKeyHeld(SDLK_DOWN)){
+			player->startMovingDown();
+		}
+		else{
+			player->stopMoving();
+		}
+
+
 
 		//check time elapsed since last update method called 
 		const int currentTimeMs = SDL_GetTicks();
@@ -75,13 +106,13 @@ void Game::eventLoop(){
 
 void Game::update(int elapsedTimeInMs)
 {
-	sprite->update(elapsedTimeInMs);
+	player->update(elapsedTimeInMs);
 }
 
 void Game::draw(Graphics& graphics)
 {
 	graphics.clear();
-	sprite->draw(graphics, 200, 200);
+	player->draw(graphics);
 	graphics.flip();
 }
 

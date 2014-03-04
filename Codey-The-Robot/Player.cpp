@@ -44,16 +44,16 @@ void Player::update(int elapsedTimeMs){
 
 				switch (curCommand){
 				case Command::LEFT:
-					DestX = PosX - 50;
+					DestX = PosX - Game::TILE_SIZE;
 					break;
 				case Command::RIGHT:
-					DestX = PosX + 50;
+					DestX = PosX + Game::TILE_SIZE;
 					break;
 				case Command::DOWN:
-					DestY = PosY + 50;
+					DestY = PosY + Game::TILE_SIZE;
 					break;
 				case Command::UP:
-					DestY = PosY - 50;
+					DestY = PosY - Game::TILE_SIZE;
 					break;
 				}
 			}

@@ -6,7 +6,6 @@
 namespace{
 	const float WALKING_ACCELERATION = 0.0012f; //(pixels/ms) / ms
 	const float MAX_SPEED_XY = 0.325f; // pixels / ms
-	const float SLOW_DOWN_FACTOR = 0.8f;
 }
 
 Player::Player(Graphics& graphics, int x, int y)
@@ -153,6 +152,6 @@ void Player::updatePosAndAcceleration(int& PosXY, float& accelerationXY, float& 
 		velocityXY = std::fmin(velocityXY, MAX_SPEED_XY);
 	}
 	else{
-		velocityXY *= SLOW_DOWN_FACTOR;
+		velocityXY = 0;
 	}
 }

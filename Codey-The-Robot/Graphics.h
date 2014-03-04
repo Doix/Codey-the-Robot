@@ -3,7 +3,7 @@
 
 #include <string>
 #include "SDL.h"
-#include <map>;
+#include <map>
 
 class Graphics
 {

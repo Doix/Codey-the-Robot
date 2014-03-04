@@ -70,20 +70,20 @@ void Game::eventLoop(){
 
 		//Check direction arrows being pushed - 
 		//THIS WILL NEED TO BE UPDATED TO RESPOND TO COMMANDS ORDERED BY PLAYER
-		if (input.isKeyHeld(SDLK_RIGHT)){
+		if (input.wasKeyReleased(SDLK_RIGHT)){
 			player->startMovingRight();
 		}
-		else if (input.isKeyHeld(SDLK_LEFT)){
+		else if (input.wasKeyReleased(SDLK_LEFT)){
 			player->startMovingLeft();
 		}
-		else if (input.isKeyHeld(SDLK_UP)){
+		else if (input.wasKeyReleased(SDLK_UP)){
 			player->startMovingUp();
 		}
-		else if (input.isKeyHeld(SDLK_DOWN)){
+		else if (input.wasKeyReleased(SDLK_DOWN)){
 			player->startMovingDown();
 		}
-		else{
-			player->stopMoving();
+		else if (input.wasKeyReleased(SDLK_SPACE)) {
+			player->startCommands();
 		}
 
 		//check time elapsed since last update method called 

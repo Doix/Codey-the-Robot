@@ -25,12 +25,13 @@ Player::Player(Graphics& graphics, int x, int y)
 	sprite.reset(new AnimatedSprite(graphics, "content/codey.png", 0, 0, Game::TILE_SIZE, Game::TILE_SIZE, 15, 9));
 }
 
-
+//Destructor - release the sprite
 Player::~Player()
 {
+	sprite.release();
 }
 
-
+//update the player position
 void Player::update(int elapsedTimeMs){
 	sprite->update(elapsedTimeMs);
 
@@ -38,33 +39,33 @@ void Player::update(int elapsedTimeMs){
 	updatePosAndAcceleration(PosY, accelerationY, velocityY, elapsedTimeMs);
 }
 
+//draw the sprite at the relevant position
 void Player::draw(Graphics& graphics){
 	sprite->draw(graphics, PosX, PosY);
 }
 
+//Functions for each of the different movements player can do
 void Player::startMovingLeft(){
 	accelerationX = -WALKING_ACCELERATION;
 }
-
 void Player::startMovingRight(){
 	accelerationX = WALKING_ACCELERATION;
 }
-
 void Player::startMovingUp(){
 	accelerationY = -WALKING_ACCELERATION;
 }
-
 void Player::startMovingDown(){
 	accelerationY = WALKING_ACCELERATION;
 }
-
 void Player::stopMoving(){
 	accelerationX = 0.0f;
 	accelerationY = 0.0f;
 }
 
+
+//helper function to calculate the speed and acceleration of the player for both X and Y axis.
 void Player::updatePosAndAcceleration(int& PosXY, float& accelerationXY, float& velocityXY, int elapsedTimeMs){
-	//calculate the position of X based on the speed and the time elapsed since last called
+	//calculate the position of X / Y based on the speed and the time elapsed since last called
 	//(also round as int * float to ensure it doesn't truncate data)
 	PosXY += round(velocityXY * elapsedTimeMs);
 

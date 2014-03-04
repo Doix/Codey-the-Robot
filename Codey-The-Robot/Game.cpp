@@ -13,22 +13,23 @@ namespace{
 	const int MAX_FRAME_TIME = 4 * 1000 / 60;
 }
 
-//static
+//static - accessible by all classes
 int Game::TILE_SIZE = 80;
 
+//constructor - initialise all SDL tools
 Game::Game()
 {	
 	SDL_Init(SDL_INIT_EVERYTHING);
 	eventLoop();
 }
 
-
+//close all SDL tools
 Game::~Game()
 {
 	SDL_Quit();
 }
 
-
+//Main Event loop
 void Game::eventLoop(){
 	//call graphics constructor
 	Graphics graphics;
@@ -36,40 +37,39 @@ void Game::eventLoop(){
 	Input input;
 
 	player.reset(new Player(graphics, 320, 240));
-	//set time for animation sprite update
+	//set initial time for animation sprite update
 	int lastUpdateTimeMs = SDL_GetTicks();
 
+	//Loop for each frame
 	bool running = true;
 	while (running){
-
 		//start time for the current frame
 		const int startTimeMs = SDL_GetTicks();
 
 		//start new frame for keyboard inputs
 		input.beginNewFrame();
 
-		//handle events
+		//handle events - pass them to relevant functions to use
 		while (SDL_PollEvent(&event)){
 			switch (event.type){
-
 			case SDL_KEYDOWN:
 				input.KeyDownEvent(event);
 				break;
-
 			case SDL_KEYUP:
 				input.KeyUpEvent(event);
 				break;
-
 			default:
 				break;
 			}
 		}
 
+		//Check if Escape key pressed - quits game
 		if (input.wasKeyPressed(SDLK_ESCAPE)){
 			running = false;
 		}
 
-		//Check direction arrows being pushed - THIS WILL NEED TO BE UPDATED TO RESPOND TO COMMANDS ORDERED BY PLAYER
+		//Check direction arrows being pushed - 
+		//THIS WILL NEED TO BE UPDATED TO RESPOND TO COMMANDS ORDERED BY PLAYER
 		if (input.isKeyHeld(SDLK_RIGHT)){
 			player->startMovingRight();
 		}
@@ -86,14 +86,14 @@ void Game::eventLoop(){
 			player->stopMoving();
 		}
 
-
-
 		//check time elapsed since last update method called 
 		const int currentTimeMs = SDL_GetTicks();
 
+		//time elapsed since the screen was last updated
 		const int frameElapsedTime = currentTimeMs - lastUpdateTimeMs;
 
-		//update the screen
+		//update the screen - 
+		//time elapsed smaller of time elapsed since last update or max update time (see constant)
 		update(std::min(frameElapsedTime, MAX_FRAME_TIME));
 		lastUpdateTimeMs = currentTimeMs;
 
@@ -113,11 +113,13 @@ void Game::eventLoop(){
 
 }
 
+//update the screen
 void Game::update(int elapsedTimeInMs)
 {
 	player->update(elapsedTimeInMs);
 }
 
+//clear and then redraw the screen
 void Game::draw(Graphics& graphics)
 {
 	graphics.clear();

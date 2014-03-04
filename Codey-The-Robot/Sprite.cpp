@@ -2,7 +2,7 @@
 #include "Graphics.h"
 #include "SDL.h"
 
-
+//Constructor - gets the texture and sets the X/Y and Width/Height of the sprite to a source rectangle
 Sprite::Sprite(Graphics& graphics,
 	const std::string& filePath, 
 	int xLocation, int yLocation, 
@@ -16,11 +16,12 @@ Sprite::Sprite(Graphics& graphics,
 	sourceRect.h = height;
 }
 
-
+//empty destructor - should include the sourceRect?
 Sprite::~Sprite()
 {
 }
 
+//Draw the sprtie to the screen at the relevant X/Y position
 void Sprite::draw(Graphics& graphics, int x, int y) const
 {
 	SDL_Rect destinationRect;

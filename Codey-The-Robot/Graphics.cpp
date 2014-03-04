@@ -44,14 +44,16 @@ Graphics::Graphics()
 	}
 }
 
-
-
 Graphics::~Graphics()
 {
 	SDL_DestroyRenderer(renderer);
 	renderer = nullptr;
 	SDL_DestroyWindow(window);
 	window = nullptr;
+
+	for (auto& entry : spriteCache) {
+		SDL_DestroyTexture(entry.second);
+	}
 
 	IMG_Quit();
 }
@@ -65,36 +67,39 @@ Adapted from: http://lazyfoo.net/tutorials/SDL/07_texture_loading_and_rendering/
 
 SDL_Texture* Graphics::loadTexture(std::string path)
 {
-	//The final texture
-	SDL_Texture* newTexture = NULL;
+	if (spriteCache.count(path.c_str()) == 0){
+		//The final texture
+		SDL_Texture* newTexture = NULL;
 
-	//Load image at specified path
-	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
-	if (loadedSurface == NULL)
-	{
-		printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
-	}
-	else
-	{
-		//Create texture from surface pixels
-		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-		if (newTexture == NULL)
+		//Load image at specified path
+		SDL_Surface* loadedSurface = IMG_Load(path.c_str());
+		if (loadedSurface == NULL)
 		{
-			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+			printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
 		}
+		else
+		{
+			//Create texture from surface pixels
+			newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+			if (newTexture == NULL)
+			{
+				printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
+			}
 
-		//Get rid of old loaded surface
-		SDL_FreeSurface(loadedSurface);
+			//Get rid of old loaded surface
+			SDL_FreeSurface(loadedSurface);
+			spriteCache[path.c_str()] = newTexture;
+		}
 	}
 
-	return newTexture;
+	return spriteCache[path.c_str()];
 }
 
 
 //Draw a texture at a destination rectangle
 
 void Graphics::renderTexture(
-	SDL_Texture *texture,
+	TextureId texture,
 	const SDL_Rect* sourceRect,
 	const SDL_Rect* destinationRect) const
 {

@@ -1,14 +1,15 @@
 #include "Graphics.h"
 #include "SDL.h"
 #include "SDL_image.h"
+#include "Game.h"
 
 #include <stdio.h>
 #include <string>
 
 //Constants
 namespace{
-	const int SCREEN_WIDTH = 640;
-	const int SCREEN_HEIGHT = 480;
+	const int SCREEN_WIDTH = 8 * Game::TILE_SIZE;
+	const int SCREEN_HEIGHT = 6 * Game::TILE_SIZE;
 }
 
 //Graphics Constructor
@@ -37,6 +38,10 @@ Graphics::Graphics()
 
 	//Initialize renderer color (default set to white)
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+	//
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");  // make the scaled rendering look smoother.
+	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	//Initialize PNG loading
 	int imgFlags = IMG_INIT_PNG;

@@ -1,11 +1,13 @@
-#include "Game.h"
-#include "Graphics.h"
 #include "SDL.h"
 #include <stdio.h>
+#include <algorithm>
 
 #include "Codey.h"
 #include "Input.h"
-#include <algorithm>
+#include "Map.h"
+#include "Game.h"
+#include "Graphics.h"
+
 
 //Constants
 namespace{
@@ -14,7 +16,7 @@ namespace{
 }
 
 //static - accessible by all classes
-int Game::TILE_SIZE = 80;
+int Game::TILE_SIZE = 80; //pixels
 
 //constructor - initialise all SDL tools
 Game::Game()
@@ -36,7 +38,10 @@ void Game::eventLoop(){
 	SDL_Event event;
 	Input input;
 
-	player.reset(new Codey(graphics, 320, 240));
+	//Initialise Map & Player
+	player.reset(new Codey(graphics, 0, 0));
+	map.reset(Map::createTestMap(graphics));
+
 	//set initial time for animation sprite update
 	int lastUpdateTimeMs = SDL_GetTicks();
 
@@ -117,13 +122,17 @@ void Game::eventLoop(){
 void Game::update(int elapsedTimeInMs)
 {
 	player->update(elapsedTimeInMs);
+	map->update(elapsedTimeInMs);
 }
 
 //clear and then redraw the screen
 void Game::draw(Graphics& graphics)
 {
 	graphics.clear();
+
+	map->draw(graphics);
 	player->draw(graphics);
+	
 	graphics.flip();
 }
 

@@ -4,6 +4,7 @@
 
 class Codey;
 class Graphics;
+class Map;
 
 #include <memory>
 
@@ -20,6 +21,7 @@ private:
 	void update(int elapsedTimeInMs);
 	void draw(Graphics& graphics);
 
+	std::unique_ptr<Map> map;
 	std::unique_ptr<Codey> player;
 };
 

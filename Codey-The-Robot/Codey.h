@@ -8,7 +8,8 @@ class Codey : public ControlledSprite
 public:
 	Codey(Graphics& graphics, int x, int y);
 	~Codey();
-private:
+	
+protected:
 	void initialiseSpriteSheets(Graphics& graphics);
 };
 

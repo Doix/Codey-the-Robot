@@ -49,9 +49,8 @@ private:
 
 	void updatePosAndAcceleration(int& PosXY, float& acclerationXY, float& velocityXY, int elapsedTimeMs);
 
-	virtual void initialiseSpriteSheets(Graphics& graphics) = 0;
-
 protected:	
+	virtual void initialiseSpriteSheets(Graphics& graphics) = 0;
 	std::map<SpriteState, std::unique_ptr<Sprite>> sprites;
 };
 

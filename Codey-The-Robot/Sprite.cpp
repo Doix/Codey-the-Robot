@@ -1,6 +1,7 @@
 #include "Sprite.h"
 #include "Graphics.h"
 #include "SDL.h"
+#include "Game.h"
 
 //Constructor - gets the texture and sets the X/Y and Width/Height of the sprite to a source rectangle
 Sprite::Sprite(Graphics& graphics,
@@ -27,8 +28,8 @@ void Sprite::draw(Graphics& graphics, int x, int y) const
 	SDL_Rect destinationRect;
 	destinationRect.x = x;
 	destinationRect.y = y;
-	destinationRect.w = sourceRect.w;
-	destinationRect.h = sourceRect.h;
+	destinationRect.w = Game::TILE_SIZE;
+	destinationRect.h = Game::TILE_SIZE;
 
 	graphics.renderTexture(texture, &sourceRect, &destinationRect);
 }

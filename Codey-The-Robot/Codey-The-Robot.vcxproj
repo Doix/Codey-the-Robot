@@ -18,6 +18,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ControlledSprite.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="SpriteState.cpp" />
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
@@ -29,6 +30,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="ControlledSprite.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteState.h" />
   </ItemGroup>

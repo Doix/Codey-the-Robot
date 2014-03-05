@@ -6,7 +6,7 @@
 #include <memory>
 
 namespace{
-	int MAP_TILE_SIZE = 50; //pixels
+	int MAP_TILE_SIZE = 48; //pixels
 	int MAP_ROW_COL_FACTOR = 51; //pixels, 1 pixel border around every map tile, therefore need to adjusted col/row search
 }
 
@@ -32,7 +32,7 @@ Map* Map::createTestMap(Graphics& graphics){
 		numCols, std::shared_ptr<Sprite>()));
 
 	std::shared_ptr<Sprite> sprite(new Sprite(graphics, "content/Tiles03.bmp", 
-		(MAP_ROW_COL_FACTOR)* 6, (MAP_ROW_COL_FACTOR)* 7, 
+		308, 359, 
 		MAP_TILE_SIZE, MAP_TILE_SIZE));
 
 	for (int row = 0; row < numRows; ++row){

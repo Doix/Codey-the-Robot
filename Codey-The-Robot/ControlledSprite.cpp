@@ -4,7 +4,7 @@
 #include "Game.h"
 
 namespace{
-	const float WALKING_ACCELERATION = 0.0012f; //(pixels/ms) / ms
+	const float WALKING_SPEED = 0.15f; //(pixels/ms) / ms
 	const float MAX_SPEED_XY = 0.325f; // pixels / ms
 }
 
@@ -16,9 +16,7 @@ ControlledSprite::ControlledSprite(Graphics& graphics, int x, int y)
 
 	//initialise velocity and acceleration of the player to 0
 	velocityX = 0.0f;
-	accelerationX = 0.0f;
 	velocityY = 0.0f;
-	accelerationY = 0.0f;
 	
 	//initialise state
 	currentMotion = MotionType::STANDING;
@@ -69,38 +67,38 @@ void ControlledSprite::update(int elapsedTimeMs){
 			switch (curCommand){
 				case Command::LEFT:
 					if (PosX > DestX) {
-						accelerationX = -WALKING_ACCELERATION;
+						velocityX = -WALKING_SPEED;
 					}
 					else {
 						busy = false;
-						accelerationX = 0;
+						velocityX = 0;
 					}
 					break;
 				case Command::RIGHT:
 					if (PosX < DestX) {
-						accelerationX = WALKING_ACCELERATION;
+						velocityX = WALKING_SPEED;
 					}
 					else {
 						busy = false;
-						accelerationX = 0;
+						velocityX = 0;
 					}
 					break;
 				case Command::DOWN:
 					if (PosY < DestY) {
-						accelerationY = WALKING_ACCELERATION;
+						velocityY = WALKING_SPEED;
 					}
 					else {
 						busy = false;
-						accelerationY = 0;
+						velocityY = 0;
 					}
 					break;
 				case Command::UP:
 					if (PosY > DestY) {
-						accelerationY = -WALKING_ACCELERATION;
+						velocityY = -WALKING_SPEED;
 					}
 					else {
 						busy = false;
-						accelerationY = 0;
+						velocityY = 0;
 					}
 					break;
 			}
@@ -144,20 +142,6 @@ void ControlledSprite::updatePosAndAcceleration(int& PosXY, float& accelerationX
 	//calculate the position of X / Y based on the speed and the time elapsed since last called
 	//(also round as int * float to ensure it doesn't truncate data)
 	PosXY += round(velocityXY * elapsedTimeMs);
-
-	//calculate the new velocity for the next update
-	velocityXY += accelerationXY * elapsedTimeMs;
-
-	//check that the speed never gets higher than the max for left/right and up/down movements
-	if (accelerationXY < 0.0f){
-		velocityXY = std::fmax(velocityXY, -MAX_SPEED_XY);
-	}
-	else if (accelerationXY > 0.0f){
-		velocityXY = std::fmin(velocityXY, MAX_SPEED_XY);
-	}
-	else{
-		velocityXY = 0;
-	}
 }
 
 SpriteState ControlledSprite::getSpriteState(){

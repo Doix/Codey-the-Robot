@@ -15,6 +15,7 @@
     <ClCompile Include="Codey.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ControlledSprite.cpp" />
@@ -27,6 +28,7 @@
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Hud.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="ControlledSprite.h" />
     <ClInclude Include="Sprite.h" />

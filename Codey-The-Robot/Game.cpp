@@ -6,6 +6,7 @@
 #include "Codey.h"
 #include "Input.h"
 #include <algorithm>
+#include "Hud.h"
 
 //Constants
 namespace{
@@ -37,6 +38,8 @@ void Game::eventLoop(){
 	Input input;
 
 	player.reset(new Codey(graphics, 320, 240));
+
+	hud.reset(new Hud(graphics, 640, 0));
 	//set initial time for animation sprite update
 	int lastUpdateTimeMs = SDL_GetTicks();
 
@@ -57,6 +60,9 @@ void Game::eventLoop(){
 				break;
 			case SDL_KEYUP:
 				input.KeyUpEvent(event);
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				input.MouseClickEvent(event);
 				break;
 			default:
 				break;
@@ -86,6 +92,9 @@ void Game::eventLoop(){
 			player->startCommands();
 		}
 
+		if (input.wasMouseClicked()) {
+			hud->click(input.getMouseClick());
+		}
 		//check time elapsed since last update method called 
 		const int currentTimeMs = SDL_GetTicks();
 
@@ -124,6 +133,7 @@ void Game::draw(Graphics& graphics)
 {
 	graphics.clear();
 	player->draw(graphics);
+	hud->draw(graphics);
 	graphics.flip();
 }
 

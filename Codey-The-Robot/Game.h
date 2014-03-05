@@ -4,6 +4,7 @@
 
 class Codey;
 class Graphics;
+class Hud;
 class Map;
 
 #include <memory>
@@ -23,6 +24,7 @@ private:
 
 	std::unique_ptr<Map> map;
 	std::unique_ptr<Codey> player;
+	std::unique_ptr<Hud> hud;
 };
 
 #endif // GAME_H_

@@ -12,21 +12,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="Codey.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ControlledSprite.cpp" />
+    <ClCompile Include="SpriteState.cpp" />
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="Codey.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="ControlledSprite.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteState.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D3FBF8BD-36FE-475F-801C-8BE213532EF5}</ProjectGuid>

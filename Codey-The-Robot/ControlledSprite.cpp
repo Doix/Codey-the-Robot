@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "ControlledSprite.h"
 #include "AnimatedSprite.h"
 #include "Graphics.h"
 #include "Game.h"
@@ -8,7 +8,7 @@ namespace{
 	const float MAX_SPEED_XY = 0.325f; // pixels / ms
 }
 
-Player::Player(Graphics& graphics, int x, int y)
+ControlledSprite::ControlledSprite(Graphics& graphics, int x, int y)
 {
 	//set the position of X & Y to the parameter
 	PosX = x;
@@ -21,18 +21,20 @@ Player::Player(Graphics& graphics, int x, int y)
 	accelerationY = 0.0f;
 
 	//initialise the AnimatedSprite for the player
-	sprite.reset(new AnimatedSprite(graphics, "content/codey.png", 0, 0, Game::TILE_SIZE, Game::TILE_SIZE, 15, 9));
+	initialiseSpriteSheets(graphics);
+
+	//initialise state
+	currentMotion = MotionType::STANDING;
 }
 
-//Destructor - release the sprite
-Player::~Player()
+//Destructor - release the sprite not necessary, scoped pointers!
+ControlledSprite::~ControlledSprite()
 {
-	sprite.release();
 }
 
 //update the player position
-void Player::update(int elapsedTimeMs){
-	sprite->update(elapsedTimeMs);
+void ControlledSprite::update(int elapsedTimeMs){
+	sprites[getSpriteState()]->update(elapsedTimeMs);
 
 	if (started) {
 		if (!busy) {
@@ -44,20 +46,26 @@ void Player::update(int elapsedTimeMs){
 				switch (curCommand){
 				case Command::LEFT:
 					DestX = PosX - Game::TILE_SIZE;
+					currentMotion = MotionType::WALKING_LEFT;
 					break;
 				case Command::RIGHT:
 					DestX = PosX + Game::TILE_SIZE;
+					currentMotion = MotionType::WALKING_RIGHT;
 					break;
 				case Command::DOWN:
 					DestY = PosY + Game::TILE_SIZE;
+					currentMotion = MotionType::WALKING_DOWN;
 					break;
 				case Command::UP:
 					DestY = PosY - Game::TILE_SIZE;
+					currentMotion = MotionType::WALKING_UP;
 					break;
 				}
 			}
 			else {
 				started = false;
+
+				currentMotion = MotionType::STANDING;
 			}
 		}
 		else {
@@ -107,36 +115,35 @@ void Player::update(int elapsedTimeMs){
 }
 
 //draw the sprite at the relevant position
-void Player::draw(Graphics& graphics){
-	sprite->draw(graphics, PosX, PosY);
+void ControlledSprite::draw(Graphics& graphics){
+	sprites[getSpriteState()]->draw(graphics, PosX, PosY);
 }
 
 //Functions for each of the different movements player can do
-void Player::startMovingLeft(){
-
+void ControlledSprite::startMovingLeft(){
 	commands.push(Command::LEFT);
 }
-void Player::startMovingRight(){
+void ControlledSprite::startMovingRight(){
 	commands.push(Command::RIGHT);
 }
-void Player::startMovingUp(){
+void ControlledSprite::startMovingUp(){
 	commands.push(Command::UP);
 }
-void Player::startMovingDown(){
+void ControlledSprite::startMovingDown(){
 	commands.push(Command::DOWN);
 }
 
-void Player::startCommands(){
+void ControlledSprite::startCommands(){
 	started = true;
 }
-void Player::stopMoving(){
+void ControlledSprite::stopMoving(){
 	accelerationX = 0.0f;
 	accelerationY = 0.0f;
 }
 
 
 //helper function to calculate the speed and acceleration of the player for both X and Y axis.
-void Player::updatePosAndAcceleration(int& PosXY, float& accelerationXY, float& velocityXY, int elapsedTimeMs){
+void ControlledSprite::updatePosAndAcceleration(int& PosXY, float& accelerationXY, float& velocityXY, int elapsedTimeMs){
 	//calculate the position of X / Y based on the speed and the time elapsed since last called
 	//(also round as int * float to ensure it doesn't truncate data)
 	PosXY += round(velocityXY * elapsedTimeMs);
@@ -154,4 +161,45 @@ void Player::updatePosAndAcceleration(int& PosXY, float& accelerationXY, float& 
 	else{
 		velocityXY = 0;
 	}
+}
+
+void ControlledSprite::initialiseSpriteSheets(Graphics& graphics){
+	sprites[SpriteState(MotionType::STANDING)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		"content/codey.png",
+		0 * Game::TILE_SIZE, 0 * Game::TILE_SIZE,
+		Game::TILE_SIZE, Game::TILE_SIZE, 15, 2));
+
+	sprites[SpriteState(MotionType::WALKING_LEFT)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		"content/codeyReverse.png",
+		2 * Game::TILE_SIZE, 0 * Game::TILE_SIZE,
+		Game::TILE_SIZE, Game::TILE_SIZE, 15, 6));
+
+	sprites[SpriteState(MotionType::WALKING_RIGHT)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		"content/codey.png",
+		2 * Game::TILE_SIZE, 0 * Game::TILE_SIZE,
+		Game::TILE_SIZE, Game::TILE_SIZE, 15, 6));
+
+	sprites[SpriteState(MotionType::WALKING_UP)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		"content/codey.png",
+		0 * Game::TILE_SIZE, 5 * Game::TILE_SIZE,
+		Game::TILE_SIZE, Game::TILE_SIZE, 15, 6));
+
+	sprites[SpriteState(MotionType::WALKING_DOWN)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		"content/codey.png",
+		6 * Game::TILE_SIZE, 5 * Game::TILE_SIZE,
+		Game::TILE_SIZE, Game::TILE_SIZE, 15, 2));
+}
+
+SpriteState ControlledSprite::getSpriteState(){
+	return SpriteState(currentMotion);
 }

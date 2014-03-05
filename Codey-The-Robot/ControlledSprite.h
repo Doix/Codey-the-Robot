@@ -1,17 +1,20 @@
-#ifndef PLAYER_H_
-#define PLAYER_H_
+#ifndef CONTROLLED_SPRITE_H_
+#define CONTROLLED_SPRITE_H_
 
 #include <memory>
 #include <queue>
 #include "Commands.h"
+#include <map>
+#include "SpriteState.h"
+
 class Sprite;
 class Graphics;
 
-class Player
+class ControlledSprite
 {
 public:
-	Player(Graphics& graphics, int x, int y);
-	~Player();
+	ControlledSprite(Graphics& graphics, int x, int y);
+	~ControlledSprite();
 
 	void update(int elapsedTimeMs);
 	void draw(Graphics& graphics);
@@ -36,11 +39,20 @@ private:
 	float accelerationX;
 	float velocityY;
 	float accelerationY;
-	std::unique_ptr<Sprite> sprite;
+
+	
 	std::queue< Command > commands;
 	Command curCommand;
 
+	SpriteState getSpriteState();
+	MotionType currentMotion;
+
 	void updatePosAndAcceleration(int& PosXY, float& acclerationXY, float& velocityXY, int elapsedTimeMs);
+
+	virtual void initialiseSpriteSheets(Graphics& graphics) = 0;
+
+protected:	
+	std::map<SpriteState, std::unique_ptr<Sprite>> sprites;
 };
 
-#endif   // PLAYER_H_
+#endif   // CONTROLLED_SPRITE_H_

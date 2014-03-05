@@ -3,7 +3,7 @@
 #include "SDL.h"
 #include <stdio.h>
 
-#include "Player.h"
+#include "Codey.h"
 #include "Input.h"
 #include <algorithm>
 
@@ -36,7 +36,7 @@ void Game::eventLoop(){
 	SDL_Event event;
 	Input input;
 
-	player.reset(new Player(graphics, 320, 240));
+	player.reset(new Codey(graphics, 320, 240));
 	//set initial time for animation sprite update
 	int lastUpdateTimeMs = SDL_GetTicks();
 

@@ -17,7 +17,7 @@ public:
 	~ControlledSprite();
 
 	void update(int elapsedTimeMs);
-	void draw(Graphics& graphics);
+	virtual void draw(Graphics& graphics);
 
 	void startMovingLeft();
 	void startMovingRight();
@@ -26,7 +26,7 @@ public:
 	void stopMoving();
 	void startCommands();
 
-private:
+protected:
 	int PosX;
 	int PosY;
 	int DestX;
@@ -49,7 +49,6 @@ private:
 
 	void updatePos(int& PosXY, float& velocityXY, int elapsedTimeMs);
 
-protected:	
 	virtual void initialiseSpriteSheets(Graphics& graphics) = 0;
 	std::map<SpriteState, std::unique_ptr<Sprite>> sprites;
 };

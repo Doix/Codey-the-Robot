@@ -52,3 +52,7 @@ void Codey::initialiseSpriteSheets(Graphics& graphics){
 		6 * CODEY_TILE_SIZE, 5 * CODEY_TILE_SIZE,
 		CODEY_TILE_SIZE, CODEY_TILE_SIZE, 15, 2));
 }
+
+void Codey::draw(Graphics& graphics){
+	sprites[getSpriteState()]->draw(graphics, PosX, PosY, CODEY_TILE_SIZE, CODEY_TILE_SIZE);
+}

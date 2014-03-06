@@ -9,6 +9,8 @@ public:
 	Codey(Graphics& graphics, int x, int y);
 	~Codey();
 	
+	void Codey::draw(Graphics& graphics);
+	
 protected:
 	void initialiseSpriteSheets(Graphics& graphics);
 };

@@ -22,6 +22,7 @@ public:
 	void sendCommand(Command command);
 	void stopMoving();
 	void startCommands();
+	std::deque<Command> ControlledSprite::getCommands();
 
 protected:
 	int PosX;
@@ -37,7 +38,7 @@ protected:
 	float velocityY;
 	float accelerationY;
 
-	
+	std::deque< Command > queuedCommands;
 	std::queue< Command > commands;
 	Command curCommand;
 

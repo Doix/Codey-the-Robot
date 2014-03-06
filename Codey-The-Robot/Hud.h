@@ -26,7 +26,6 @@ private:
 	std::shared_ptr<ControlledSprite> player;
 
 	std::unique_ptr<Sprite> sprite;
-	std::queue< Command > commands;
 	Command curCommand;
 	void Hud::initializeSprites(Graphics& graphics);
 	std::map<Command, std::unique_ptr<Sprite>> buttons;

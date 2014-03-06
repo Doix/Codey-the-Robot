@@ -59,7 +59,8 @@ void Map::draw(Graphics& graphics) const{
 		for (size_t col = 0; col < backgroundSprites[row].size(); ++col){
 			if (backgroundSprites[row][col]){
 				backgroundSprites[row][col]->draw(graphics, 
-					col*Game::TILE_SIZE, row*Game::TILE_SIZE);
+					col*Game::TILE_SIZE, row*Game::TILE_SIZE,
+					Game::TILE_SIZE,Game::TILE_SIZE);
 			}
 		}
 	}

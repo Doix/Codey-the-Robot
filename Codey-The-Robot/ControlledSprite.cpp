@@ -105,13 +105,13 @@ void ControlledSprite::update(int elapsedTimeMs){
 		}
 	}
 
-	updatePosAndAcceleration(PosX, accelerationX, velocityX, elapsedTimeMs);
-	updatePosAndAcceleration(PosY, accelerationY, velocityY, elapsedTimeMs);
+	updatePos(PosX, velocityX, elapsedTimeMs);
+	updatePos(PosY, velocityY, elapsedTimeMs);
 }
 
 //draw the sprite at the relevant position
 void ControlledSprite::draw(Graphics& graphics){
-	sprites[getSpriteState()]->draw(graphics, PosX, PosY);
+	sprites[getSpriteState()]->draw(graphics, PosX, PosY,Game::TILE_SIZE,Game::TILE_SIZE);
 }
 
 //Functions for each of the different movements player can do
@@ -138,7 +138,7 @@ void ControlledSprite::stopMoving(){
 
 
 //helper function to calculate the speed and acceleration of the player for both X and Y axis.
-void ControlledSprite::updatePosAndAcceleration(int& PosXY, float& accelerationXY, float& velocityXY, int elapsedTimeMs){
+void ControlledSprite::updatePos(int& PosXY,float& velocityXY, int elapsedTimeMs){
 	//calculate the position of X / Y based on the speed and the time elapsed since last called
 	//(also round as int * float to ensure it doesn't truncate data)
 	PosXY += round(velocityXY * elapsedTimeMs);

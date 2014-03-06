@@ -47,7 +47,7 @@ private:
 	SpriteState getSpriteState();
 	MotionType currentMotion;
 
-	void updatePosAndAcceleration(int& PosXY, float& acclerationXY, float& velocityXY, int elapsedTimeMs);
+	void updatePos(int& PosXY, float& velocityXY, int elapsedTimeMs);
 
 protected:	
 	virtual void initialiseSpriteSheets(Graphics& graphics) = 0;

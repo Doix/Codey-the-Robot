@@ -23,13 +23,13 @@ Sprite::~Sprite()
 }
 
 //Draw the sprtie to the screen at the relevant X/Y position
-void Sprite::draw(Graphics& graphics, int x, int y) const
+void Sprite::draw(Graphics& graphics, int x, int y,int w, int h) const
 {
 	SDL_Rect destinationRect;
 	destinationRect.x = x;
 	destinationRect.y = y;
-	destinationRect.w = Game::TILE_SIZE;
-	destinationRect.h = Game::TILE_SIZE;
+	destinationRect.w = w;
+	destinationRect.h = h;
 
 	graphics.renderTexture(texture, &sourceRect, &destinationRect);
 }

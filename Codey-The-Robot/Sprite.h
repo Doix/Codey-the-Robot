@@ -18,7 +18,7 @@ public:
 
 	virtual void update(int /*elapsed time in ms*/){}
 
-	void draw(Graphics& graphics, int x, int y) const;
+	void draw(Graphics& graphics, int x, int y, int w, int h) const;
 
 protected:
 	SDL_Rect sourceRect;

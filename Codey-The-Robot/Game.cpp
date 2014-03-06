@@ -14,7 +14,8 @@
 //Constants
 namespace{
 	const int FPS = 60;
-	const int MAX_FRAME_TIME = 4 * 1000 / 60;
+	const int FRAME_TIME = 1000 / FPS;
+	const int MAX_FRAME_TIME = 4 * FRAME_TIME;
 }
 
 //static - accessible by all classes
@@ -107,7 +108,7 @@ void Game::eventLoop(){
 		//delay next frame till 1000/60th of a second has elapsed (less time taken to draw frame)
 		//If statement to ensure that the elapsed time !> the 100 / FPS otherwise freezes
 		if (elapsedTimeMs < 1000 /*ms*/ / FPS){
-			SDL_Delay(1000 /*ms*/ / FPS - elapsedTimeMs /*ms*/);
+			SDL_Delay(FRAME_TIME - elapsedTimeMs /*ms*/);
 		}
 		
 	} 

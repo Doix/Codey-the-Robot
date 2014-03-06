@@ -133,7 +133,7 @@ std::deque<Command> ControlledSprite::getCommands() {
 void ControlledSprite::updatePos(int& PosXY,float& velocityXY, int elapsedTimeMs){
 	//calculate the position of X / Y based on the speed and the time elapsed since last called
 	//(also round as int * float to ensure it doesn't truncate data)
-	PosXY += round(velocityXY * elapsedTimeMs);
+	PosXY += (int)round(velocityXY * elapsedTimeMs);
 }
 
 SpriteState ControlledSprite::getSpriteState(){

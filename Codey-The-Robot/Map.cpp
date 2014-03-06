@@ -8,6 +8,7 @@
 namespace{
 	int MAP_TILE_SIZE = 48; //pixels
 	int MAP_ROW_COL_FACTOR = 51; //pixels, 1 pixel border around every map tile, therefore need to adjusted col/row search
+	const std::string MAP_FILE_PATH = "content/Tiles03.bmp";
 }
 
 Map::Map()
@@ -31,7 +32,7 @@ Map* Map::createTestMap(Graphics& graphics){
 		numRows, std::vector<std::shared_ptr<Sprite> >(
 		numCols, std::shared_ptr<Sprite>()));
 
-	std::shared_ptr<Sprite> sprite(new Sprite(graphics, "content/Tiles03.bmp", 
+	std::shared_ptr<Sprite> sprite(new Sprite(graphics, MAP_FILE_PATH, 
 		308, 359, 
 		MAP_TILE_SIZE, MAP_TILE_SIZE));
 

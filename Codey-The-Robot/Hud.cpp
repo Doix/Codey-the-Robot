@@ -5,6 +5,10 @@
 
 namespace{
 	const int BUTTON_SIZE = 32;
+	const std::string HUD_FILE_PATH = "content/hud.bmp";
+	const std::string BUTTON_FILE_PATH = "content/buttons.bmp";
+	const int HUD_WIDTH = Game::TILE_SIZE * 4;
+	const int HUD_HEIGHT = Game::TILE_SIZE * 6;
 }
 
 
@@ -15,7 +19,7 @@ Hud::Hud(Graphics& graphics, int x, int y, std::shared_ptr<ControlledSprite> pla
 	PosY = y;
 
 	//initialise the AnimatedSprite for the player
-	sprite.reset(new Sprite(graphics, "content/hud.png", 0, 0, Game::TILE_SIZE*4, Game::TILE_SIZE*6));
+	sprite.reset(new Sprite(graphics, HUD_FILE_PATH, 0, 0, HUD_WIDTH, HUD_HEIGHT));
 	initializeSprites(graphics);
 	
 	// lets just hardcode this for now
@@ -29,7 +33,7 @@ Hud::~Hud()
 	sprite.release();
 }
 void Hud::draw(Graphics& graphics){
-	sprite->draw(graphics, PosX, PosY,Game::TILE_SIZE*4,Game::TILE_SIZE*6);
+	sprite->draw(graphics, PosX, PosY, HUD_WIDTH, HUD_HEIGHT);
 
 	int x = 656;
 	const int y = 374;
@@ -58,11 +62,11 @@ void Hud::click(std::tuple<int, int> clicked) {
 void Hud::initializeSprites(Graphics& graphics) {
 	// very very very ugly
 	// need a better solution for this
-	buttons[Command::RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, "content/buttons.png", BUTTON_SIZE*0, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[Command::DOWN] = std::unique_ptr<Sprite>(new Sprite(graphics, "content/buttons.png", BUTTON_SIZE * 1, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[Command::UP] = std::unique_ptr<Sprite>(new Sprite(graphics, "content/buttons.png", BUTTON_SIZE * 2, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[Command::LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, "content/buttons.png", BUTTON_SIZE * 3, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[Command::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, "content/buttons.png", BUTTON_SIZE * 4, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[Command::RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE*0, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[Command::DOWN] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 1, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[Command::UP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 2, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[Command::LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 3, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[Command::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 4, 0, BUTTON_SIZE, BUTTON_SIZE));
 
 }
 

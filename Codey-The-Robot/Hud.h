@@ -5,12 +5,14 @@
 #include "Graphics.h"
 #include <memory>
 #include <queue>
+#include <set>
 #include "Commands.h"
+#include "ControlledSprite.h"
 
 class Hud
 {
 public:
-	Hud(Graphics& graphics, int x, int y);
+	Hud(Graphics& graphics, int x, int y, std::shared_ptr<ControlledSprite> player);
 	~Hud();
 
 	void update(int elapsedTimeMs);
@@ -21,9 +23,17 @@ private:
 	int PosX;
 	int PosY;
 
+	std::shared_ptr<ControlledSprite> player;
+
 	std::unique_ptr<Sprite> sprite;
 	std::queue< Command > commands;
 	Command curCommand;
+	void Hud::initializeSprites(Graphics& graphics);
+	std::map<Command, std::unique_ptr<Sprite>> buttons;
+	std::vector<Command> availableCommands;
+
+	void Hud::setPlayer(std::shared_ptr<ControlledSprite> player);
+
 };
 
 

@@ -1,5 +1,10 @@
 #ifndef COMMAND_H_
 #define COMMAND_H_
-enum class Command { LEFT, RIGHT, UP, DOWN };
-
+enum class Command {
+		LEFT, 
+		RIGHT, 
+		UP, 
+		DOWN,
+		NONE
+};
 #endif

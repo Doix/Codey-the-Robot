@@ -115,27 +115,13 @@ void ControlledSprite::draw(Graphics& graphics){
 }
 
 //Functions for each of the different movements player can do
-void ControlledSprite::startMovingLeft(){
-	commands.push(Command::LEFT);
-}
-void ControlledSprite::startMovingRight(){
-	commands.push(Command::RIGHT);
-}
-void ControlledSprite::startMovingUp(){
-	commands.push(Command::UP);
-}
-void ControlledSprite::startMovingDown(){
-	commands.push(Command::DOWN);
+void ControlledSprite::sendCommand(Command command){
+	commands.push(command);
 }
 
 void ControlledSprite::startCommands(){
 	started = true;
 }
-void ControlledSprite::stopMoving(){
-	accelerationX = 0.0f;
-	accelerationY = 0.0f;
-}
-
 
 //helper function to calculate the speed and acceleration of the player for both X and Y axis.
 void ControlledSprite::updatePos(int& PosXY,float& velocityXY, int elapsedTimeMs){

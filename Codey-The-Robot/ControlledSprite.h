@@ -19,10 +19,7 @@ public:
 	void update(int elapsedTimeMs);
 	virtual void draw(Graphics& graphics);
 
-	void startMovingLeft();
-	void startMovingRight();
-	void startMovingUp();
-	void startMovingDown();
+	void sendCommand(Command command);
 	void stopMoving();
 	void startCommands();
 

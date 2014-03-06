@@ -43,7 +43,7 @@ void Game::eventLoop(){
 	//Initialise Map & Player
 	player.reset(new Codey(graphics, 0, 0));
 	map.reset(Map::createTestMap(graphics));
-	hud.reset(new Hud(graphics, 640, 0));
+	hud.reset(new Hud(graphics, 640, 0,player));
 
 
 	//set initial time for animation sprite update
@@ -80,21 +80,7 @@ void Game::eventLoop(){
 			running = false;
 		}
 
-		//Check direction arrows being pushed - 
-		//THIS WILL NEED TO BE UPDATED TO RESPOND TO COMMANDS ORDERED BY PLAYER
-		if (input.wasKeyReleased(SDLK_RIGHT)){
-			player->startMovingRight();
-		}
-		else if (input.wasKeyReleased(SDLK_LEFT)){
-			player->startMovingLeft();
-		}
-		else if (input.wasKeyReleased(SDLK_UP)){
-			player->startMovingUp();
-		}
-		else if (input.wasKeyReleased(SDLK_DOWN)){
-			player->startMovingDown();
-		}
-		else if (input.wasKeyReleased(SDLK_SPACE)) {
+		if (input.wasKeyReleased(SDLK_SPACE)) {
 			player->startCommands();
 		}
 

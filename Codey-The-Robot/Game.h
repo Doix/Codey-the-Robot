@@ -23,7 +23,7 @@ private:
 	void draw(Graphics& graphics);
 
 	std::unique_ptr<Map> map;
-	std::unique_ptr<Codey> player;
+	std::shared_ptr<Codey> player;
 	std::unique_ptr<Hud> hud;
 };
 

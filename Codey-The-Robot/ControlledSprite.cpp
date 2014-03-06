@@ -59,7 +59,6 @@ void ControlledSprite::update(int elapsedTimeMs){
 			}
 			else {
 				started = false;
-
 				currentMotion = MotionType::STANDING;
 			}
 		}
@@ -116,11 +115,18 @@ void ControlledSprite::draw(Graphics& graphics){
 
 //Functions for each of the different movements player can do
 void ControlledSprite::sendCommand(Command command){
-	commands.push(command);
+	queuedCommands.push_back(command);
 }
 
 void ControlledSprite::startCommands(){
 	started = true;
+	// create a copy of queuedCommands so that we don't modify the original whilst executing
+	// i wonder if this causes a memory leak?
+	commands = std::queue<Command>(queuedCommands);
+}
+
+std::deque<Command> ControlledSprite::getCommands() {
+	return queuedCommands;
 }
 
 //helper function to calculate the speed and acceleration of the player for both X and Y axis.

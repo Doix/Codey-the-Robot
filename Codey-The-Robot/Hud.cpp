@@ -35,13 +35,34 @@ Hud::~Hud()
 void Hud::draw(Graphics& graphics){
 	sprite->draw(graphics, PosX, PosY, HUD_WIDTH, HUD_HEIGHT);
 
-	int x = 656;
-	const int y = 374;
+	int x = 666;
+	int y = 374;
+	int count = 0;
 
 	for (const auto& command : availableCommands) {
 		buttons[command]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
 		x += BUTTON_SIZE + 10;
+		count++;
+		if (count % 6 == 0){
+			x = 666;
+			y += BUTTON_SIZE + 10;
+		}
 	}
+	std::deque<Command> commands = player->getCommands();
+
+	x = 666;
+	y = 20;
+	count = 0;
+	for (Command command : commands){ 
+		buttons[command]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
+		x += BUTTON_SIZE + 10;
+		count++;
+		if (count % 6 == 0){
+			x = 666;
+			y += BUTTON_SIZE + 10;
+		}
+	}
+
 }
 
 void Hud::click(std::tuple<int, int> clicked) {

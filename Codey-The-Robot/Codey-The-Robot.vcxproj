@@ -33,6 +33,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="ControlledSprite.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteState.h" />
   </ItemGroup>

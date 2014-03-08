@@ -118,7 +118,7 @@ void Game::eventLoop(){
 //update the screen
 void Game::update(int elapsedTimeInMs)
 {
-	player->update(elapsedTimeInMs);
+	player->update(elapsedTimeInMs, *map);
 	map->update(elapsedTimeInMs);
 }
 

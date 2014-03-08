@@ -2,10 +2,18 @@
 #include "AnimatedSprite.h"
 #include "Graphics.h"
 #include "Game.h"
+#include "Map.h"
+#include "Rectangle.h"
+
+#include <assert.h>
 
 namespace{
 	const float WALKING_SPEED = 0.15f; //(pixels/ms) / ms
 	const float MAX_SPEED_XY = 0.325f; // pixels / ms
+
+	//Collision Rectangle
+	const Rectangle COLLISION_RECTANGLE_X(0, Game::TILE_SIZE/2, Game::TILE_SIZE, 1); // x, y, width, height
+	const Rectangle COLLISION_RECTANGLE_Y(Game::TILE_SIZE / 2, 0, 1, Game::TILE_SIZE);	
 }
 
 ControlledSprite::ControlledSprite(Graphics& graphics, int x, int y)
@@ -28,9 +36,8 @@ ControlledSprite::~ControlledSprite()
 }
 
 //update the player position
-void ControlledSprite::update(int elapsedTimeMs){
+void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 	sprites[getSpriteState()]->update(elapsedTimeMs);
-
 	if (started) {
 		if (!busy) {
 			if (commands.size() > 0) {
@@ -103,8 +110,8 @@ void ControlledSprite::update(int elapsedTimeMs){
 			}
 		}
 	}
-
-	updatePos(PosX, velocityX, elapsedTimeMs);
+	updateX(elapsedTimeMs, map);
+	//updateY(elapsedTimeMs, map);
 	updatePos(PosY, velocityY, elapsedTimeMs);
 }
 
@@ -138,4 +145,157 @@ void ControlledSprite::updatePos(int& PosXY,float& velocityXY, int elapsedTimeMs
 
 SpriteState ControlledSprite::getSpriteState(){
 	return SpriteState(currentMotion);
+}
+
+Rectangle ControlledSprite::leftCollision(int delta) const{
+	assert(delta <= 0);
+
+	return Rectangle(
+		PosX + COLLISION_RECTANGLE_X.getLeft() + delta, 
+		PosY + COLLISION_RECTANGLE_X.getTop(), 
+		COLLISION_RECTANGLE_X.getWidth() / 2 - delta,
+		COLLISION_RECTANGLE_X.getHeight());
+}
+
+Rectangle ControlledSprite::rightCollision(int delta) const{
+	assert(delta >= 0);
+
+	return Rectangle(
+		PosX + COLLISION_RECTANGLE_X.getLeft() + COLLISION_RECTANGLE_X.getWidth() / 2,
+		PosY + COLLISION_RECTANGLE_X.getTop(),
+		COLLISION_RECTANGLE_X.getWidth() / 2 + delta,
+		COLLISION_RECTANGLE_X.getHeight());
+}
+
+Rectangle ControlledSprite::topCollision(int delta) const{
+	assert(delta <= 0);
+
+	return Rectangle(
+		PosX + COLLISION_RECTANGLE_Y.getLeft(),
+		PosY + COLLISION_RECTANGLE_Y.getTop() + delta,
+		COLLISION_RECTANGLE_Y.getWidth(),
+		COLLISION_RECTANGLE_Y.getHeight() / 2 - delta);
+}
+
+Rectangle ControlledSprite::bottomCollision(int delta) const{
+	assert(delta >= 0);
+
+	return Rectangle(
+		PosX + COLLISION_RECTANGLE_Y.getLeft(),
+		PosY + COLLISION_RECTANGLE_Y.getTop() + COLLISION_RECTANGLE_Y.getHeight() / 2,
+		COLLISION_RECTANGLE_Y.getWidth(),
+		COLLISION_RECTANGLE_Y.getHeight() / 2 + delta);
+}
+
+void ControlledSprite::updateX(int elapsedTimeMs, const Map& map){
+	const int delta = (int)round(velocityX * elapsedTimeMs);
+	
+	if (delta > 0){
+		//check collision in direction of delta
+		CollisionInfo info = getCollisionInfo(map, rightCollision(delta));
+
+		//React to collision
+		if (info.collided){
+			PosX = info.col* Game::TILE_SIZE - COLLISION_RECTANGLE_X.getRight();
+			velocityX = 0.0f;
+			busy = false;
+		}
+		else{
+			PosX += delta;
+		}
+
+		//Check collision in other direction
+		info = getCollisionInfo(map, leftCollision(0));
+		if (info.collided){
+			PosX = info.col * Game::TILE_SIZE + COLLISION_RECTANGLE_X.getWidth();
+			velocityX = 0.0f;
+			busy = false;
+		}
+	}
+	else{
+		//check collision in direction of delta
+		CollisionInfo info = getCollisionInfo(map, leftCollision(delta));
+
+		//React to collision
+		if (info.collided){
+			PosX = info.col * Game::TILE_SIZE + COLLISION_RECTANGLE_X.getWidth();
+			velocityX = 0.0f;
+			busy = false;
+		}
+		else{
+			PosX += delta;
+		}
+
+		//Check collision in other direction
+		info = getCollisionInfo(map, rightCollision(0));
+		if (info.collided){
+			PosX = info.col* Game::TILE_SIZE - COLLISION_RECTANGLE_X.getRight();
+			velocityX = 0.0f;
+			busy = false;
+		}
+	}
+}
+
+void ControlledSprite::updateY(int elapsedTimeMs, const Map& map){
+	const int delta = (int)round(velocityY * elapsedTimeMs);
+
+	if (delta > 0){
+		//check collision in direction of delta
+		CollisionInfo info = getCollisionInfo(map, bottomCollision(delta));
+
+		//React to collision
+		if (info.collided){
+			PosY = info.row * Game::TILE_SIZE - COLLISION_RECTANGLE_Y.getBottom();
+			velocityY = 0.0f;
+			busy = false;
+		}
+		else{
+			PosY += delta;
+		}
+
+		//Check collision in other direction
+		info = getCollisionInfo(map, topCollision(0));
+		if (info.collided){
+			PosY = info.row * Game::TILE_SIZE + COLLISION_RECTANGLE_Y.getHeight();
+			velocityY = 0.0f;
+			busy = false;
+		}
+	}
+	else{
+		//check collision in direction of delta
+		CollisionInfo info = getCollisionInfo(map, topCollision(delta));
+
+		//React to collision
+		if (info.collided){
+			PosY = info.row * Game::TILE_SIZE + COLLISION_RECTANGLE_Y.getHeight();
+			velocityY = 0.0f;
+			busy = false;
+		}
+		else{
+			PosY += delta;
+		}
+
+		//Check collision in other direction
+		info = getCollisionInfo(map, bottomCollision(0));
+		if (info.collided){
+			PosY = info.row * Game::TILE_SIZE - COLLISION_RECTANGLE_Y.getBottom();
+			velocityY = 0.0f;
+			busy = false;
+		}
+	}
+}
+
+ControlledSprite::CollisionInfo ControlledSprite::getCollisionInfo(const Map& map, const Rectangle& rectangle){
+	CollisionInfo info = { false, 0, 0 };
+
+	std::vector<Map::CollisionTile> tiles(map.getCollidingTiles(rectangle));
+	for (size_t i = 0; i < tiles.size(); ++i){
+		if (tiles[i].tileType == Map::BARRIER_TILE){
+			info.collided = true;
+			info.row = tiles[i].row;
+			info.col = tiles[i].col;
+			break;
+		}
+	}
+	return info;
 }

@@ -42,7 +42,7 @@ void Game::eventLoop(){
 	Input input;
 
 	//Initialise Map & Player
-	player.reset(new Codey(graphics, 0, 0));
+	player.reset(new Codey(graphics, 1 * Game::TILE_SIZE, 1 * Game::TILE_SIZE));
 	map.reset(Map::createTestMap(graphics));
 	hud.reset(new Hud(graphics, 640, 0,player));
 

@@ -16,7 +16,7 @@ public:
 	Map();
 	~Map();
 
-	enum TileType{ GROUND_TILE, BARRIER_TILE };
+	enum TileType{ GROUND_TILE, BARRIER_TILE, TILE_OUT_OF_BOUNDS };
 
 	class CollisionTile
 	{
@@ -50,6 +50,7 @@ private:
 	};
 
 	std::vector<std::vector<Tile> >  tiles;
+
 };
 
 #endif MAP_H_

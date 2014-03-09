@@ -12,8 +12,8 @@ namespace{
 	const float MAX_SPEED_XY = 0.325f; // pixels / ms
 
 	//Collision Rectangle
-	const Rectangle COLLISION_RECTANGLE_X(0, Game::TILE_SIZE/2, Game::TILE_SIZE, 1); // x, y, width, height
-	const Rectangle COLLISION_RECTANGLE_Y(Game::TILE_SIZE / 2, 0, 1, Game::TILE_SIZE);	
+	const Rectangle COLLISION_RECTANGLE_X(0, Game::TILE_SIZE/2, Game::TILE_SIZE, 2); // x, y, width, height
+	const Rectangle COLLISION_RECTANGLE_Y(Game::TILE_SIZE / 2, 0, 2, Game::TILE_SIZE);
 }
 
 ControlledSprite::ControlledSprite(Graphics& graphics, int x, int y)
@@ -21,7 +21,7 @@ ControlledSprite::ControlledSprite(Graphics& graphics, int x, int y)
 	//set the position of X & Y to the parameter
 	PosX = x;
 	PosY = y;
-
+	
 	//initialise velocity and acceleration of the player to 0
 	velocityX = 0.0f;
 	velocityY = 0.0f;
@@ -47,20 +47,24 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 
 				switch (curCommand){
 				case Command::LEFT:
-					DestX = PosX - Game::TILE_SIZE;
+					DestX = round((PosX - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
 					currentMotion = MotionType::WALKING_LEFT;
+					velocityX = -WALKING_SPEED;
 					break;
 				case Command::RIGHT:
-					DestX = PosX + Game::TILE_SIZE;
+					DestX = round((PosX + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
 					currentMotion = MotionType::WALKING_RIGHT;
+					velocityX = WALKING_SPEED;
 					break;
 				case Command::DOWN:
-					DestY = PosY + Game::TILE_SIZE;
+					DestY = round((PosY + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
 					currentMotion = MotionType::WALKING_DOWN;
+					velocityY = WALKING_SPEED;
 					break;
 				case Command::UP:
-					DestY = PosY - Game::TILE_SIZE;
+					DestY = round((PosY - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
 					currentMotion = MotionType::WALKING_UP;
+					velocityY = -WALKING_SPEED;
 					break;
 				}
 			}
@@ -72,50 +76,51 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 		else {
 			switch (curCommand){
 				case Command::LEFT:
-					if (PosX > DestX) {
-						velocityX = -WALKING_SPEED;
-					}
-					else {
+					if (PosX <= DestX) {
 						busy = false;
+						if (PosX < DestX) {
+							PosX = DestX;
+						}
 						velocityX = 0;
 					}
 					break;
 				case Command::RIGHT:
-					if (PosX < DestX) {
-						velocityX = WALKING_SPEED;
-					}
-					else {
+					if (PosX >= DestX) {
 						busy = false;
+						if (PosX > DestX) {
+							PosX = DestX;
+						}
 						velocityX = 0;
 					}
 					break;
 				case Command::DOWN:
-					if (PosY < DestY) {
-						velocityY = WALKING_SPEED;
-					}
-					else {
+					if (PosY >= DestY) {
 						busy = false;
+						if (PosY > DestY) {
+							PosY = DestY;
+						}
 						velocityY = 0;
 					}
 					break;
 				case Command::UP:
-					if (PosY > DestY) {
-						velocityY = -WALKING_SPEED;
-					}
-					else {
+					if (PosY <= DestY) {
 						busy = false;
+						if (PosY < DestY) {
+							PosY = DestY;
+						}
 						velocityY = 0;
 					}
 					break;
 			}
 		}
 	}
+
 	updateX(elapsedTimeMs, map);
-	//updateY(elapsedTimeMs, map);
-	updatePos(PosY, velocityY, elapsedTimeMs);
+	updateY(elapsedTimeMs, map);
 }
 
-//draw the sprite at the relevant position
+//draw the sprite at the relevant position 
+//This is virtual and can be overidden in any inherited classes to a different width/height
 void ControlledSprite::draw(Graphics& graphics){
 	sprites[getSpriteState()]->draw(graphics, PosX, PosY,Game::TILE_SIZE,Game::TILE_SIZE);
 }
@@ -147,6 +152,8 @@ SpriteState ControlledSprite::getSpriteState(){
 	return SpriteState(currentMotion);
 }
 
+
+//Get collision rectangles for distance travelled delta
 Rectangle ControlledSprite::leftCollision(int delta) const{
 	assert(delta <= 0);
 
@@ -193,7 +200,6 @@ void ControlledSprite::updateX(int elapsedTimeMs, const Map& map){
 	if (delta > 0){
 		//check collision in direction of delta
 		CollisionInfo info = getCollisionInfo(map, rightCollision(delta));
-
 		//React to collision
 		if (info.collided){
 			PosX = info.col* Game::TILE_SIZE - COLLISION_RECTANGLE_X.getRight();
@@ -207,18 +213,18 @@ void ControlledSprite::updateX(int elapsedTimeMs, const Map& map){
 		//Check collision in other direction
 		info = getCollisionInfo(map, leftCollision(0));
 		if (info.collided){
-			PosX = info.col * Game::TILE_SIZE + COLLISION_RECTANGLE_X.getWidth();
+			PosX = info.col * Game::TILE_SIZE + COLLISION_RECTANGLE_X.getRight();
 			velocityX = 0.0f;
 			busy = false;
 		}
 	}
-	else{
+	else if(delta < 0){
 		//check collision in direction of delta
 		CollisionInfo info = getCollisionInfo(map, leftCollision(delta));
 
 		//React to collision
 		if (info.collided){
-			PosX = info.col * Game::TILE_SIZE + COLLISION_RECTANGLE_X.getWidth();
+			PosX = info.col * Game::TILE_SIZE + COLLISION_RECTANGLE_X.getRight();
 			velocityX = 0.0f;
 			busy = false;
 		}
@@ -261,7 +267,7 @@ void ControlledSprite::updateY(int elapsedTimeMs, const Map& map){
 			busy = false;
 		}
 	}
-	else{
+	else if(delta < 0){
 		//check collision in direction of delta
 		CollisionInfo info = getCollisionInfo(map, topCollision(delta));
 
@@ -290,7 +296,7 @@ ControlledSprite::CollisionInfo ControlledSprite::getCollisionInfo(const Map& ma
 
 	std::vector<Map::CollisionTile> tiles(map.getCollidingTiles(rectangle));
 	for (size_t i = 0; i < tiles.size(); ++i){
-		if (tiles[i].tileType == Map::BARRIER_TILE){
+		if (tiles[i].tileType == Map::BARRIER_TILE || tiles[i].tileType == Map::TILE_OUT_OF_BOUNDS){
 			info.collided = true;
 			info.row = tiles[i].row;
 			info.col = tiles[i].col;

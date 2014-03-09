@@ -39,7 +39,7 @@ protected:
 	float accelerationX;
 	float velocityY;
 	float accelerationY;
-
+	
 	std::deque< Command > queuedCommands;
 	std::queue< Command > commands;
 	Command curCommand;

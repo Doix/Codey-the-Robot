@@ -166,9 +166,12 @@ vector<Map::CollisionTile> Map::getCollidingTiles(const Rectangle& rectangle) co
 
 	for (int row = firstRow; row <= lastRow; ++row){
 		for (int col = firstCol; col <= lastCol; ++col){
-			//TODO: catch exception if we go off screen
-			collisionTiles.push_back(CollisionTile(row, col, tiles[row][col].tileType));
-			
+			try{
+				collisionTiles.push_back(CollisionTile(row, col, tiles.at(row).at(col).tileType));
+			}
+			catch (std::out_of_range& oor){
+				collisionTiles.push_back(CollisionTile(row, col, TILE_OUT_OF_BOUNDS));
+			}			
 		}
 	}
 

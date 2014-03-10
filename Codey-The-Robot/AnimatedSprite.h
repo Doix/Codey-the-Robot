@@ -15,6 +15,7 @@ public:
 
 	void update(int elapsedTimeInMs);
 private:
+	
 	const int frameTime;
 	const int numFrames;
 	int currentFrame;

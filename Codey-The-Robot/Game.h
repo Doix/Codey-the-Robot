@@ -6,6 +6,7 @@ class Codey;
 class Graphics;
 class Hud;
 class Map;
+class Enemy;
 
 #include <memory>
 
@@ -24,6 +25,7 @@ private:
 
 	std::unique_ptr<Map> map;
 	std::shared_ptr<Codey> player;
+	std::shared_ptr<Enemy> firstEnemy;
 	std::unique_ptr<Hud> hud;
 };
 

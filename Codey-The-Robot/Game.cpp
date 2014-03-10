@@ -9,6 +9,7 @@
 #include "Graphics.h"
 #include <algorithm>
 #include "Hud.h"
+#include "Enemy.h"
 
 
 //Constants
@@ -43,6 +44,7 @@ void Game::eventLoop(){
 
 	//Initialise Map & Player
 	player.reset(new Codey(graphics, 1 * Game::TILE_SIZE, 1 * Game::TILE_SIZE));
+	firstEnemy.reset(new Enemy(graphics, 4 * Game::TILE_SIZE, 4 * Game::TILE_SIZE));
 	map.reset(Map::createTestMap(graphics));
 	hud.reset(new Hud(graphics, 640, 0,player));
 
@@ -119,6 +121,7 @@ void Game::eventLoop(){
 void Game::update(int elapsedTimeInMs)
 {
 	player->update(elapsedTimeInMs, *map);
+	firstEnemy->update(elapsedTimeInMs);
 	map->update(elapsedTimeInMs);
 }
 
@@ -129,6 +132,7 @@ void Game::draw(Graphics& graphics)
 
 	map->draw(graphics);
 	player->draw(graphics);
+	firstEnemy->draw(graphics);
 	hud->draw(graphics);
 	graphics.flip();
 }

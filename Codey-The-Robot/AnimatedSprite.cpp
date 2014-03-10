@@ -34,10 +34,10 @@ void AnimatedSprite::update(int elapsedTimeInMs){
 		++currentFrame;
 		elapsedTime = 0;
 		if (currentFrame < numFrames){
-			sourceRect.x += Game::TILE_SIZE;
+			sourceRect.x += sourceRect.w;
 		}
 		else{
-			sourceRect.x -= Game::TILE_SIZE * (numFrames - 1);
+			sourceRect.x -= sourceRect.w * (numFrames - 1);
 			currentFrame = 0;
 		}
 	}

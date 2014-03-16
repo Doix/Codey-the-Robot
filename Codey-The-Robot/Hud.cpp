@@ -23,7 +23,7 @@ Hud::Hud(Graphics& graphics, int x, int y, std::shared_ptr<ControlledSprite> pla
 	initializeSprites(graphics);
 	
 	// lets just hardcode this for now
-	availableCommands = std::vector<Command>{Command::LEFT, Command::DOWN, Command::UP, Command::RIGHT};
+	availableCommands = std::vector<CommandAction>{CommandAction::LEFT, CommandAction::DOWN, CommandAction::UP, CommandAction::RIGHT};
 	setPlayer(player);
 }
 
@@ -48,13 +48,15 @@ void Hud::draw(Graphics& graphics){
 			y += BUTTON_SIZE + 10;
 		}
 	}
-	std::deque<Command> commands = player->getCommands();
 
 	x = 666;
 	y = 20;
 	count = 0;
-	for (Command command : commands){ 
-		buttons[command]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
+	
+	std::list < std::shared_ptr<Command>>* commands = player->getCommands();
+
+	for (std::shared_ptr<Command> command : *commands){
+		buttons[command->getCommand()]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
 		x += BUTTON_SIZE + 10;
 		count++;
 		if (count % 6 == 0){
@@ -76,7 +78,7 @@ void Hud::click(std::tuple<int, int> clicked) {
 		//TODO:: will need to be updated to handle multiple rows
 		//when we have enough commands
 		if (col < availableCommands.size()) {
-			Command command = availableCommands.at(col);
+			CommandAction command = availableCommands.at(col);
 			player->sendCommand(command);
 		}
 	}
@@ -85,11 +87,11 @@ void Hud::click(std::tuple<int, int> clicked) {
 void Hud::initializeSprites(Graphics& graphics) {
 	// very very very ugly
 	// need a better solution for this
-	buttons[Command::RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE*0, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[Command::DOWN] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 1, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[Command::UP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 2, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[Command::LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 3, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[Command::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 4, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE*0, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::DOWN] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 1, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::UP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 2, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 3, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 4, 0, BUTTON_SIZE, BUTTON_SIZE));
 
 }
 

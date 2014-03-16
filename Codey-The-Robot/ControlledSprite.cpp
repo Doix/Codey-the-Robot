@@ -40,28 +40,27 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 	sprites[getSpriteState()]->update(elapsedTimeMs);
 	if (started) {
 		if (!busy) {
-			if (commands.size() > 0) {
-				curCommand = commands.front();
-				commands.pop();
+			if (commands.isFinished()) {
+				curCommand = commands.getCommand();
 				busy = true;
 
 				switch (curCommand){
-				case Command::LEFT:
+				case CommandAction::LEFT:
 					DestX = round((PosX - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
 					currentMotion = MotionType::WALKING_LEFT;
 					velocityX = -WALKING_SPEED;
 					break;
-				case Command::RIGHT:
+				case CommandAction::RIGHT:
 					DestX = round((PosX + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
 					currentMotion = MotionType::WALKING_RIGHT;
 					velocityX = WALKING_SPEED;
 					break;
-				case Command::DOWN:
+				case CommandAction::DOWN:
 					DestY = round((PosY + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
 					currentMotion = MotionType::WALKING_DOWN;
 					velocityY = WALKING_SPEED;
 					break;
-				case Command::UP:
+				case CommandAction::UP:
 					DestY = round((PosY - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
 					currentMotion = MotionType::WALKING_UP;
 					velocityY = -WALKING_SPEED;
@@ -75,7 +74,7 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 		}
 		else {
 			switch (curCommand){
-				case Command::LEFT:
+				case CommandAction::LEFT:
 					if (PosX <= DestX) {
 						busy = false;
 						if (PosX < DestX) {
@@ -84,7 +83,7 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 						velocityX = 0;
 					}
 					break;
-				case Command::RIGHT:
+				case CommandAction::RIGHT:
 					if (PosX >= DestX) {
 						busy = false;
 						if (PosX > DestX) {
@@ -93,7 +92,7 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 						velocityX = 0;
 					}
 					break;
-				case Command::DOWN:
+				case CommandAction::DOWN:
 					if (PosY >= DestY) {
 						busy = false;
 						if (PosY > DestY) {
@@ -102,7 +101,7 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 						velocityY = 0;
 					}
 					break;
-				case Command::UP:
+				case CommandAction::UP:
 					if (PosY <= DestY) {
 						busy = false;
 						if (PosY < DestY) {
@@ -126,19 +125,20 @@ void ControlledSprite::draw(Graphics& graphics){
 }
 
 //Functions for each of the different movements player can do
-void ControlledSprite::sendCommand(Command command){
-	queuedCommands.push_back(command);
+void ControlledSprite::sendCommand(CommandAction command){
+	//TODO: make an if statement if there is a loop command
+	commands.addCommand(std::shared_ptr<Command>(new Command(command)));
 }
 
 void ControlledSprite::startCommands(){
-	started = true;
-	// create a copy of queuedCommands so that we don't modify the original whilst executing
-	// i wonder if this causes a memory leak?
-	commands = std::queue<Command>(queuedCommands);
+	if (!busy) {
+		started = true;
+		commands.restart();
+	}
 }
 
-std::deque<Command> ControlledSprite::getCommands() {
-	return queuedCommands;
+std::list < std::shared_ptr<Command>>* ControlledSprite::getCommands() {
+	return commands.getList();
 }
 
 //helper function to calculate the speed and acceleration of the player for both X and Y axis.

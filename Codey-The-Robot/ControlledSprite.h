@@ -6,6 +6,7 @@
 #include "Commands.h"
 #include <map>
 #include "SpriteState.h"
+#include "CommandList.h"
 
 class Sprite;
 class Graphics;
@@ -21,10 +22,10 @@ public:
 	void update(int elapsedTimeMs, const Map& map);
 	virtual void draw(Graphics& graphics);
 
-	void sendCommand(Command command);
+	void sendCommand(CommandAction command);
 	void stopMoving();
 	void startCommands();
-	std::deque<Command> ControlledSprite::getCommands();
+	std::list < std::shared_ptr<Command>>* getCommands();
 
 protected:
 	int PosX;
@@ -40,9 +41,8 @@ protected:
 	float velocityY;
 	float accelerationY;
 	
-	std::deque< Command > queuedCommands;
-	std::queue< Command > commands;
-	Command curCommand;
+	CommandList commands;
+	CommandAction curCommand;
 
 	SpriteState getSpriteState();
 	MotionType currentMotion;

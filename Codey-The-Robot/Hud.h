@@ -26,10 +26,10 @@ private:
 	std::shared_ptr<ControlledSprite> player;
 
 	std::unique_ptr<Sprite> sprite;
-	Command curCommand;
+	CommandAction curCommand;
 	void Hud::initializeSprites(Graphics& graphics);
-	std::map<Command, std::unique_ptr<Sprite>> buttons;
-	std::vector<Command> availableCommands;
+	std::map<CommandAction, std::unique_ptr<Sprite>> buttons;
+	std::vector<CommandAction> availableCommands;
 
 	void Hud::setPlayer(std::shared_ptr<ControlledSprite> player);
 

@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="Codey.cpp" />
+    <ClCompile Include="Command.cpp" />
+    <ClCompile Include="CommandList.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -27,6 +29,7 @@
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="Codey.h" />
+    <ClInclude Include="CommandList.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />

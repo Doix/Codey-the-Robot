@@ -63,10 +63,10 @@ Map* Map::createTestMap(Graphics& graphics){
 vector<Map::CollisionTile> Map::getCollidingTiles(const Rectangle& rectangle) const{
 
 	//Get co-ordinates of the collision tile
-	const int firstRow = rectangle.getTop() / Game::TILE_SIZE;
-	const int lastRow = rectangle.getBottom() / Game::TILE_SIZE;
-	const int firstCol = rectangle.getLeft() / Game::TILE_SIZE;
-	const int lastCol = rectangle.getRight() / Game::TILE_SIZE;
+	const int firstRow = getColRow(rectangle.getTop());
+	const int lastRow = getColRow(rectangle.getBottom());
+	const int firstCol = getColRow(rectangle.getLeft());
+	const int lastCol = getColRow(rectangle.getRight());
 
 
 	vector<CollisionTile> collisionTiles;
@@ -86,6 +86,15 @@ vector<Map::CollisionTile> Map::getCollidingTiles(const Rectangle& rectangle) co
 	return collisionTiles;
 }
 
+//need to use this as dividing by zero rounds to zero, not down, so collision not working until -pos was greater than tile size
+int Map::getColRow(int pos) const{
+	if (pos >= 0){
+		return (int)round(pos / Game::TILE_SIZE);
+	}
+	else{
+		return -1;
+	}
+}
 
 void Map::update(int elapsedTimeMs){
 	for (size_t row = 0; row < tiles.size(); ++row){

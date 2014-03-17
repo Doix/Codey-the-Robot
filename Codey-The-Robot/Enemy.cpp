@@ -13,7 +13,6 @@ Enemy::Enemy(Graphics& graphics, int x, int y) : ControlledSprite(graphics, x, y
 {
 	//sprite = std::shared_ptr<Sprite>(new AnimatedSprite(graphics, "content/robotEnemies.png", 0, 35, 36, 35, 1, 4));
 	initialiseSpriteSheets(graphics);
-	commandCounter = 0;
 	initCommands();
 	startCommands();
 }

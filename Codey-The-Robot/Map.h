@@ -50,7 +50,7 @@ private:
 	};
 
 	std::vector<std::vector<Tile> >  tiles;
-
+	int getColRow(const int pos) const;
 };
 
 #endif MAP_H_

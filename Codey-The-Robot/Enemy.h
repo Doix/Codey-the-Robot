@@ -14,8 +14,6 @@ public:
 	~Enemy();
 
 protected:
-	int commandCounter;
-
 	void initialiseSpriteSheets(Graphics& graphics);
 	bool checkFinished();
 	void initCommands();

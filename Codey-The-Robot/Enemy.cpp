@@ -3,11 +3,19 @@
 #include "AnimatedSprite.h"
 #include "Game.h"
 
+namespace{
+	const std::string ENEMY_FILE_PATH = "content/robotEnemies.png";
+	const std::string ENEMY_REVERSE_FILE_PATH = "content/robotEnemiesReverse.png";
+	const int FPS = 8;
+}
 
-
-Enemy::Enemy(Graphics& graphics, int x, int y) : PosX(x), PosY(y)
+Enemy::Enemy(Graphics& graphics, int x, int y) : ControlledSprite(graphics, x, y)
 {
-	sprite = std::shared_ptr<Sprite>(new AnimatedSprite(graphics, "content/robotEnemies.png", 0, 35, 36, 35, 1, 4));
+	//sprite = std::shared_ptr<Sprite>(new AnimatedSprite(graphics, "content/robotEnemies.png", 0, 35, 36, 35, 1, 4));
+	initialiseSpriteSheets(graphics);
+	commandCounter = 0;
+	initCommands();
+	startCommands();
 }
 
 
@@ -15,10 +23,43 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::draw(Graphics& graphics) const{
-	sprite->draw(graphics, PosX, PosY, Game::TILE_SIZE, Game::TILE_SIZE);
+void Enemy::initialiseSpriteSheets(Graphics& graphics){
+	//need to hardcode numbers as sprite sheet has an inconsistent grid!
+	sprites[SpriteState(MotionType::STANDING)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		ENEMY_FILE_PATH,
+		0, 35,
+		36, 35, FPS, 1));
+
+	sprites[SpriteState(MotionType::WALKING_LEFT)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		ENEMY_REVERSE_FILE_PATH,
+		422-(36*4), 35,
+		36, 35, FPS, 4));
+
+	sprites[SpriteState(MotionType::WALKING_RIGHT)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		ENEMY_FILE_PATH,
+		0, 35,
+		36, 35, FPS, 4));
 }
 
-void Enemy::update(const int elapsed_time_ms){
-	sprite->update(elapsed_time_ms);
+void Enemy::initCommands(){
+	sendCommand(CommandAction::RIGHT);
+	sendCommand(CommandAction::RIGHT);
+	sendCommand(CommandAction::RIGHT);
+	sendCommand(CommandAction::LEFT);
+	sendCommand(CommandAction::LEFT);
+	sendCommand(CommandAction::LEFT);
 }
+
+bool Enemy::checkFinished(){
+	if (commands.isFinished()){
+		commands.restart();
+	}
+	return false;
+}
+

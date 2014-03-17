@@ -44,6 +44,10 @@ protected:
 	CommandList commands;
 	CommandAction curCommand;
 
+	void executeCommand(const CommandAction command);
+	virtual bool checkFinished() ;
+
+
 	SpriteState getSpriteState();
 	MotionType currentMotion;
 
@@ -51,9 +55,6 @@ protected:
 	Rectangle rightCollision(int delta) const;
 	Rectangle bottomCollision(int delta) const;
 	Rectangle topCollision(int delta) const;
-
-
-	void updatePos(int& PosXY, float& velocityXY, int elapsedTimeMs);
 
 	void updateX(int elapsedTimeMs, const Map& map);
 	void updateY(int elapsedTimeMs, const Map& map);

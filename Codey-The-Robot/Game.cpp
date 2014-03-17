@@ -121,7 +121,7 @@ void Game::eventLoop(){
 void Game::update(int elapsedTimeInMs)
 {
 	player->update(elapsedTimeInMs, *map);
-	firstEnemy->update(elapsedTimeInMs);
+	firstEnemy->update(elapsedTimeInMs, *map);
 	map->update(elapsedTimeInMs);
 }
 

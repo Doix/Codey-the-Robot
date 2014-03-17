@@ -9,10 +9,9 @@
 
 namespace{
 	const float WALKING_SPEED = 0.15f; //(pixels/ms) / ms
-	const float MAX_SPEED_XY = 0.325f; // pixels / ms
 
 	//Collision Rectangle
-	const Rectangle COLLISION_RECTANGLE_X(0, Game::TILE_SIZE/2, Game::TILE_SIZE, 2); // x, y, width, height
+	const Rectangle COLLISION_RECTANGLE_X(0, Game::TILE_SIZE/2, Game::TILE_SIZE, 2); // xPos, yPos, width, height
 	const Rectangle COLLISION_RECTANGLE_Y(Game::TILE_SIZE / 2, 0, 2, Game::TILE_SIZE);
 }
 
@@ -40,32 +39,10 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 	sprites[getSpriteState()]->update(elapsedTimeMs);
 	if (started) {
 		if (!busy) {
-			if (commands.isFinished()) {
+			if (!checkFinished()) {
 				curCommand = commands.getCommand();
-				busy = true;
-
-				switch (curCommand){
-				case CommandAction::LEFT:
-					DestX = round((PosX - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
-					currentMotion = MotionType::WALKING_LEFT;
-					velocityX = -WALKING_SPEED;
-					break;
-				case CommandAction::RIGHT:
-					DestX = round((PosX + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
-					currentMotion = MotionType::WALKING_RIGHT;
-					velocityX = WALKING_SPEED;
-					break;
-				case CommandAction::DOWN:
-					DestY = round((PosY + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
-					currentMotion = MotionType::WALKING_DOWN;
-					velocityY = WALKING_SPEED;
-					break;
-				case CommandAction::UP:
-					DestY = round((PosY - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
-					currentMotion = MotionType::WALKING_UP;
-					velocityY = -WALKING_SPEED;
-					break;
-				}
+				executeCommand(curCommand);
+				busy = true;						
 			}
 			else {
 				started = false;
@@ -73,44 +50,7 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 			}
 		}
 		else {
-			switch (curCommand){
-				case CommandAction::LEFT:
-					if (PosX <= DestX) {
-						busy = false;
-						if (PosX < DestX) {
-							PosX = DestX;
-						}
-						velocityX = 0;
-					}
-					break;
-				case CommandAction::RIGHT:
-					if (PosX >= DestX) {
-						busy = false;
-						if (PosX > DestX) {
-							PosX = DestX;
-						}
-						velocityX = 0;
-					}
-					break;
-				case CommandAction::DOWN:
-					if (PosY >= DestY) {
-						busy = false;
-						if (PosY > DestY) {
-							PosY = DestY;
-						}
-						velocityY = 0;
-					}
-					break;
-				case CommandAction::UP:
-					if (PosY <= DestY) {
-						busy = false;
-						if (PosY < DestY) {
-							PosY = DestY;
-						}
-						velocityY = 0;
-					}
-					break;
-			}
+			executeCommand(curCommand);
 		}
 	}
 
@@ -121,7 +61,7 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 //draw the sprite at the relevant position 
 //This is virtual and can be overidden in any inherited classes to a different width/height
 void ControlledSprite::draw(Graphics& graphics){
-	sprites[getSpriteState()]->draw(graphics, PosX, PosY,Game::TILE_SIZE,Game::TILE_SIZE);
+	sprites[getSpriteState()]->draw(graphics, PosX, PosY, Game::TILE_SIZE,Game::TILE_SIZE);
 }
 
 //Functions for each of the different movements player can do
@@ -139,13 +79,6 @@ void ControlledSprite::startCommands(){
 
 std::list < std::shared_ptr<Command>>* ControlledSprite::getCommands() {
 	return commands.getList();
-}
-
-//helper function to calculate the speed and acceleration of the player for both X and Y axis.
-void ControlledSprite::updatePos(int& PosXY,float& velocityXY, int elapsedTimeMs){
-	//calculate the position of X / Y based on the speed and the time elapsed since last called
-	//(also round as int * float to ensure it doesn't truncate data)
-	PosXY += (int)round(velocityXY * elapsedTimeMs);
 }
 
 SpriteState ControlledSprite::getSpriteState(){
@@ -194,6 +127,7 @@ Rectangle ControlledSprite::bottomCollision(int delta) const{
 		COLLISION_RECTANGLE_Y.getHeight() / 2 + delta);
 }
 
+//Update the x / y co-ordinates as applicable
 void ControlledSprite::updateX(int elapsedTimeMs, const Map& map){
 	const int delta = (int)round(velocityX * elapsedTimeMs);
 	
@@ -304,4 +238,76 @@ ControlledSprite::CollisionInfo ControlledSprite::getCollisionInfo(const Map& ma
 		}
 	}
 	return info;
+}
+
+void ControlledSprite::executeCommand(CommandAction command){
+	if (!busy){
+		switch (curCommand){
+		case CommandAction::LEFT:
+			DestX = round((PosX - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
+			currentMotion = MotionType::WALKING_LEFT;
+			velocityX = -WALKING_SPEED;
+			break;
+		case CommandAction::RIGHT:
+			DestX = round((PosX + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
+			currentMotion = MotionType::WALKING_RIGHT;
+			velocityX = WALKING_SPEED;
+			break;
+		case CommandAction::DOWN:
+			DestY = round((PosY + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
+			currentMotion = MotionType::WALKING_DOWN;
+			velocityY = WALKING_SPEED;
+			break;
+		case CommandAction::UP:
+			DestY = round((PosY - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
+			currentMotion = MotionType::WALKING_UP;
+			velocityY = -WALKING_SPEED;
+			break;
+		}
+	}
+	else{
+		switch (curCommand){
+		case CommandAction::LEFT:
+			if (PosX <= DestX) {
+				busy = false;
+				if (PosX < DestX) {
+					PosX = DestX;
+				}
+				velocityX = 0;
+			}
+			break;
+		case CommandAction::RIGHT:
+			if (PosX >= DestX) {
+				busy = false;
+				if (PosX > DestX) {
+					PosX = DestX;
+				}
+				velocityX = 0;
+			}
+			break;
+		case CommandAction::DOWN:
+			if (PosY >= DestY) {
+				busy = false;
+				if (PosY > DestY) {
+					PosY = DestY;
+				}
+				velocityY = 0;
+			}
+			break;
+		case CommandAction::UP:
+			if (PosY <= DestY) {
+				busy = false;
+				if (PosY < DestY) {
+					PosY = DestY;
+				}
+				velocityY = 0;
+			}
+			break;
+		}
+	}
+}
+
+
+bool ControlledSprite::checkFinished() {
+	return commands.isFinished();
 }

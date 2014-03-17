@@ -27,7 +27,7 @@ void CommandList::addCommand(std::shared_ptr<Command> c) {
 }
 
 bool CommandList::isFinished() {
-	return (iterator != commands.end());
+	return (iterator == commands.end());
 }
 
 void CommandList::restart() {

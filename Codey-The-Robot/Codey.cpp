@@ -6,6 +6,7 @@ namespace{
 	const int CODEY_TILE_SIZE = 80;
 	const std::string CODEY_FILE_PATH = "content/codey.png";
 	const std::string CODEY_REVERSE_FILE_PATH = "content/codeyReverse.png";
+	const int FPS = 15;
 }
 
 Codey::Codey(Graphics& graphics, int x, int y) : ControlledSprite(graphics, x, y)
@@ -24,35 +25,35 @@ void Codey::initialiseSpriteSheets(Graphics& graphics){
 		graphics,
 		CODEY_FILE_PATH,
 		0 * CODEY_TILE_SIZE, 0 * CODEY_TILE_SIZE,
-		CODEY_TILE_SIZE, CODEY_TILE_SIZE, 15, 2));
+		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
 
 	sprites[SpriteState(MotionType::WALKING_LEFT)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_REVERSE_FILE_PATH,
 		2 * CODEY_TILE_SIZE, 0 * CODEY_TILE_SIZE,
-		CODEY_TILE_SIZE, CODEY_TILE_SIZE, 15, 6));
+		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 6));
 
 	sprites[SpriteState(MotionType::WALKING_RIGHT)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_FILE_PATH,
 		2 * CODEY_TILE_SIZE, 0 * CODEY_TILE_SIZE,
-		CODEY_TILE_SIZE, CODEY_TILE_SIZE, 15, 6));
+		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 6));
 
 	sprites[SpriteState(MotionType::WALKING_UP)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_FILE_PATH,
 		0 * CODEY_TILE_SIZE, 5 * CODEY_TILE_SIZE,
-		CODEY_TILE_SIZE, CODEY_TILE_SIZE, 15, 6));
+		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 6));
 
 	sprites[SpriteState(MotionType::WALKING_DOWN)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_FILE_PATH,
 		6 * CODEY_TILE_SIZE, 5 * CODEY_TILE_SIZE,
-		CODEY_TILE_SIZE, CODEY_TILE_SIZE, 15, 2));
+		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
 }
 
 void Codey::draw(Graphics& graphics){

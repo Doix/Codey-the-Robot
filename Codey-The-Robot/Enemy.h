@@ -2,29 +2,23 @@
 #define ENEMY_H_
 
 #include <memory>
-
-namespace{
-
-}
+#include "ControlledSprite.h"
 
 class Graphics;
 class Sprite;
 
-class Enemy
+class Enemy : public ControlledSprite
 {
 public:
 	Enemy(Graphics& graphics, int PosX, int PosY);
 	~Enemy();
 
-	void draw(Graphics& graphics) const;
-	void update(const int elapsed_time_ms);
-private:
-	int PosX;
-	int PosY;
+protected:
+	int commandCounter;
 
-	std::shared_ptr<Sprite> sprite;
-
-
+	void initialiseSpriteSheets(Graphics& graphics);
+	bool checkFinished();
+	void initCommands();
 };
 
 #endif // ENEMY_H_

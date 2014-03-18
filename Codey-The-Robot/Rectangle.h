@@ -14,6 +14,13 @@ public:
 
 	int getWidth() const { return width; }
 	int getHeight() const { return height; }
+
+	bool collidesWith(const Rectangle& other) const{
+		return getRight() >= other.getLeft() &&
+			getLeft() <= other.getRight() &&
+			getTop() <= other.getBottom() &&
+			getBottom() >= other.getTop();
+	}
 private:
 	const int x, y, width, height; 
 };

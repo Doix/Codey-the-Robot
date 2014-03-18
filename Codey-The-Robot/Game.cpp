@@ -10,6 +10,7 @@
 #include <algorithm>
 #include "Hud.h"
 #include "Enemy.h"
+#include "Rectangle.h"
 
 
 //Constants
@@ -120,9 +121,12 @@ void Game::eventLoop(){
 //update the screen
 void Game::update(int elapsedTimeInMs)
 {
+	map->update(elapsedTimeInMs);
 	player->update(elapsedTimeInMs, *map);
 	firstEnemy->update(elapsedTimeInMs, *map);
-	map->update(elapsedTimeInMs);
+	if (firstEnemy->damageRectangle().collidesWith(player->damageRectangle())){
+		player->deathSequence();		
+	}	
 }
 
 //clear and then redraw the screen

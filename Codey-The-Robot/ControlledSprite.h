@@ -19,7 +19,7 @@ public:
 	ControlledSprite(Graphics& graphics, int x, int y);
 	~ControlledSprite();
 
-	void update(int elapsedTimeMs, const Map& map);
+	virtual void update(int elapsedTimeMs, const Map& map);
 	virtual void draw(Graphics& graphics);
 
 	void sendCommand(CommandAction command);
@@ -27,11 +27,17 @@ public:
 	void startCommands();
 	std::list < std::shared_ptr<Command>>* getCommands();
 
+	Rectangle damageRectangle() const;
+
 protected:
 	int PosX;
 	int PosY;
 	int DestX;
 	int DestY;
+
+	int originX;
+	int originY;
+	virtual void resetSprite();
 
 	bool started;
 	bool busy;

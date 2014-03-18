@@ -20,6 +20,10 @@ ControlledSprite::ControlledSprite(Graphics& graphics, int x, int y)
 	//set the position of X & Y to the parameter
 	PosX = x;
 	PosY = y;
+
+	//remember the initial position of codey
+	originX = x;
+	originY = y;
 	
 	//initialise velocity and acceleration of the player to 0
 	velocityX = 0.0f;
@@ -34,6 +38,10 @@ ControlledSprite::~ControlledSprite()
 {
 }
 
+void ControlledSprite::resetSprite(){
+	PosX = originX;
+	PosY = originY;
+}
 //update the player position
 void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 	sprites[getSpriteState()]->update(elapsedTimeMs);
@@ -52,10 +60,11 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 		else {
 			executeCommand(curCommand);
 		}
+		updateX(elapsedTimeMs, map);
+		updateY(elapsedTimeMs, map);
 	}
 
-	updateX(elapsedTimeMs, map);
-	updateY(elapsedTimeMs, map);
+	
 }
 
 //draw the sprite at the relevant position 
@@ -72,6 +81,7 @@ void ControlledSprite::sendCommand(CommandAction command){
 
 void ControlledSprite::startCommands(){
 	if (!busy) {
+		resetSprite();
 		started = true;
 		commands.restart();
 	}
@@ -85,6 +95,14 @@ SpriteState ControlledSprite::getSpriteState(){
 	return SpriteState(currentMotion);
 }
 
+//get Damage rectangle
+
+Rectangle ControlledSprite::damageRectangle() const{
+	return Rectangle(PosX + Game::TILE_SIZE / 2,
+		PosY + Game::TILE_SIZE / 2,
+		Game::TILE_SIZE / 2,
+		Game::TILE_SIZE / 2);
+}
 
 //Get collision rectangles for distance travelled delta
 Rectangle ControlledSprite::leftCollision(int delta) const{
@@ -306,7 +324,6 @@ void ControlledSprite::executeCommand(CommandAction command){
 		}
 	}
 }
-
 
 bool ControlledSprite::checkFinished() {
 	return commands.isFinished();

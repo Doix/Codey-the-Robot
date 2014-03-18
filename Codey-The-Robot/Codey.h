@@ -8,11 +8,16 @@ class Codey : public ControlledSprite
 public:
 	Codey(Graphics& graphics, int x, int y);
 	~Codey();
-	
-	void Codey::draw(Graphics& graphics);
+	void update(int elapsedTimeMs, const Map& map);
+	void draw(Graphics& graphics);
+	void deathSequence();
 	
 protected:
+	void resetSprite();
 	void initialiseSpriteSheets(Graphics& graphics);
+	bool startedDeathSequence;
+	bool finishedDying;
+	int deathSeqTimer;
 };
 
 #endif //CODEY_SPRITE_H_

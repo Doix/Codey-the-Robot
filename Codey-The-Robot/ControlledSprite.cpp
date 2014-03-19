@@ -47,7 +47,7 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 	sprites[getSpriteState()]->update(elapsedTimeMs);
 	if (started) {
 		if (!busy) {
-			if (!checkFinished()) {
+			if (!commands.isFinished()) {
 				curCommand = commands.getCommand();
 				executeCommand(curCommand);
 				busy = true;						
@@ -74,9 +74,9 @@ void ControlledSprite::draw(Graphics& graphics){
 }
 
 //Functions for each of the different movements player can do
-void ControlledSprite::sendCommand(CommandAction command){
+void ControlledSprite::sendCommand(std::shared_ptr<Command> command){
 	//TODO: make an if statement if there is a loop command
-	commands.addCommand(std::shared_ptr<Command>(new Command(command)));
+	commands.addCommand(command);
 }
 
 void ControlledSprite::startCommands(){
@@ -262,22 +262,22 @@ void ControlledSprite::executeCommand(CommandAction command){
 	if (!busy){
 		switch (curCommand){
 		case CommandAction::LEFT:
-			DestX = round((PosX - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
+			DestX = static_cast<int>(round((PosX - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
 			currentMotion = MotionType::WALKING_LEFT;
 			velocityX = -WALKING_SPEED;
 			break;
 		case CommandAction::RIGHT:
-			DestX = round((PosX + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
+			DestX = static_cast<int>(round((PosX + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
 			currentMotion = MotionType::WALKING_RIGHT;
 			velocityX = WALKING_SPEED;
 			break;
 		case CommandAction::DOWN:
-			DestY = round((PosY + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
+			DestY = static_cast<int>(round((PosY + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
 			currentMotion = MotionType::WALKING_DOWN;
 			velocityY = WALKING_SPEED;
 			break;
 		case CommandAction::UP:
-			DestY = round((PosY - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE;
+			DestY = static_cast<int>(round((PosY - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
 			currentMotion = MotionType::WALKING_UP;
 			velocityY = -WALKING_SPEED;
 			break;
@@ -323,8 +323,4 @@ void ControlledSprite::executeCommand(CommandAction command){
 			break;
 		}
 	}
-}
-
-bool ControlledSprite::checkFinished() {
-	return commands.isFinished();
 }

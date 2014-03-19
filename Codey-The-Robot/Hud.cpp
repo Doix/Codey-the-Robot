@@ -21,7 +21,7 @@ Hud::Hud(Graphics& graphics, int x, int y, std::shared_ptr<ControlledSprite> pla
 	//initialise the AnimatedSprite for the player
 	sprite.reset(new Sprite(graphics, HUD_FILE_PATH, 0, 0, HUD_WIDTH, HUD_HEIGHT));
 	initializeSprites(graphics);
-	
+
 	// lets just hardcode this for now
 	availableCommands = std::vector<CommandAction>{CommandAction::LEFT, CommandAction::DOWN, CommandAction::UP, CommandAction::RIGHT};
 	setPlayer(player);
@@ -52,7 +52,7 @@ void Hud::draw(Graphics& graphics){
 	x = 666;
 	y = 20;
 	count = 0;
-	
+
 	std::list < std::shared_ptr<Command>>* commands = player->getCommands();
 
 	for (std::shared_ptr<Command> command : *commands){
@@ -73,13 +73,13 @@ void Hud::click(std::tuple<int, int> clicked) {
 	if (x > 666 && x < 926 && y >375 && y < 470) {
 		x -= 655;
 		y -= 375;
-		int col = x / (BUTTON_SIZE+10);
+		int col = x / (BUTTON_SIZE + 10);
 		int row = y / BUTTON_SIZE;
 		//TODO:: will need to be updated to handle multiple rows
 		//when we have enough commands
 		if (col < availableCommands.size()) {
 			CommandAction command = availableCommands.at(col);
-			player->sendCommand(command);
+			player->sendCommand(std::shared_ptr<Command>(new Command(command)));
 		}
 	}
 }
@@ -87,7 +87,7 @@ void Hud::click(std::tuple<int, int> clicked) {
 void Hud::initializeSprites(Graphics& graphics) {
 	// very very very ugly
 	// need a better solution for this
-	buttons[CommandAction::RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE*0, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 0, 0, BUTTON_SIZE, BUTTON_SIZE));
 	buttons[CommandAction::DOWN] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 1, 0, BUTTON_SIZE, BUTTON_SIZE));
 	buttons[CommandAction::UP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 2, 0, BUTTON_SIZE, BUTTON_SIZE));
 	buttons[CommandAction::LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 3, 0, BUTTON_SIZE, BUTTON_SIZE));

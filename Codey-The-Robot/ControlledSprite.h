@@ -22,7 +22,7 @@ public:
 	virtual void update(int elapsedTimeMs, const Map& map);
 	virtual void draw(Graphics& graphics);
 
-	void sendCommand(CommandAction command);
+	void sendCommand(std::shared_ptr<Command> command);
 	void stopMoving();
 	void startCommands();
 	std::list < std::shared_ptr<Command>>* getCommands();
@@ -51,8 +51,6 @@ protected:
 	CommandAction curCommand;
 
 	void executeCommand(const CommandAction command);
-	virtual bool checkFinished() ;
-
 
 	SpriteState getSpriteState();
 	MotionType currentMotion;

@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "AnimatedSprite.h"
 #include "Game.h"
+#include "LoopCommand.h"
 
 namespace{
 	const std::string ENEMY_FILE_PATH = "content/robotEnemies.png";
@@ -47,18 +48,13 @@ void Enemy::initialiseSpriteSheets(Graphics& graphics){
 }
 
 void Enemy::initCommands(){
-	sendCommand(CommandAction::RIGHT);
-	sendCommand(CommandAction::RIGHT);
-	sendCommand(CommandAction::RIGHT);
-	sendCommand(CommandAction::LEFT);
-	sendCommand(CommandAction::LEFT);
-	sendCommand(CommandAction::LEFT);
+	std::shared_ptr<LoopCommand>loop;
+	loop.reset(new LoopCommand(CommandAction::LOOP, -1));
+	loop->addCommand(std::shared_ptr<Command>(new Command(CommandAction::RIGHT)));
+	loop->addCommand(std::shared_ptr<Command>(new Command(CommandAction::RIGHT)));
+	loop->addCommand(std::shared_ptr<Command>(new Command(CommandAction::RIGHT)));
+	loop->addCommand(std::shared_ptr<Command>(new Command(CommandAction::LEFT)));
+	loop->addCommand(std::shared_ptr<Command>(new Command(CommandAction::LEFT)));
+	loop->addCommand(std::shared_ptr<Command>(new Command(CommandAction::LEFT)));
+	sendCommand(loop);
 }
-
-bool Enemy::checkFinished(){
-	if (commands.isFinished()){
-		commands.restart();
-	}
-	return false;
-}
-

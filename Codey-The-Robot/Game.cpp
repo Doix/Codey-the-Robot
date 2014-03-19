@@ -85,7 +85,7 @@ void Game::eventLoop(){
 		}
 
 		if (input.wasKeyReleased(SDLK_SPACE)) {
-			player->startCommands();
+ 			player->startCommands();
 		}
 
 		if (input.wasMouseClicked()) {

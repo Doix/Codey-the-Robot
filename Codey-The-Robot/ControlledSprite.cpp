@@ -41,6 +41,10 @@ ControlledSprite::~ControlledSprite()
 void ControlledSprite::resetSprite(){
 	PosX = originX;
 	PosY = originY;
+	DestX = PosX;
+	DestY = PosY;
+	velocityX = 0;
+	velocityY = 0;
 }
 //update the player position
 void ControlledSprite::update(int elapsedTimeMs, const Map& map){

@@ -84,6 +84,7 @@ void Codey::update(int elapsedTimeMs, const Map& map){
 		if (deathSeqTimer > DEATH_SEQ_TIME){
 			finishedDying = true;
 			currentMotion = MotionType::DEAD;
+			busy = false;
 		}
 	}
 	ControlledSprite::update(elapsedTimeMs, map);

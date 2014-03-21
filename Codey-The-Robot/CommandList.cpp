@@ -34,6 +34,12 @@ void CommandList::restart() {
 	iterator = commands.begin();
 }
 
+void CommandList::deleteCommand(int index) {
+	std::list<std::shared_ptr<Command>>::iterator it = commands.begin();
+	std::advance(it, index);
+	commands.erase(it);
+}
+
 std::list < std::shared_ptr<Command>>* CommandList::getList() {
 	return &commands;
 }

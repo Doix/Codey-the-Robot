@@ -17,6 +17,8 @@ public:
 	void restart();
 	std::list < std::shared_ptr<Command>>* getList();
 
+	void deleteCommand(int index);
+
 private:
 	std::list < std::shared_ptr<Command>> commands;
 	std::list<std::shared_ptr<Command>>::iterator iterator;

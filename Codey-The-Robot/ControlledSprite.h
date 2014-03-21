@@ -26,6 +26,8 @@ public:
 	void stopMoving();
 	void startCommands();
 	std::list < std::shared_ptr<Command>>* getCommands();
+	void removeCommand(int index);
+	bool isBusy();
 
 	Rectangle damageRectangle() const;
 

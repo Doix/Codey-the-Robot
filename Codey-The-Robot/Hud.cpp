@@ -70,16 +70,30 @@ void Hud::draw(Graphics& graphics){
 void Hud::click(std::tuple<int, int> clicked) {
 	int x, y;
 	std::tie(x, y) = clicked;
-	if (x > 666 && x < 926 && y >375 && y < 470) {
-		x -= 655;
-		y -= 375;
-		int col = x / (BUTTON_SIZE + 10);
-		int row = y / BUTTON_SIZE;
-		//TODO:: will need to be updated to handle multiple rows
-		//when we have enough commands
-		if (col < availableCommands.size()) {
-			CommandAction command = availableCommands.at(col);
-			player->sendCommand(std::shared_ptr<Command>(new Command(command)));
+	if (!player->isBusy()) {
+		if (x > 666 && x < 926 && y >375 && y < 470) {
+			x -= 655;
+			y -= 375;
+			int col = x / (BUTTON_SIZE + 10);
+			int row = y / BUTTON_SIZE;
+			//TODO:: will need to be updated to handle multiple rows
+			//when we have enough commands
+			if (col < availableCommands.size()) {
+				CommandAction command = availableCommands.at(col);
+				player->sendCommand(std::shared_ptr<Command>(new Command(command)));
+			}
+		}
+
+		if (x > 666 && x < 926 && y > 10 && y < 360) {
+			x -= 655;
+			y -= 21;
+			int col = x / (BUTTON_SIZE + 10);
+			int row = y / BUTTON_SIZE;
+
+			int index = col + row * 6;
+			if (index < player->getCommands()->size()) {
+				player->removeCommand(index);
+			}
 		}
 	}
 }

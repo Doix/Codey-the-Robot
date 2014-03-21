@@ -83,6 +83,11 @@ void ControlledSprite::sendCommand(std::shared_ptr<Command> command){
 	commands.addCommand(command);
 }
 
+void ControlledSprite::removeCommand(int index){
+	//TODO: make an if statement if there is a loop command
+	commands.deleteCommand(index);
+}
+
 void ControlledSprite::startCommands(){
 	if (!busy) {
 		resetSprite();
@@ -327,4 +332,8 @@ void ControlledSprite::executeCommand(CommandAction command){
 			break;
 		}
 	}
+}
+
+bool ControlledSprite::isBusy() {
+	return busy;
 }

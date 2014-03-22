@@ -21,6 +21,16 @@ public:
 			getTop() <= other.getBottom() &&
 			getBottom() >= other.getTop();
 	}
+
+	bool contains(int px, int py) const
+	{
+		if (px < x) return false;
+		if (py < y) return false;
+		if (px >= x + width) return false;
+		if (py >= y + height) return false;
+		return true;
+	}
+
 private:
 	const int x, y, width, height; 
 };

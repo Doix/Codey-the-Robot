@@ -1,22 +1,28 @@
 #include "MapScreen.h"
 #include "Sprite.h"
+#include "Button.h"
+#include "Rectangle.h"
 #include <algorithm>    // std::max
+#include "IntroScreen.h"
+#include "GameScreen.h"
 
 
 namespace {
 	const std::string MAP_FILE_PATH = "content/map.png";
+	const std::string BUTTON_FILE_PATH = "content/map_buttons.png";
 }
 
 MapScreen::MapScreen(Game* game) : Screen(game)
 {
 	texture = game->getGraphics()->loadTexture(MAP_FILE_PATH);
-
 	xoffset = 0;
-
 	sourceRect.x = 0;
 	sourceRect.y = 0;
 	sourceRect.w = 940;
 	sourceRect.h = 480;
+
+	playButton.reset(new Button(*game->getGraphics(), BUTTON_FILE_PATH, 0, 0, 260, 52, Rectangle(175, 426, 260, 52))); //numberwang
+	menuButton.reset(new Button(*game->getGraphics(), BUTTON_FILE_PATH, 261, 0, 260, 52, Rectangle(475, 426, 260, 52)));
 
 }
 
@@ -32,6 +38,9 @@ void MapScreen::draw() {
 	destinationRect.h = 480;
 
 	game->getGraphics()->renderTexture(texture, &sourceRect, &destinationRect);
+	playButton->draw(*game->getGraphics(), 175, 426, 260, 52);
+	menuButton->draw(*game->getGraphics(), 475, 426, 260, 52);
+	
 }
 
 void MapScreen::update(int time) {
@@ -40,5 +49,22 @@ void MapScreen::update(int time) {
 		std::tie(xrel, yrel) = game->getInput()->getMouseMotion();
 		xoffset = std::max(0, std::min(xoffset - xrel, 940));;
 		sourceRect.x = xoffset;
+	}
+
+	if (game->getInput()->wasMouseClicked()) {
+		int x, y;
+		std::tie(x, y) = game->getInput()->getMouseClick();
+		if (y > 420) { // possible button press
+			if (playButton->isClicked(x,y)) {
+				game->setScreen(new GameScreen(game));
+			}
+			else if (menuButton->isClicked(x,y)){
+				game->setScreen(new IntroScreen(game));
+			}
+		}
+		else { // possible circle press
+
+		}
+		printf("%d %d\n", x, y);
 	}
 }

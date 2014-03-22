@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Codey.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandList.cpp" />
@@ -33,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Codey.h" />
     <ClInclude Include="CommandList.h" />
     <ClInclude Include="Commands.h" />

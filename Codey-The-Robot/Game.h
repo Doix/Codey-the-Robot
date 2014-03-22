@@ -1,12 +1,10 @@
 #ifndef GAME_H_
 #define GAME_H_
 
+#include "Graphics.h"
+#include "Input.h"
 
-class Codey;
-class Graphics;
-class Hud;
-class Map;
-class Enemy;
+class Screen;
 
 #include <memory>
 
@@ -17,16 +15,19 @@ public:
 	~Game();
 
 	static int TILE_SIZE;
+	void setScreen(Screen* screen);
+	Graphics* getGraphics();
+	Input* getInput();
+	void quit();
 
 private:
 	void eventLoop();
 	void update(int elapsedTimeInMs);
 	void draw(Graphics& graphics);
-
-	std::unique_ptr<Map> map;
-	std::shared_ptr<Codey> player;
-	std::shared_ptr<Enemy> firstEnemy;
-	std::unique_ptr<Hud> hud;
+	bool running;
+	Graphics* _graphics;
+	std::shared_ptr<Screen> _screen;
+	Input* _input;
 };
 
 #endif // GAME_H_

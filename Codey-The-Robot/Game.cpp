@@ -11,6 +11,7 @@
 #include "Hud.h"
 #include "Enemy.h"
 #include "Rectangle.h"
+#include "IntroScreen.h"
 
 
 //Constants
@@ -27,6 +28,7 @@ int Game::TILE_SIZE = 80; //pixels
 Game::Game()
 {	
 	SDL_Init(SDL_INIT_EVERYTHING);
+	running = false;
 	eventLoop();
 }
 
@@ -38,23 +40,24 @@ Game::~Game()
 
 //Main Event loop
 void Game::eventLoop(){
-	//call graphics constructor
+
+	//what even is going on here
+	// trying to move graphics or input anywhere seems to break things
+	// so just dereferencing them here, works fine for now i guess
 	Graphics graphics;
+	_graphics = &graphics;
 	SDL_Event event;
 	Input input;
+	_input = &input;
 
-	//Initialise Map & Player
-	player.reset(new Codey(graphics, 1 * Game::TILE_SIZE, 1 * Game::TILE_SIZE));
-	firstEnemy.reset(new Enemy(graphics, 4 * Game::TILE_SIZE, 4 * Game::TILE_SIZE));
-	map.reset(Map::createTestMap(graphics));
-	hud.reset(new Hud(graphics, 640, 0,player));
 
+	setScreen(new IntroScreen(this));
 
 	//set initial time for animation sprite update
 	int lastUpdateTimeMs = SDL_GetTicks();
 
 	//Loop for each frame
-	bool running = true;
+	running = true;
 	while (running){
 		//start time for the current frame
 		const int startTimeMs = SDL_GetTicks();
@@ -81,16 +84,10 @@ void Game::eventLoop(){
 
 		//Check if Escape key pressed - quits game
 		if (input.wasKeyPressed(SDLK_ESCAPE)){
-			running = false;
+			quit();
 		}
 
-		if (input.wasKeyReleased(SDLK_SPACE)) {
- 			player->startCommands();
-		}
 
-		if (input.wasMouseClicked()) {
-			hud->click(input.getMouseClick());
-		}
 		//check time elapsed since last update method called 
 		const int currentTimeMs = SDL_GetTicks();
 
@@ -121,12 +118,11 @@ void Game::eventLoop(){
 //update the screen
 void Game::update(int elapsedTimeInMs)
 {
-	map->update(elapsedTimeInMs);
-	player->update(elapsedTimeInMs, *map);
-	firstEnemy->update(elapsedTimeInMs, *map);
-	if (firstEnemy->damageRectangle().collidesWith(player->damageRectangle())){
-		player->deathSequence();		
-	}	
+	_screen->update(elapsedTimeInMs);
+}
+
+void Game::setScreen(Screen* scr){
+	_screen.reset(scr);
 }
 
 //clear and then redraw the screen
@@ -134,10 +130,18 @@ void Game::draw(Graphics& graphics)
 {
 	graphics.clear();
 
-	map->draw(graphics);
-	player->draw(graphics);
-	firstEnemy->draw(graphics);
-	hud->draw(graphics);
+	_screen->draw();
 	graphics.flip();
 }
 
+Graphics* Game::getGraphics() {
+	return _graphics;
+}
+
+Input* Game::getInput() {
+	return _input;
+}
+
+void Game::quit() {
+	running = false;
+}

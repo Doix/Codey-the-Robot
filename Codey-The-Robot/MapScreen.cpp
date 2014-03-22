@@ -14,6 +14,9 @@ namespace {
 
 MapScreen::MapScreen(Game* game) : Screen(game)
 {
+
+	codey.reset(new MapCodey(*game->getGraphics(), 1 * Game::TILE_SIZE, 1 * Game::TILE_SIZE));
+
 	texture = game->getGraphics()->loadTexture(MAP_FILE_PATH);
 	xoffset = 0;
 	sourceRect.x = 0;
@@ -21,8 +24,10 @@ MapScreen::MapScreen(Game* game) : Screen(game)
 	sourceRect.w = 940;
 	sourceRect.h = 480;
 
-	playButton.reset(new Button(*game->getGraphics(), BUTTON_FILE_PATH, 0, 0, 260, 52, Rectangle(175, 426, 260, 52))); //numberwang
-	menuButton.reset(new Button(*game->getGraphics(), BUTTON_FILE_PATH, 261, 0, 260, 52, Rectangle(475, 426, 260, 52)));
+	playButton.reset(new Button(*game->getGraphics(), BUTTON_FILE_PATH, 
+		0, 0, 260, 52, Rectangle(175, 426, 260, 52))); //numberwang
+	menuButton.reset(new Button(*game->getGraphics(), BUTTON_FILE_PATH, 
+		261, 0, 260, 52, Rectangle(475, 426, 260, 52)));
 
 }
 
@@ -40,10 +45,14 @@ void MapScreen::draw() {
 	game->getGraphics()->renderTexture(texture, &sourceRect, &destinationRect);
 	playButton->draw(*game->getGraphics(), 175, 426, 260, 52);
 	menuButton->draw(*game->getGraphics(), 475, 426, 260, 52);
+	codey->draw(*game->getGraphics());
 	
 }
 
 void MapScreen::update(int time) {
+
+	codey->update(time);
+
 	if (game->getInput()->isMouseHeld()) {
 		int xrel, yrel;
 		std::tie(xrel, yrel) = game->getInput()->getMouseMotion();
@@ -57,14 +66,21 @@ void MapScreen::update(int time) {
 		if (y > 420) { // possible button press
 			if (playButton->isClicked(x,y)) {
 				game->setScreen(new GameScreen(game));
+				return;
 			}
 			else if (menuButton->isClicked(x,y)){
 				game->setScreen(new IntroScreen(game));
+				return;
 			}
 		}
 		else { // possible circle press
 
 		}
 		printf("%d %d\n", x, y);
+	}
+	//Check if Escape key pressed - back to menu
+	if (game->getInput()->wasKeyPressed(SDLK_ESCAPE)){
+		game->setScreen(new IntroScreen(game));
+		return;
 	}
 }

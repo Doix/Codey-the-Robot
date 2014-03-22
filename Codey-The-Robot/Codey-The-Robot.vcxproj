@@ -27,6 +27,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ControlledSprite.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapCodey.cpp" />
     <ClCompile Include="MapScreen.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="SpriteState.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="ControlledSprite.h" />
     <ClInclude Include="IntroScreen.h" />
+    <ClInclude Include="MapCodey.h" />
     <ClInclude Include="MapScreen.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="LoopCommand.h" />

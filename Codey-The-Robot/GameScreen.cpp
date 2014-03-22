@@ -1,5 +1,5 @@
 #include "GameScreen.h"
-
+#include "MapScreen.h"
 #include "Rectangle.h"
 
 GameScreen::GameScreen(Game* game) : Screen(game)
@@ -23,6 +23,7 @@ void GameScreen::draw() {
 }
 
 void GameScreen::update(int elapsedTimeInMs) {
+
 	if (game->getInput()->wasKeyReleased(SDLK_SPACE)) {
 		player->startCommands();
 	}
@@ -36,5 +37,11 @@ void GameScreen::update(int elapsedTimeInMs) {
 	firstEnemy->update(elapsedTimeInMs, *map);
 	if (firstEnemy->damageRectangle().collidesWith(player->damageRectangle())){
 		player->deathSequence();		
-	}	
+	}
+	//Check if Escape key pressed - back to menu
+	if (game->getInput()->wasKeyPressed(SDLK_ESCAPE)){
+		game->setScreen(new MapScreen(game));
+		return;
+	}
+
 }

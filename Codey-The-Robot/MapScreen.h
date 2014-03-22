@@ -4,6 +4,7 @@
 #include "Screen.h"
 #include "Sprite.h"
 #include "Button.h"
+#include "MapCodey.h"
 
 class MapScreen : public Screen
 {
@@ -19,6 +20,7 @@ private:
 	int xoffset;
 	std::unique_ptr<Button> playButton;
 	std::unique_ptr<Button> menuButton;
+	std::shared_ptr<MapCodey> codey;
 };
 
 #endif //MAP_SCREEN_H_

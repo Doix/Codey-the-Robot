@@ -88,12 +88,6 @@ void Game::eventLoop(){
 			}
 		}
 
-		//Check if Escape key pressed - quits game
-		if (input.wasKeyPressed(SDLK_ESCAPE)){
-			quit();
-		}
-
-
 		//check time elapsed since last update method called 
 		const int currentTimeMs = SDL_GetTicks();
 

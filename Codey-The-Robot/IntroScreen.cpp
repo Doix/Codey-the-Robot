@@ -20,14 +20,23 @@ void IntroScreen::draw() {
 }
 
 void IntroScreen::update(int time) {
+	//Check if Escape key pressed - back to menu
+	if (game->getInput()->wasKeyPressed(SDLK_ESCAPE)){
+		quit();
+		return;
+	}
 	if (game->getInput()->wasMouseClicked()) {
 		int x, y;
 		std::tie(x, y) = game->getInput()->getMouseClick();
 		if (x > 380 && x < 560 && y > 282 && y < 408 ) {
-			if (y < 328)
+			if (y < 328) {
 				start();
-			else
+				return;
+			}
+			else {
 				quit();
+				return;
+			}
 		}
 		printf("%d %d\n", x, y ); 
 	}

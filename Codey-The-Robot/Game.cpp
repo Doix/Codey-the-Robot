@@ -77,6 +77,12 @@ void Game::eventLoop(){
 			case SDL_MOUSEBUTTONDOWN:
 				input.MouseClickEvent(event);
 				break;
+			case SDL_MOUSEBUTTONUP:
+				input.MouseReleasedEvent(event);
+				break;
+			case SDL_MOUSEMOTION:
+				input.MouseMotionEvent(event);
+				break;
 			default:
 				break;
 			}

@@ -12,7 +12,9 @@ Input::~Input()
 void Input::beginNewFrame(){
 	pressedKeys.clear();
 	releasedKeys.clear();
-	mouseClicked = false; //TODO: more generic
+	mouseClicked = false;
+	std::get<0>(motion) = 0;
+	std::get<1>(motion) = 0;
 }
 
 //if keydown, add this to the pressedKeys and heldKeys maps with value of true (false by default)
@@ -31,9 +33,23 @@ void Input::KeyUpEvent(const SDL_Event& event){
 void Input::MouseClickEvent(const SDL_Event& event) {
 	if (event.button.button == SDL_BUTTON_LEFT){
 		mouseClicked = true; //TODO: make more generic
+		mouseHeld = true;
 		leftClick = std::make_tuple(event.button.x, event.button.y);
 	}
 }
+
+void Input::MouseReleasedEvent(const SDL_Event& event) {
+	if (event.button.button == SDL_BUTTON_LEFT){
+		mouseHeld = false;
+	}
+}
+
+void Input::MouseMotionEvent(const SDL_Event& event){
+	if (mouseHeld) {
+		motion = std::make_tuple(event.motion.xrel, event.motion.yrel);
+	}
+}
+
 
 //check if a key was pressed
 bool Input::wasKeyPressed(SDL_Keycode key){
@@ -54,6 +70,14 @@ bool Input::wasMouseClicked(){
 	return mouseClicked;
 }
 
+bool Input::isMouseHeld(){
+	return mouseHeld;
+}
+
 std::tuple<int, int> Input::getMouseClick(){
 	return leftClick;
+}
+
+std::tuple<int, int> Input::getMouseMotion(){
+	return motion;
 }

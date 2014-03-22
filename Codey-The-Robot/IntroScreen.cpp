@@ -1,6 +1,6 @@
 #include "IntroScreen.h"
 #include "Sprite.h"
-#include "GameScreen.h"
+#include "MapScreen.h"
 
 namespace {
 	const std::string MENU_FILE_PATH = "content/menu.png";
@@ -38,7 +38,7 @@ void IntroScreen::quit(){
 }
 
 void IntroScreen::start() {
-	game->setScreen(new GameScreen(game));
+	game->setScreen(new MapScreen(game));
 }
 
 void IntroScreen::initializeSprites(Graphics& graphics) {

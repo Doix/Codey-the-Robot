@@ -15,7 +15,7 @@ namespace {
 MapScreen::MapScreen(Game* game) : Screen(game)
 {
 
-	codey.reset(new MapCodey(*game->getGraphics(), 1 * Game::TILE_SIZE, 1 * Game::TILE_SIZE));
+	codey.reset(new MapCodey(*game->getGraphics(), 46, 308));
 
 	texture = game->getGraphics()->loadTexture(MAP_FILE_PATH);
 	xoffset = 0;
@@ -29,6 +29,11 @@ MapScreen::MapScreen(Game* game) : Screen(game)
 	menuButton.reset(new Button(*game->getGraphics(), BUTTON_FILE_PATH, 
 		261, 0, 260, 52, Rectangle(475, 426, 260, 52)));
 
+	circles[Rectangle(46, 312, 102, 97)] = std::make_tuple(46, 308);
+
+	circles[Rectangle(242, 311, 102, 97)] = std::make_tuple(250, 311);
+
+	circles[Rectangle(62, 21, 102, 97)] = std::make_tuple(70, 23);
 }
 
 MapScreen::~MapScreen()
@@ -51,14 +56,14 @@ void MapScreen::draw() {
 
 void MapScreen::update(int time) {
 
-	codey->update(time);
-
 	if (game->getInput()->isMouseHeld()) {
 		int xrel, yrel;
 		std::tie(xrel, yrel) = game->getInput()->getMouseMotion();
 		xoffset = std::max(0, std::min(xoffset - xrel, 940));;
 		sourceRect.x = xoffset;
 	}
+
+	codey->update(time, xoffset);
 
 	if (game->getInput()->wasMouseClicked()) {
 		int x, y;
@@ -75,6 +80,16 @@ void MapScreen::update(int time) {
 		}
 		else { // possible circle press
 
+			x += xoffset;
+
+			//codey->moveTo(x, y);
+			for (auto circle : circles) {
+				if (circle.first.contains(x, y)) {
+					int posX, posY;
+					std::tie(posX, posY) = circle.second;
+					codey->moveTo(posX, posY);
+				}
+			}
 		}
 		printf("%d %d\n", x, y);
 	}

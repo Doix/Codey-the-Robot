@@ -31,6 +31,11 @@ public:
 		return true;
 	}
 
+	// needed so that we can use Rectangle as a key for std::map
+	bool operator<(const Rectangle& rect1) const {
+		return (x + y + width + height) < (rect1.x + rect1.y + rect1.width + rect1.height);
+	}
+
 private:
 	const int x, y, width, height; 
 };

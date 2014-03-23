@@ -8,7 +8,8 @@ class MapCodey : public Codey
 public:
 	MapCodey(Graphics& graphics, int x, int y);
 	~MapCodey();
-	void update(int elapsedTimeMs);
+	void update(int elapsedTimeMs,int xoffset);
+	void moveTo(int x, int y); 
 protected:
 
 };

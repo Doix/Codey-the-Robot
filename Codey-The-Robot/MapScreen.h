@@ -5,6 +5,8 @@
 #include "Sprite.h"
 #include "Button.h"
 #include "MapCodey.h"
+#include "Rectangle.h"
+
 
 class MapScreen : public Screen
 {
@@ -21,6 +23,9 @@ private:
 	std::unique_ptr<Button> playButton;
 	std::unique_ptr<Button> menuButton;
 	std::shared_ptr<MapCodey> codey;
+
+	std::map< Rectangle, std::tuple<int, int>> circles;
+
 };
 
 #endif //MAP_SCREEN_H_

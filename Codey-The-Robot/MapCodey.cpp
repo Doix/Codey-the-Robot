@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "AnimatedSprite.h"
 #include "MapCodey.h"
+#include "Rectangle.h"
 
 
 
@@ -14,7 +15,13 @@ MapCodey::~MapCodey()
 {
 }
 
+void MapCodey::moveTo(int x, int y) {
+	originX = x;
+	originY = y;
+}
 
-void MapCodey::update(int elapsedTimeMs){
+void MapCodey::update(int elapsedTimeMs,int xoffset){
 	sprites[getSpriteState()]->update(elapsedTimeMs);
+	PosX = originX - xoffset;
+	PosY = originY;
 }

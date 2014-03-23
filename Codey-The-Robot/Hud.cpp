@@ -74,8 +74,8 @@ void Hud::click(std::tuple<int, int> clicked) {
 		if (x > 666 && x < 926 && y >375 && y < 470) {
 			x -= 655;
 			y -= 375;
-			int col = x / (BUTTON_SIZE + 10);
-			int row = y / BUTTON_SIZE;
+			unsigned int col = x / (BUTTON_SIZE + 10);
+			unsigned int row = y / BUTTON_SIZE;
 			//TODO:: will need to be updated to handle multiple rows
 			//when we have enough commands
 			if (col < availableCommands.size()) {
@@ -90,7 +90,7 @@ void Hud::click(std::tuple<int, int> clicked) {
 			int col = x / (BUTTON_SIZE + 10);
 			int row = y / BUTTON_SIZE;
 
-			int index = col + row * 6;
+			unsigned int index = col + row * 6;
 			if (index < player->getCommands()->size()) {
 				player->removeCommand(index);
 			}

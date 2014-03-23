@@ -6,11 +6,12 @@
 #include "Codey.h"
 #include "Enemy.h"
 #include "Hud.h"
+#include "Level.h"
 
 class GameScreen : public Screen
 {
 public:
-	GameScreen(Game* game);
+	GameScreen(Game* game, std::shared_ptr<Level> level);
 	~GameScreen();
 	virtual void draw();
 	virtual void update(int elapsedTimeInMs);
@@ -20,6 +21,7 @@ private:
 	std::shared_ptr<Codey> player;
 	std::shared_ptr<Enemy> firstEnemy;
 	std::unique_ptr<Hud> hud;
+	std::shared_ptr<Level> level;
 };
 
 #endif //GAME_SCREEN_H_

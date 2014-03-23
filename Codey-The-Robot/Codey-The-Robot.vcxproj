@@ -23,6 +23,7 @@
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="IntroScreen.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="LoopCommand.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ControlledSprite.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="ControlledSprite.h" />

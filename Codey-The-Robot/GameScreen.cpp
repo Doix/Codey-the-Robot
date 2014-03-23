@@ -1,8 +1,9 @@
 #include "GameScreen.h"
 #include "MapScreen.h"
 #include "Rectangle.h"
+#include "Level.h"
 
-GameScreen::GameScreen(Game* game) : Screen(game)
+GameScreen::GameScreen(Game* game, std::shared_ptr<Level> level) : level(level),Screen(game)
 {
 	//Initialise Map & Player
 	player.reset(new Codey(*game->getGraphics(), 1 * Game::TILE_SIZE, 1 * Game::TILE_SIZE));
@@ -43,5 +44,4 @@ void GameScreen::update(int elapsedTimeInMs) {
 		game->setScreen(new MapScreen(game));
 		return;
 	}
-
 }

@@ -54,11 +54,36 @@ Map* Map::createTestMap(Graphics& graphics){
 
 		}
 	}
-
-
-
 	return map;
 }
+
+
+
+Map* Map::createMapFromFile(Graphics& graphics, std::string filePath){
+
+	Map* map = new Map();
+
+	//ensure Tiles has the correct size (i.e. numRows*numCols in size)
+	map->tiles = vector<vector<Tile> >(
+		numRows, vector<Tile >(
+		numCols, Tile()));
+
+	std::shared_ptr<Sprite> sprite(new Sprite(graphics, MAP_FILE_PATH,
+		getMapTileXY(6), getMapTileXY(7),
+		MAP_TILE_SIZE, MAP_TILE_SIZE));
+
+	Tile tile(GROUND_TILE, sprite);
+
+	for (int row = 0; row < numRows; ++row){
+		for (int col = 0; col < numCols; ++col){
+
+			map->tiles[row][col] = tile;
+
+		}
+	}
+	return map;
+}
+
 
 vector<Map::CollisionTile> Map::getCollidingTiles(const Rectangle& rectangle) const{
 

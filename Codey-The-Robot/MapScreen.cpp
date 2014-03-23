@@ -5,6 +5,7 @@
 #include <algorithm>    // std::max
 #include "IntroScreen.h"
 #include "GameScreen.h"
+#include <string>
 
 
 namespace {
@@ -29,11 +30,11 @@ MapScreen::MapScreen(Game* game) : Screen(game)
 	menuButton.reset(new Button(*game->getGraphics(), BUTTON_FILE_PATH, 
 		261, 0, 260, 52, Rectangle(475, 426, 260, 52)));
 
-	circles[Rectangle(46, 312, 102, 97)] = std::make_tuple(46, 308);
+	circles[Rectangle(46, 312, 102, 97)] = std::make_tuple(46, 308,"1");
 
-	circles[Rectangle(242, 311, 102, 97)] = std::make_tuple(250, 311);
+	circles[Rectangle(242, 311, 102, 97)] = std::make_tuple(250, 311,"2");
 
-	circles[Rectangle(62, 21, 102, 97)] = std::make_tuple(70, 23);
+	circles[Rectangle(62, 21, 102, 97)] = std::make_tuple(70, 23,"3");
 }
 
 MapScreen::~MapScreen()
@@ -70,7 +71,9 @@ void MapScreen::update(int time) {
 		std::tie(x, y) = game->getInput()->getMouseClick();
 		if (y > 420) { // possible button press
 			if (playButton->isClicked(x,y)) {
-				game->setScreen(new GameScreen(game));
+				
+				game->setScreen(new GameScreen(game, 
+					std::shared_ptr<Level>(new Level(level))));
 				return;
 			}
 			else if (menuButton->isClicked(x,y)){
@@ -86,7 +89,7 @@ void MapScreen::update(int time) {
 			for (auto circle : circles) {
 				if (circle.first.contains(x, y)) {
 					int posX, posY;
-					std::tie(posX, posY) = circle.second;
+					std::tie(posX, posY, level) = circle.second;
 					codey->moveTo(posX, posY);
 				}
 			}

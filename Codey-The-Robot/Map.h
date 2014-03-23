@@ -33,6 +33,7 @@ public:
 	std::vector<CollisionTile> getCollidingTiles(const Rectangle& rectangle) const;
 
 	static Map* createTestMap(Graphics& graphics);
+	static Map* createMapFromFile(Graphics& graphics, std::string filePath);
 
 	void update(int elapsedTimeMs);
 	void draw(Graphics& graphics) const;

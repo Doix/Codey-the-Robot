@@ -6,7 +6,7 @@
 #include "Button.h"
 #include "MapCodey.h"
 #include "Rectangle.h"
-
+#include <string>
 
 class MapScreen : public Screen
 {
@@ -15,6 +15,7 @@ public:
 	~MapScreen();
 	virtual void draw();
 	virtual void update(int elapsedTimeInMs);
+	std::string level;
 
 private:
 	SDL_Texture* texture;
@@ -24,7 +25,7 @@ private:
 	std::unique_ptr<Button> menuButton;
 	std::shared_ptr<MapCodey> codey;
 
-	std::map< Rectangle, std::tuple<int, int>> circles;
+	std::map< Rectangle, std::tuple<int, int, std::string>> circles;
 
 };
 

@@ -28,7 +28,8 @@ public:
 	std::list < std::shared_ptr<Command>>* getCommands();
 	void removeCommand(int index);
 	bool isBusy();
-
+	void AddRef() { /* do nothing */ }
+	void ReleaseRef() { /* do nothing */ }
 	Rectangle damageRectangle() const;
 	Rectangle clickRectangle() const;
 

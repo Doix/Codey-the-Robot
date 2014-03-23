@@ -19,6 +19,6 @@ protected:
 	bool finishedDying;
 	int deathSeqTimer;
 };
-
+Codey *Codey_Factory(Graphics& graphics, int x, int y);
 #endif //CODEY_SPRITE_H_
 

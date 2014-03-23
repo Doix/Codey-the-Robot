@@ -67,14 +67,15 @@ void Game::eventLoop(){
 	_input = &input;
 
 
-	asIScriptEngine *engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
-	// Set the message callback to receive information on errors in human readable form.
-	int r = engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
-	// AngelScript doesn't have a built-in string type, as there is no definite standard 
-	// string type for C++ applications. Every developer is free to register it's own string type.
-	// The SDK do however provide a standard add-on for registering a string type, so it's not
-	// necessary to implement the registration yourself if you don't want to.
+	engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
+	engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
 	RegisterStdString(engine);
+
+
+	engine->RegisterObjectType("Codey", 0, asOBJ_REF); // asOBJ_REF because you wanted a reference call
+	engine->RegisterObjectBehaviour("Codey", asBEHAVE_ADDREF, "void f()", asMETHOD(Codey, AddRef), asCALL_THISCALL);
+	engine->RegisterObjectBehaviour("Codey", asBEHAVE_RELEASE, "void f()", asMETHOD(Codey, ReleaseRef), asCALL_THISCALL);
+	engine->RegisterObjectBehaviour("Codey", asBEHAVE_FACTORY, "Codey@ f()", asFUNCTION(Codey_Factory), asCALL_CDECL);
 
 
 	setScreen(new IntroScreen(this));

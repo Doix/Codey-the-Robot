@@ -14,6 +14,10 @@
 #include "IntroScreen.h"
 
 
+#include <angelscript.h>
+#include "add_on/scriptstdstring/scriptstdstring.h"
+#include "add_on/scriptbuilder/scriptbuilder.h"
+
 //Constants
 namespace{
 	const int FPS = 60;
@@ -38,6 +42,18 @@ Game::~Game()
 	SDL_Quit();
 }
 
+void MessageCallback(const asSMessageInfo *msg, void *){
+	if (msg->section[0] == '\0'){
+		printf("%s: %s\n", msg->type == asMSGTYPE_ERROR ? "ERROR" : msg->type == asMSGTYPE_WARNING ? "WARNING" : "INFORMATION", msg->message);
+	}
+	else if (msg->row == 0 && msg->col == 0){
+		printf("%s: %s : %s\n", msg->section, msg->type == asMSGTYPE_ERROR ? "ERROR" : msg->type == asMSGTYPE_WARNING ? "WARNING" : "INFORMATION", msg->message);
+	}
+	else{
+		printf("%s(%d, %d): %s : %s\n", msg->section, msg->row, msg->col, msg->type == asMSGTYPE_ERROR ? "ERROR" : msg->type == asMSGTYPE_WARNING ? "WARNING" : "INFORMATION", msg->message);
+	}
+}
+
 //Main Event loop
 void Game::eventLoop(){
 
@@ -49,6 +65,16 @@ void Game::eventLoop(){
 	SDL_Event event;
 	Input input;
 	_input = &input;
+
+
+	asIScriptEngine *engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
+	// Set the message callback to receive information on errors in human readable form.
+	int r = engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
+	// AngelScript doesn't have a built-in string type, as there is no definite standard 
+	// string type for C++ applications. Every developer is free to register it's own string type.
+	// The SDK do however provide a standard add-on for registering a string type, so it's not
+	// necessary to implement the registration yourself if you don't want to.
+	RegisterStdString(engine);
 
 
 	setScreen(new IntroScreen(this));

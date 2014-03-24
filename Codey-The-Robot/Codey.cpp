@@ -1,6 +1,7 @@
 #include "Codey.h"
 #include "Game.h"
 #include "AnimatedSprite.h"
+#include <vector>
 
 namespace{
 	const int CODEY_TILE_SIZE = 80;
@@ -21,35 +22,30 @@ Codey::~Codey()
 }
 
 void Codey::initialiseSpriteSheets(Graphics& graphics){
-	sprites[SpriteState(MotionType::STANDING)] =
-		std::unique_ptr<Sprite>(new AnimatedSprite(
-		graphics,
-		CODEY_FILE_PATH,
-		0 * CODEY_TILE_SIZE, 0 * CODEY_TILE_SIZE,
-		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
+	
 
-	sprites[SpriteState(MotionType::WALKING_LEFT)] =
+	sprites[SpriteState(MotionType::WALKING, DirectionFacing::LEFT)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_REVERSE_FILE_PATH,
 		2 * CODEY_TILE_SIZE, 0 * CODEY_TILE_SIZE,
 		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 6));
 
-	sprites[SpriteState(MotionType::WALKING_RIGHT)] =
+	sprites[SpriteState(MotionType::WALKING, DirectionFacing::RIGHT)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_FILE_PATH,
 		2 * CODEY_TILE_SIZE, 0 * CODEY_TILE_SIZE,
 		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 6));
 
-	sprites[SpriteState(MotionType::WALKING_UP)] =
+	sprites[SpriteState(MotionType::WALKING, DirectionFacing::UP)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_FILE_PATH,
 		0 * CODEY_TILE_SIZE, 5 * CODEY_TILE_SIZE,
 		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 6));
 
-	sprites[SpriteState(MotionType::WALKING_DOWN)] =
+	sprites[SpriteState(MotionType::WALKING, DirectionFacing::DOWN)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_FILE_PATH,
@@ -69,6 +65,37 @@ void Codey::initialiseSpriteSheets(Graphics& graphics){
 		CODEY_FILE_PATH,
 		0 * CODEY_TILE_SIZE, 2 * CODEY_TILE_SIZE,
 		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
+
+	//TODO update these sprites
+
+	sprites[SpriteState(MotionType::STANDING, DirectionFacing::RIGHT)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		CODEY_FILE_PATH,
+		0 * CODEY_TILE_SIZE, 0 * CODEY_TILE_SIZE,
+		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
+
+	sprites[SpriteState(MotionType::STANDING, DirectionFacing::LEFT)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		CODEY_FILE_PATH,
+		0 * CODEY_TILE_SIZE, 2 * CODEY_TILE_SIZE,
+		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
+
+	sprites[SpriteState(MotionType::STANDING, DirectionFacing::DOWN)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		CODEY_FILE_PATH,
+		0 * CODEY_TILE_SIZE, 2 * CODEY_TILE_SIZE,
+		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
+
+	sprites[SpriteState(MotionType::STANDING, DirectionFacing::UP)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		CODEY_FILE_PATH,
+		0 * CODEY_TILE_SIZE, 2 * CODEY_TILE_SIZE,
+		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
+	
 }
 
 void Codey::resetSprite(){

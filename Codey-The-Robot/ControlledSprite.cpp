@@ -31,6 +31,8 @@ ControlledSprite::ControlledSprite(Graphics& graphics, int x, int y)
 	
 	//initialise state
 	currentMotion = MotionType::STANDING;
+	currentDirection = DirectionFacing::RIGHT;
+
 }
 
 //Destructor - release the sprite not necessary, scoped pointers!
@@ -101,7 +103,7 @@ std::list < std::shared_ptr<Command>>* ControlledSprite::getCommands() {
 }
 
 SpriteState ControlledSprite::getSpriteState(){
-	return SpriteState(currentMotion);
+	return SpriteState(currentMotion, currentDirection);
 }
 
 //get Damage rectangle
@@ -270,70 +272,109 @@ ControlledSprite::CollisionInfo ControlledSprite::getCollisionInfo(const Map& ma
 void ControlledSprite::executeCommand(CommandAction command){
 	if (!busy){
 		switch (curCommand){
-		case CommandAction::LEFT:
-			DestX = static_cast<int>(round((PosX - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
-			currentMotion = MotionType::WALKING_LEFT;
-			velocityX = -WALKING_SPEED;
+		case CommandAction::MOVE_FORWARD:
+			currentMotion = MotionType::WALKING;
+			switch (currentDirection){
+			case DirectionFacing::LEFT:
+				DestX = static_cast<int>(round((PosX - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
+				velocityX = -WALKING_SPEED;
+				break;
+			case DirectionFacing::RIGHT:
+				DestX = static_cast<int>(round((PosX + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
+				velocityX = WALKING_SPEED;
+				break;
+			case DirectionFacing::DOWN:
+				DestY = static_cast<int>(round((PosY + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
+				velocityY = WALKING_SPEED;
+				break;
+			case DirectionFacing::UP:
+				DestY = static_cast<int>(round((PosY - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
+				velocityY = -WALKING_SPEED;
+				break;
+			}
 			break;
-		case CommandAction::RIGHT:
-			DestX = static_cast<int>(round((PosX + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
-			currentMotion = MotionType::WALKING_RIGHT;
-			velocityX = WALKING_SPEED;
+		case CommandAction::TURN_LEFT:
+			switch (currentDirection){
+			case DirectionFacing::LEFT:
+				currentDirection = DirectionFacing::DOWN;
+				break;
+			case DirectionFacing::RIGHT:
+				currentDirection = DirectionFacing::UP;
+				break;
+			case DirectionFacing::DOWN:
+				currentDirection = DirectionFacing::RIGHT;
+				break;
+			case DirectionFacing::UP:
+				currentDirection = DirectionFacing::LEFT;
+				break;
+			}
 			break;
-		case CommandAction::DOWN:
-			DestY = static_cast<int>(round((PosY + Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
-			currentMotion = MotionType::WALKING_DOWN;
-			velocityY = WALKING_SPEED;
-			break;
-		case CommandAction::UP:
-			DestY = static_cast<int>(round((PosY - Game::TILE_SIZE) / Game::TILE_SIZE)*Game::TILE_SIZE);
-			currentMotion = MotionType::WALKING_UP;
-			velocityY = -WALKING_SPEED;
+		case CommandAction::TURN_RIGHT:
+			switch (currentDirection){
+			case DirectionFacing::LEFT:
+				currentDirection = DirectionFacing::UP;
+				break;
+			case DirectionFacing::RIGHT:
+				currentDirection = DirectionFacing::DOWN;
+				break;
+			case DirectionFacing::DOWN:
+				currentDirection = DirectionFacing::LEFT;
+				break;
+			case DirectionFacing::UP:
+				currentDirection = DirectionFacing::RIGHT;
+				break;
+			}
 			break;
 		}
 	}
 	else{
-		switch (curCommand){
-		case CommandAction::LEFT:
-			if (PosX <= DestX) {
-				busy = false;
-				if (PosX < DestX) {
-					PosX = DestX;
+		if (currentMotion == MotionType::WALKING){
+		
+			switch (currentDirection){
+			case DirectionFacing::LEFT:
+				if (PosX <= DestX) {
+					stopMoving();
+					if (PosX < DestX) {
+						PosX = DestX;
+					}
 				}
-				velocityX = 0;
-			}
-			break;
-		case CommandAction::RIGHT:
-			if (PosX >= DestX) {
-				busy = false;
-				if (PosX > DestX) {
-					PosX = DestX;
+				break;
+			case DirectionFacing::RIGHT:
+				if (PosX >= DestX) {
+					stopMoving();
+					if (PosX > DestX) {
+						PosX = DestX;
+					}
 				}
-				velocityX = 0;
-			}
-			break;
-		case CommandAction::DOWN:
-			if (PosY >= DestY) {
-				busy = false;
-				if (PosY > DestY) {
-					PosY = DestY;
+				break;
+			case DirectionFacing::DOWN:
+				if (PosY >= DestY) {
+					stopMoving();
+					if (PosY > DestY) {
+						PosY = DestY;
+					}
 				}
-				velocityY = 0;
-			}
-			break;
-		case CommandAction::UP:
-			if (PosY <= DestY) {
-				busy = false;
-				if (PosY < DestY) {
-					PosY = DestY;
+				break;
+			case DirectionFacing::UP:
+				if (PosY <= DestY) {
+					stopMoving();
+					if (PosY < DestY) {
+						PosY = DestY;
+					}
 				}
-				velocityY = 0;
+				break;
 			}
-			break;
 		}
 	}
 }
 
 bool ControlledSprite::isBusy() {
 	return busy;
+}
+
+void ControlledSprite::stopMoving(){
+	busy = false;
+	velocityX = 0;
+	velocityY = 0;
+	currentMotion = MotionType::STANDING;
 }

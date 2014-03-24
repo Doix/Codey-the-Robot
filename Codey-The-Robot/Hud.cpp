@@ -23,7 +23,7 @@ Hud::Hud(Graphics& graphics, int x, int y, std::shared_ptr<ControlledSprite> pla
 	initializeSprites(graphics);
 
 	// lets just hardcode this for now
-	availableCommands = std::vector<CommandAction>{CommandAction::LEFT, CommandAction::DOWN, CommandAction::UP, CommandAction::RIGHT};
+	availableCommands = std::vector<CommandAction>{CommandAction::MOVE_FORWARD, CommandAction::TURN_LEFT, CommandAction::TURN_RIGHT};
 	setPlayer(player);
 }
 
@@ -101,10 +101,10 @@ void Hud::click(std::tuple<int, int> clicked) {
 void Hud::initializeSprites(Graphics& graphics) {
 	// very very very ugly
 	// need a better solution for this
-	buttons[CommandAction::RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 0, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[CommandAction::DOWN] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 1, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[CommandAction::UP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 2, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[CommandAction::LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 3, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::TURN_RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 0, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::LOOP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 1, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::MOVE_FORWARD] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 2, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::TURN_LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 3, 0, BUTTON_SIZE, BUTTON_SIZE));
 	buttons[CommandAction::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 4, 0, BUTTON_SIZE, BUTTON_SIZE));
 
 }

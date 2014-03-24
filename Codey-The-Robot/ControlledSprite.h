@@ -56,6 +56,7 @@ protected:
 
 	SpriteState getSpriteState();
 	MotionType currentMotion;
+	DirectionFacing currentDirection;
 
 	Rectangle leftCollision(int delta) const;
 	Rectangle rightCollision(int delta) const;

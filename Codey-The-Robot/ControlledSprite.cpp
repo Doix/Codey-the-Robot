@@ -17,21 +17,11 @@ namespace{
 
 ControlledSprite::ControlledSprite(Graphics& graphics, int x, int y)
 {
-	//set the position of X & Y to the parameter
-	PosX = x;
-	PosY = y;
-
 	//remember the initial position of codey
 	originX = x;
 	originY = y;
 	
-	//initialise velocity and acceleration of the player to 0
-	velocityX = 0.0f;
-	velocityY = 0.0f;
-	
-	//initialise state
-	currentMotion = MotionType::STANDING;
-	currentDirection = DirectionFacing::RIGHT;
+	resetSprite();
 
 }
 
@@ -45,8 +35,10 @@ void ControlledSprite::resetSprite(){
 	PosY = originY;
 	DestX = PosX;
 	DestY = PosY;
-	velocityX = 0;
-	velocityY = 0;
+	velocityX = 0.0f;
+	velocityY = 0.0f;
+	currentMotion = MotionType::STANDING;
+	currentDirection = DirectionFacing::RIGHT;
 }
 //update the player position
 void ControlledSprite::update(int elapsedTimeMs, const Map& map){

@@ -78,22 +78,22 @@ void Codey::initialiseSpriteSheets(Graphics& graphics){
 	sprites[SpriteState(MotionType::STANDING, DirectionFacing::LEFT)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
-		CODEY_FILE_PATH,
-		0 * CODEY_TILE_SIZE, 2 * CODEY_TILE_SIZE,
+		CODEY_REVERSE_FILE_PATH,
+		0 * CODEY_TILE_SIZE, 0 * CODEY_TILE_SIZE,
 		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
 
 	sprites[SpriteState(MotionType::STANDING, DirectionFacing::DOWN)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_FILE_PATH,
-		0 * CODEY_TILE_SIZE, 2 * CODEY_TILE_SIZE,
+		6 * CODEY_TILE_SIZE, 5 * CODEY_TILE_SIZE,
 		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
 
 	sprites[SpriteState(MotionType::STANDING, DirectionFacing::UP)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		CODEY_FILE_PATH,
-		0 * CODEY_TILE_SIZE, 2 * CODEY_TILE_SIZE,
+		0 * CODEY_TILE_SIZE, 5 * CODEY_TILE_SIZE,
 		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
 	
 }

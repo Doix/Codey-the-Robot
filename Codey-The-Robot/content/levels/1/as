@@ -1,0 +1,7 @@
+void update () {
+
+}
+
+void init() {
+	map.setTile(1,1,1);
+}

@@ -13,11 +13,6 @@
 #include "Rectangle.h"
 #include "IntroScreen.h"
 
-
-#include <angelscript.h>
-#include "add_on/scriptstdstring/scriptstdstring.h"
-#include "add_on/scriptbuilder/scriptbuilder.h"
-
 //Constants
 namespace{
 	const int FPS = 60;
@@ -42,18 +37,6 @@ Game::~Game()
 	SDL_Quit();
 }
 
-void MessageCallback(const asSMessageInfo *msg, void *){
-	if (msg->section[0] == '\0'){
-		printf("%s: %s\n", msg->type == asMSGTYPE_ERROR ? "ERROR" : msg->type == asMSGTYPE_WARNING ? "WARNING" : "INFORMATION", msg->message);
-	}
-	else if (msg->row == 0 && msg->col == 0){
-		printf("%s: %s : %s\n", msg->section, msg->type == asMSGTYPE_ERROR ? "ERROR" : msg->type == asMSGTYPE_WARNING ? "WARNING" : "INFORMATION", msg->message);
-	}
-	else{
-		printf("%s(%d, %d): %s : %s\n", msg->section, msg->row, msg->col, msg->type == asMSGTYPE_ERROR ? "ERROR" : msg->type == asMSGTYPE_WARNING ? "WARNING" : "INFORMATION", msg->message);
-	}
-}
-
 //Main Event loop
 void Game::eventLoop(){
 
@@ -65,18 +48,6 @@ void Game::eventLoop(){
 	SDL_Event event;
 	Input input;
 	_input = &input;
-
-
-	engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
-	engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
-	RegisterStdString(engine);
-
-
-	engine->RegisterObjectType("Codey", 0, asOBJ_REF); // asOBJ_REF because you wanted a reference call
-	engine->RegisterObjectBehaviour("Codey", asBEHAVE_ADDREF, "void f()", asMETHOD(Codey, AddRef), asCALL_THISCALL);
-	engine->RegisterObjectBehaviour("Codey", asBEHAVE_RELEASE, "void f()", asMETHOD(Codey, ReleaseRef), asCALL_THISCALL);
-	engine->RegisterObjectBehaviour("Codey", asBEHAVE_FACTORY, "Codey@ f()", asFUNCTION(Codey_Factory), asCALL_CDECL);
-
 
 	setScreen(new IntroScreen(this));
 

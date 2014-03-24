@@ -8,17 +8,61 @@
 #include <regex>
 #include <string>
 #include <fstream>
+#include <angelscript.h>
+#include "add_on/scriptstdstring/scriptstdstring.h"
+#include "add_on/scriptbuilder/scriptbuilder.h"
 
 using std::regex;
 using std::string;
 using std::sregex_token_iterator;
 
+void MessageCallback(const asSMessageInfo *msg, void *){
+	if (msg->section[0] == '\0'){
+		printf("%s: %s\n", msg->type == asMSGTYPE_ERROR ? "ERROR" : msg->type == asMSGTYPE_WARNING ? "WARNING" : "INFORMATION", msg->message);
+	}
+	else if (msg->row == 0 && msg->col == 0){
+		printf("%s: %s : %s\n", msg->section, msg->type == asMSGTYPE_ERROR ? "ERROR" : msg->type == asMSGTYPE_WARNING ? "WARNING" : "INFORMATION", msg->message);
+	}
+	else{
+		printf("%s(%d, %d): %s : %s\n", msg->section, msg->row, msg->col, msg->type == asMSGTYPE_ERROR ? "ERROR" : msg->type == asMSGTYPE_WARNING ? "WARNING" : "INFORMATION", msg->message);
+	}
+}
+
+
+
 Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics) {
 	map.reset(Map::createMapFromFile(*graphics, "content/levels/" + name + "/map"));
-
 	LoadEntities();
+
+
+	engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
+	engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
+	RegisterStdString(engine);
+
+	engine->RegisterObjectType("Map", 0, asOBJ_REF); // asOBJ_REF because you wanted a reference call
+	engine->RegisterObjectBehaviour("Map", asBEHAVE_ADDREF, "void f()", asMETHOD(Map, AddRef), asCALL_THISCALL);
+	engine->RegisterObjectBehaviour("Map", asBEHAVE_RELEASE, "void f()", asMETHOD(Map, ReleaseRef), asCALL_THISCALL);
+	
+	
+	engine->RegisterObjectMethod("Map", "void setTile(int,int ,int)", asMETHOD(Map, setTile), asCALL_THISCALL);
+	engine->RegisterGlobalProperty("Map map", map.get());
+
+	CScriptBuilder builder;
+	builder.StartNewModule(engine, "MyModule");
+	builder.AddSectionFromFile((string("content/levels/") + name + "/as").c_str());
+	builder.BuildModule();
+
+
+	asIScriptModule *mod = engine->GetModule("MyModule");
+	asIScriptFunction *func = mod->GetFunctionByDecl("void init()");
+	asIScriptContext *ctx = engine->CreateContext();
+	ctx->Prepare(func);
+	ctx->Execute();
+	ctx->Release();
+
 }
 Level::~Level() {
+	engine->Release();
 }
 
 void Level::start() {
@@ -57,6 +101,14 @@ void Level::LoadEntities() {
 }
 
 void Level::update(int elapsedTimeInMs) {
+	
+	asIScriptModule *mod = engine->GetModule("MyModule");
+	asIScriptFunction *func = mod->GetFunctionByDecl("void update()");
+	asIScriptContext *ctx = engine->CreateContext();
+	ctx->Prepare(func);
+	ctx->Execute();
+	ctx->Release();
+	
 	map->update(elapsedTimeInMs);
 	for (auto player : players)
 		player->update(elapsedTimeInMs, *map);
@@ -70,7 +122,6 @@ void Level::update(int elapsedTimeInMs) {
 			}
 		}
 	}
-
 }
 
 void Level::draw() {
@@ -86,3 +137,4 @@ void Level::draw() {
 std::vector<std::shared_ptr<Codey>> Level::getPlayers() {
 	return players;
 }
+

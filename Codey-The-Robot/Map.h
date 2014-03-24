@@ -16,6 +16,9 @@ class Map
 public:
 	Map(Graphics & graphics);
 	~Map();
+	// needed for angelscript
+	void AddRef() { /* do nothing */ }
+	void ReleaseRef() { /* do nothing */ }
 
 	enum TileType{ GROUND_TILE = 0, BARRIER_TILE = 1, TILE_OUT_OF_BOUNDS = 2 };
 	class CollisionTile

@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "Enemy.h"
 #include "Codey.h"
+#include "angelscript.h"
 
 class Level
 {
@@ -25,7 +26,7 @@ private:
 	std::vector < std::shared_ptr<Codey>> players;;
 	std::vector<std::shared_ptr<Enemy>> enemies;
 	void LoadEntities();
-
+	asIScriptEngine* engine;
 };
 
 #endif // LEVLE_H_

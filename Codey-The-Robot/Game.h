@@ -21,6 +21,8 @@ public:
 	Input* getInput();
 	void quit();
 
+	asIScriptEngine* getScriptEngine();
+
 private:
 	void eventLoop();
 	void update(int elapsedTimeInMs);

@@ -77,10 +77,6 @@ Map* Map::createMapFromFile(Graphics& graphics, string filePath){
 		numRows, vector<Tile >(
 		numCols, Tile()));
 
-	std::shared_ptr<Sprite> sprite(new Sprite(graphics, MAP_FILE_PATH,
-		getMapTileXY(6), getMapTileXY(7),
-		MAP_TILE_SIZE, MAP_TILE_SIZE));
-
 	std::ifstream fs(filePath);
 	string line;
 	regex re("[\\s,]+");

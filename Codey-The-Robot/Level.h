@@ -22,8 +22,9 @@ private:
 	Graphics* graphics;
 	std::unique_ptr<Map> map;
 	std::string name;
-	std::shared_ptr<Codey> player;
-	std::shared_ptr<Enemy> firstEnemy;
+	std::vector<std::shared_ptr<Codey>> players;
+	std::vector<std::shared_ptr<Enemy>> enemies;
+	void LoadEntities();
 
 };
 

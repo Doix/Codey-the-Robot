@@ -56,7 +56,7 @@ void ControlledSprite::update(int elapsedTimeMs, const Map& map){
 			if (!commands.isFinished()) {
 				curCommand = commands.getCommand();
 				executeCommand(curCommand);
-				busy = true;						
+									
 			}
 			else {
 				started = false;
@@ -271,6 +271,7 @@ ControlledSprite::CollisionInfo ControlledSprite::getCollisionInfo(const Map& ma
 
 void ControlledSprite::executeCommand(CommandAction command){
 	if (!busy){
+		busy = true;
 		switch (curCommand){
 		case CommandAction::MOVE_FORWARD:
 			currentMotion = MotionType::WALKING;
@@ -308,6 +309,7 @@ void ControlledSprite::executeCommand(CommandAction command){
 				currentDirection = DirectionFacing::LEFT;
 				break;
 			}
+			stopMoving();
 			break;
 		case CommandAction::TURN_RIGHT:
 			switch (currentDirection){
@@ -324,6 +326,7 @@ void ControlledSprite::executeCommand(CommandAction command){
 				currentDirection = DirectionFacing::RIGHT;
 				break;
 			}
+			stopMoving();
 			break;
 		}
 	}

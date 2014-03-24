@@ -68,6 +68,20 @@ void Enemy::initialiseSpriteSheets(Graphics& graphics){
 		graphics,
 		ENEMY_REVERSE_FILE_PATH,
 		422 - (36 * 4), 35,
+		36, 35, FPS, 1));
+
+	sprites[SpriteState(MotionType::STANDING, DirectionFacing::UP)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		ENEMY_REVERSE_FILE_PATH,
+		422 - (36 * 4), 35,
+		36, 35, FPS, 1));
+
+	sprites[SpriteState(MotionType::WALKING, DirectionFacing::UP)] =
+		std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		ENEMY_FILE_PATH,
+		0, 35,
 		36, 35, FPS, 4));
 }
 

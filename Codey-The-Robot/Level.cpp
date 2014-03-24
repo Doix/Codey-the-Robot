@@ -82,6 +82,6 @@ void Level::draw() {
 }
 
 
-std::shared_ptr<Codey> Level::getPlayer() {
-	return players[0];
+std::vector<std::shared_ptr<Codey>> Level::getPlayers() {
+	return players;
 }

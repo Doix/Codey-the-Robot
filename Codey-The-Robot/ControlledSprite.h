@@ -30,6 +30,7 @@ public:
 	bool isBusy();
 
 	Rectangle damageRectangle() const;
+	Rectangle clickRectangle() const;
 
 protected:
 	int PosX;

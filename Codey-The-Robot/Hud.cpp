@@ -67,11 +67,13 @@ void Hud::draw(Graphics& graphics){
 
 }
 
-void Hud::click(std::tuple<int, int> clicked) {
+bool Hud::click(std::tuple<int, int> clicked) {
 	int x, y;
+	bool ret = false;
 	std::tie(x, y) = clicked;
 	if (!player->isBusy()) {
 		if (x > 666 && x < 926 && y >375 && y < 470) {
+			ret = true;
 			x -= 655;
 			y -= 375;
 			unsigned int col = x / (BUTTON_SIZE + 10);
@@ -85,6 +87,7 @@ void Hud::click(std::tuple<int, int> clicked) {
 		}
 
 		if (x > 666 && x < 926 && y > 10 && y < 360) {
+			ret = true;
 			x -= 655;
 			y -= 21;
 			int col = x / (BUTTON_SIZE + 10);
@@ -96,6 +99,7 @@ void Hud::click(std::tuple<int, int> clicked) {
 			}
 		}
 	}
+	return ret;
 }
 
 void Hud::initializeSprites(Graphics& graphics) {

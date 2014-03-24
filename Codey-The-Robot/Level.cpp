@@ -14,7 +14,7 @@ using std::string;
 using std::sregex_token_iterator;
 
 Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics) {
-	map.reset(Map::createMapFromFile(*graphics, "content/levels/" + name + ".map"));
+	map.reset(Map::createMapFromFile(*graphics, "content/levels/" + name + "/map"));
 
 	LoadEntities();
 }
@@ -27,7 +27,7 @@ void Level::start() {
 }
 
 void Level::LoadEntities() {
-	std::ifstream fs("content/levels/" + name + ".entities");
+	std::ifstream fs("content/levels/" + name + "/entities");
 	string line;
 	regex re("[\\s,]+");
 

@@ -1,9 +1,9 @@
 void update () {
 	if (codey0.getRow() == 1 && codey0.getCol() == 1) {
-		map.setTile(5,5,1);
+		level.win();
 	}
 }
 
 void init() {
-
+	level.setTutorialText("weeeeeeeeeeeeee text goes here! Figure out how to draw it from here");
 }

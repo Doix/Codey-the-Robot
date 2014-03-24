@@ -129,6 +129,17 @@ void print(int i)
 	printf("%d\n",i);
 }
 
+void Level::levelWon() {
+	//TODO: SHOW WINSCREEN AND STUFF!
+	printf("won!\n");
+}
+
+void Level::setTutorialText(string &msg)
+{
+	//TODO: Do things with this
+	printf("%s", msg.c_str());
+}
+
 void Level::setupAngelscript() {
 	engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
 	engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
@@ -156,6 +167,14 @@ void Level::setupAngelscript() {
 
 	engine->RegisterGlobalProperty("Map map", map.get());
 	engine->RegisterGlobalFunction("void print(int)", asFUNCTION(print), asCALL_CDECL);
+
+	engine->RegisterObjectType("Level", 0, asOBJ_REF); // asOBJ_REF because you wanted a reference call
+	engine->RegisterObjectBehaviour("Level", asBEHAVE_ADDREF, "void f()", asMETHOD(Enemy, AddRef), asCALL_THISCALL);
+	engine->RegisterObjectBehaviour("Level", asBEHAVE_RELEASE, "void f()", asMETHOD(Enemy, ReleaseRef), asCALL_THISCALL);
+
+	engine->RegisterGlobalProperty("Level level", this);
+	engine->RegisterObjectMethod("Level", "void win()", asMETHOD(Level, levelWon), asCALL_THISCALL);
+	engine->RegisterObjectMethod("Level", "void setTutorialText(const string &in)", asMETHOD(Level, setTutorialText), asCALL_THISCALL);
 
 	int i = 0;
 	for (auto player : players) {

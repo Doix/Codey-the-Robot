@@ -9,6 +9,8 @@
 #include "Codey.h"
 #include "angelscript.h"
 
+using std::string;
+
 class Level
 {
 public:
@@ -18,11 +20,13 @@ public:
 	void draw();
 	std::vector < std::shared_ptr<Codey>> getPlayers();
 	void start();
+	void levelWon();
+	void setTutorialText(string &msg);
 
 private:
 	Graphics* graphics;
 	std::unique_ptr<Map> map;
-	std::string name;
+	string name;
 	std::vector < std::shared_ptr<Codey>> players;;
 	std::vector<std::shared_ptr<Enemy>> enemies;
 	void LoadEntities();

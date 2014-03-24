@@ -7,7 +7,9 @@
 namespace{
 	const int BUTTON_SIZE = 32;
 	const std::string HUD_FILE_PATH = "content/hud.bmp";
-	const std::string BUTTON_FILE_PATH = "content/buttons.bmp";
+	const std::string BUTTON_FILE_PATH = "content/hudButtons.png";
+	const int BUTTON_WIDTH = 100;
+	const int BUTTON_HEIGHT = 95;
 	const int HUD_WIDTH = Game::TILE_SIZE * 4;
 	const int HUD_HEIGHT = Game::TILE_SIZE * 6;
 }
@@ -111,11 +113,11 @@ bool Hud::click(std::tuple<int, int> clicked) {
 void Hud::initializeSprites(Graphics& graphics) {
 	// very very very ugly
 	// need a better solution for this
-	buttons[CommandAction::TURN_RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 0, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[CommandAction::LOOP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 1, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[CommandAction::MOVE_FORWARD] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 2, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[CommandAction::TURN_LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 3, 0, BUTTON_SIZE, BUTTON_SIZE));
-	buttons[CommandAction::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_SIZE * 4, 0, BUTTON_SIZE, BUTTON_SIZE));
+	buttons[CommandAction::TURN_RIGHT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 3, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
+	buttons[CommandAction::LOOP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 1, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
+	buttons[CommandAction::MOVE_FORWARD] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 0, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
+	buttons[CommandAction::TURN_LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 2, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
+	//buttons[CommandAction::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 4, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
 
 }
 

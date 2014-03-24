@@ -36,6 +36,10 @@ public:
 		return (x + y + width + height) < (rect1.x + rect1.y + rect1.width + rect1.height);
 	}
 
+	operator SDL_Rect() { 
+		return SDL_Rect{ x, y, width, height };
+	}
+
 private:
 	const int x, y, width, height; 
 };

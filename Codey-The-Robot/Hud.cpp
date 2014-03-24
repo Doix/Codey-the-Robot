@@ -2,6 +2,7 @@
 #include "AnimatedSprite.h"
 #include "Game.h"
 #include <iostream>
+#include "Rectangle.h"
 
 namespace{
 	const int BUTTON_SIZE = 32;
@@ -34,6 +35,11 @@ Hud::~Hud()
 }
 void Hud::draw(Graphics& graphics){
 	sprite->draw(graphics, PosX, PosY, HUD_WIDTH, HUD_HEIGHT);
+
+	
+	SDL_Rect rect = player->clickRectangle();
+	graphics.drawRectanlge(&rect);
+
 
 	int x = 666;
 	int y = 374;

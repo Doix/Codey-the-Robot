@@ -70,6 +70,7 @@ void Level::update(int elapsedTimeInMs) {
 			}
 		}
 	}
+
 }
 
 void Level::draw() {

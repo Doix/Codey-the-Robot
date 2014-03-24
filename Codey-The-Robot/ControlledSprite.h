@@ -33,6 +33,9 @@ public:
 	Rectangle damageRectangle() const;
 	Rectangle clickRectangle() const;
 
+	int getRow();
+	int getCol();
+
 protected:
 	int PosX;
 	int PosY;

@@ -27,6 +27,7 @@ private:
 	std::vector<std::shared_ptr<Enemy>> enemies;
 	void LoadEntities();
 	asIScriptEngine* engine;
+	void setupAngelscript();
 };
 
 #endif // LEVLE_H_

@@ -1,7 +1,9 @@
 void update () {
-
+	if (codey0.getRow() == 1 && codey0.getCol() == 1) {
+		map.setTile(5,5,1);
+	}
 }
 
 void init() {
-	map.setTile(1,1,1);
+
 }

@@ -380,3 +380,11 @@ void ControlledSprite::stopMoving(){
 	velocityY = 0;
 	currentMotion = MotionType::STANDING;
 }
+
+int ControlledSprite::getCol() {
+	return round(PosX / Game::TILE_SIZE);
+}
+
+int ControlledSprite::getRow() {
+	return round(PosY / Game::TILE_SIZE);
+}

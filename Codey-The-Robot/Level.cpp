@@ -34,23 +34,7 @@ Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphi
 	map.reset(Map::createMapFromFile(*graphics, "content/levels/" + name + "/map"));
 	LoadEntities();
 
-
-	engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
-	engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
-	RegisterStdString(engine);
-
-	engine->RegisterObjectType("Map", 0, asOBJ_REF); // asOBJ_REF because you wanted a reference call
-	engine->RegisterObjectBehaviour("Map", asBEHAVE_ADDREF, "void f()", asMETHOD(Map, AddRef), asCALL_THISCALL);
-	engine->RegisterObjectBehaviour("Map", asBEHAVE_RELEASE, "void f()", asMETHOD(Map, ReleaseRef), asCALL_THISCALL);
-	
-	
-	engine->RegisterObjectMethod("Map", "void setTile(int,int ,int)", asMETHOD(Map, setTile), asCALL_THISCALL);
-	engine->RegisterGlobalProperty("Map map", map.get());
-
-	CScriptBuilder builder;
-	builder.StartNewModule(engine, "MyModule");
-	builder.AddSectionFromFile((string("content/levels/") + name + "/as").c_str());
-	builder.BuildModule();
+	setupAngelscript();
 
 
 	asIScriptModule *mod = engine->GetModule("MyModule");
@@ -64,6 +48,8 @@ Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphi
 Level::~Level() {
 	engine->Release();
 }
+
+
 
 void Level::start() {
 	for (auto player : players)
@@ -136,5 +122,59 @@ void Level::draw() {
 
 std::vector<std::shared_ptr<Codey>> Level::getPlayers() {
 	return players;
+}
+
+void print(int i)
+{
+	printf("%d\n",i);
+}
+
+void Level::setupAngelscript() {
+	engine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
+	engine->SetMessageCallback(asFUNCTION(MessageCallback), 0, asCALL_CDECL);
+	RegisterStdString(engine);
+
+	engine->RegisterObjectType("Map", 0, asOBJ_REF); // asOBJ_REF because you wanted a reference call
+	engine->RegisterObjectBehaviour("Map", asBEHAVE_ADDREF, "void f()", asMETHOD(Map, AddRef), asCALL_THISCALL);
+	engine->RegisterObjectBehaviour("Map", asBEHAVE_RELEASE, "void f()", asMETHOD(Map, ReleaseRef), asCALL_THISCALL);
+	engine->RegisterObjectMethod("Map", "void setTile(int,int ,int)", asMETHOD(Map, setTile), asCALL_THISCALL);
+
+
+	engine->RegisterObjectType("Codey", 0, asOBJ_REF); // asOBJ_REF because you wanted a reference call
+	engine->RegisterObjectBehaviour("Codey", asBEHAVE_ADDREF, "void f()", asMETHOD(Codey, AddRef), asCALL_THISCALL);
+	engine->RegisterObjectBehaviour("Codey", asBEHAVE_RELEASE, "void f()", asMETHOD(Codey, ReleaseRef), asCALL_THISCALL);
+
+	engine->RegisterObjectMethod("Codey", "int getRow()", asMETHOD(Codey, getRow), asCALL_THISCALL);
+	engine->RegisterObjectMethod("Codey", "int getCol()", asMETHOD(Codey, getCol), asCALL_THISCALL);
+
+	engine->RegisterObjectType("Enemy", 0, asOBJ_REF); // asOBJ_REF because you wanted a reference call
+	engine->RegisterObjectBehaviour("Enemy", asBEHAVE_ADDREF, "void f()", asMETHOD(Enemy, AddRef), asCALL_THISCALL);
+	engine->RegisterObjectBehaviour("Enemy", asBEHAVE_RELEASE, "void f()", asMETHOD(Enemy, ReleaseRef), asCALL_THISCALL);
+
+	engine->RegisterObjectMethod("Enemy", "int getRow()", asMETHOD(Enemy, getRow), asCALL_THISCALL);
+	engine->RegisterObjectMethod("Enemy", "int getCol()", asMETHOD(Enemy, getCol), asCALL_THISCALL);
+
+	engine->RegisterGlobalProperty("Map map", map.get());
+	engine->RegisterGlobalFunction("void print(int)", asFUNCTION(print), asCALL_CDECL);
+
+	int i = 0;
+	for (auto player : players) {
+		engine->RegisterGlobalProperty(("Codey codey" +
+			std::to_string(i)).c_str(), player.get());
+		i++;
+	}
+
+	i = 0;
+
+	for (auto enemy : enemies) {
+		engine->RegisterGlobalProperty(("Enemy enemy" +
+			std::to_string(i)).c_str(), enemy.get());
+		i++;
+	}
+
+	CScriptBuilder builder;
+	builder.StartNewModule(engine, "MyModule");
+	builder.AddSectionFromFile((string("content/levels/") + name + "/as").c_str());
+	builder.BuildModule();
 }
 

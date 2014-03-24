@@ -17,9 +17,6 @@ public:
 	virtual void update(int elapsedTimeInMs);
 
 private:
-	std::unique_ptr<Map> map;
-	std::shared_ptr<Codey> player;
-	std::shared_ptr<Enemy> firstEnemy;
 	std::unique_ptr<Hud> hud;
 	std::shared_ptr<Level> level;
 };

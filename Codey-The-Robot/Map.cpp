@@ -31,8 +31,9 @@ namespace{
 	}
 }
 
-Map::Map()
+Map::Map(Graphics& graphics)
 {
+	initializeSprites(graphics);
 }
 
 
@@ -42,7 +43,7 @@ Map::~Map()
 
 Map* Map::createTestMap(Graphics& graphics){
 
-	Map* map = new Map();
+	Map* map = new Map(graphics);
 	
 	//ensure Tiles has the correct size (i.e. numRows*numCols in size)
 	map->tiles = vector<vector<Tile> >(
@@ -69,7 +70,7 @@ Map* Map::createTestMap(Graphics& graphics){
 
 Map* Map::createMapFromFile(Graphics& graphics, string filePath){
 
-	Map* map = new Map();
+	Map* map = new Map(graphics);
 
 	//ensure Tiles has the correct size (i.e. numRows*numCols in size)
 	map->tiles = vector<vector<Tile> >(
@@ -86,13 +87,14 @@ Map* Map::createMapFromFile(Graphics& graphics, string filePath){
 
 	int col = 0;
 	int row = 0;
-	Tile tile(GROUND_TILE, sprite);
+	
 
 	while (std::getline(fs, line)) {
 		sregex_token_iterator it(line.begin(), line.end(), re, -1);
 		sregex_token_iterator reg_end;
 		for (; it != reg_end; ++it) {
-			map->tiles[row][col] = tile;
+			map->setTile(row, col, 
+				static_cast<TileType>(std::stoi(it->str())));
 			col++;
 		}
 		col = 0;
@@ -101,6 +103,9 @@ Map* Map::createMapFromFile(Graphics& graphics, string filePath){
 	return map;
 }
 
+void Map::setTile(int row, int col, TileType tileType) {
+	tiles[row][col] = Tile (tileType, tileSprites[tileType]);
+}
 
 vector<Map::CollisionTile> Map::getCollidingTiles(const Rectangle& rectangle) const{
 
@@ -126,6 +131,20 @@ vector<Map::CollisionTile> Map::getCollidingTiles(const Rectangle& rectangle) co
 	}
 
 	return collisionTiles;
+}
+
+
+void Map::initializeSprites(Graphics& graphics) {
+	// very very very ugly
+	// need a better solution for this
+	tileSprites[TileType::GROUND_TILE] = std::unique_ptr<Sprite>(new Sprite(graphics, MAP_FILE_PATH,
+		getMapTileXY(6), getMapTileXY(7),
+		MAP_TILE_SIZE, MAP_TILE_SIZE));
+
+	tileSprites[TileType::BARRIER_TILE] = std::unique_ptr<Sprite>(new Sprite(graphics, MAP_FILE_PATH,
+		getMapTileXY(0), getMapTileXY(0),
+		MAP_TILE_SIZE, MAP_TILE_SIZE));
+
 }
 
 //need to use this as dividing by zero rounds to zero, not down, so collision not working until -pos was greater than tile size

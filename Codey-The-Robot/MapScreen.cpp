@@ -17,6 +17,7 @@ MapScreen::MapScreen(Game* game) : Screen(game)
 {
 
 	codey.reset(new MapCodey(*game->getGraphics(), 46, 308));
+	level = "1";
 
 	texture = game->getGraphics()->loadTexture(MAP_FILE_PATH);
 	xoffset = 0;
@@ -73,7 +74,7 @@ void MapScreen::update(int time) {
 			if (playButton->isClicked(x,y)) {
 				
 				game->setScreen(new GameScreen(game, 
-					std::shared_ptr<Level>(new Level(level))));
+					std::shared_ptr<Level>(new Level(level,game->getGraphics()))));
 				return;
 			}
 			else if (menuButton->isClicked(x,y)){

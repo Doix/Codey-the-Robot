@@ -27,7 +27,7 @@ private:
 
 	std::unique_ptr<Sprite> sprite;
 	CommandAction curCommand;
-	void Hud::initializeSprites(Graphics& graphics);
+	void initializeSprites(Graphics& graphics);
 	std::map<CommandAction, std::unique_ptr<Sprite>> buttons;
 	std::vector<CommandAction> availableCommands;
 

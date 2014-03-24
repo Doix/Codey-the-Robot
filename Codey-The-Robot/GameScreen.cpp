@@ -6,10 +6,7 @@
 GameScreen::GameScreen(Game* game, std::shared_ptr<Level> level) : level(level),Screen(game)
 {
 	//Initialise Map & Player
-	player.reset(new Codey(*game->getGraphics(), 1 * Game::TILE_SIZE, 1 * Game::TILE_SIZE));
-	firstEnemy.reset(new Enemy(*game->getGraphics(), 4 * Game::TILE_SIZE, 4 * Game::TILE_SIZE));
-	map.reset(Map::createMapFromFile(*game->getGraphics(),"content/levels/1.map"));
-	hud.reset(new Hud(*game->getGraphics(), 640, 0, player));
+	hud.reset(new Hud(*game->getGraphics(), 640, 0, level->getPlayer()));
 }
 
 GameScreen::~GameScreen()
@@ -17,29 +14,23 @@ GameScreen::~GameScreen()
 }
 
 void GameScreen::draw() {
-	map->draw(*game->getGraphics());
-	player->draw(*game->getGraphics());
-	firstEnemy->draw(*game->getGraphics());
+
+	level->draw();
 	hud->draw(*game->getGraphics());
 }
 
 void GameScreen::update(int elapsedTimeInMs) {
 
 	if (game->getInput()->wasKeyReleased(SDLK_SPACE)) {
-		player->startCommands();
+		level->start();
 	}
 
 	if (game->getInput()->wasMouseClicked()){
 		hud->click(game->getInput()->getMouseClick());
 	}
 
-	map->update(elapsedTimeInMs);
-	player->update(elapsedTimeInMs, *map);
-	firstEnemy->update(elapsedTimeInMs, *map);
-	if (firstEnemy->damageRectangle().collidesWith(player->damageRectangle())){
-		player->deathSequence();		
-	}
-	//Check if Escape key pressed - back to menu
+	level->update(elapsedTimeInMs);
+
 	if (game->getInput()->wasKeyPressed(SDLK_ESCAPE)){
 		game->setScreen(new MapScreen(game));
 		return;

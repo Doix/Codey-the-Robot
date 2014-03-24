@@ -2,16 +2,29 @@
 #define LEVLE_H_
 
 #include <string>
+#include "Graphics.h"
+#include <memory>
+#include "Map.h"
+#include "Enemy.h"
+#include "Codey.h"
 
 class Level
 {
 public:
-	Level(std::string name);
+	Level(std::string name, Graphics* graphics);
 	~Level();
-
+	void update(int elapsedTimeInMs);
+	void draw();
+	std::shared_ptr<Codey> getPlayer();
+	void start();
 
 private:
+	Graphics* graphics;
+	std::unique_ptr<Map> map;
 	std::string name;
+	std::shared_ptr<Codey> player;
+	std::shared_ptr<Enemy> firstEnemy;
+
 };
 
 #endif // LEVLE_H_

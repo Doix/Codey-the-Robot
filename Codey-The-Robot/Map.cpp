@@ -6,6 +6,14 @@
 
 #include <memory>
 #include <stdexcept> 
+#include <iostream>
+#include <regex>
+#include <string>
+#include <fstream>
+
+using std::regex;
+using std::string;
+using std::sregex_token_iterator;
 
 using std::vector;
 
@@ -59,7 +67,7 @@ Map* Map::createTestMap(Graphics& graphics){
 
 
 
-Map* Map::createMapFromFile(Graphics& graphics, std::string filePath){
+Map* Map::createMapFromFile(Graphics& graphics, string filePath){
 
 	Map* map = new Map();
 
@@ -72,14 +80,23 @@ Map* Map::createMapFromFile(Graphics& graphics, std::string filePath){
 		getMapTileXY(6), getMapTileXY(7),
 		MAP_TILE_SIZE, MAP_TILE_SIZE));
 
+	std::ifstream fs(filePath);
+	string line;
+	regex re("[\\s,]+");
+
+	int col = 0;
+	int row = 0;
 	Tile tile(GROUND_TILE, sprite);
 
-	for (int row = 0; row < numRows; ++row){
-		for (int col = 0; col < numCols; ++col){
-
+	while (std::getline(fs, line)) {
+		sregex_token_iterator it(line.begin(), line.end(), re, -1);
+		sregex_token_iterator reg_end;
+		for (; it != reg_end; ++it) {
 			map->tiles[row][col] = tile;
-
+			col++;
 		}
+		col = 0;
+		row++;
 	}
 	return map;
 }

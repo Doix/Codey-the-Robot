@@ -8,7 +8,7 @@ GameScreen::GameScreen(Game* game, std::shared_ptr<Level> level) : level(level),
 	//Initialise Map & Player
 	player.reset(new Codey(*game->getGraphics(), 1 * Game::TILE_SIZE, 1 * Game::TILE_SIZE));
 	firstEnemy.reset(new Enemy(*game->getGraphics(), 4 * Game::TILE_SIZE, 4 * Game::TILE_SIZE));
-	map.reset(Map::createTestMap(*game->getGraphics()));
+	map.reset(Map::createMapFromFile(*game->getGraphics(),"content/levels/1.map"));
 	hud.reset(new Hud(*game->getGraphics(), 640, 0, player));
 }
 

@@ -92,6 +92,7 @@
     </ClCompile>
     <ClCompile Include="add_on\contextmgr\contextmgr.cpp">
       <Filter>Source Files\Angelscript</Filter>
+    </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

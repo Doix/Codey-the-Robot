@@ -20,6 +20,7 @@ public:
 
 	void flip() const;
 	void clear() const;
+	void drawRectanlge(const SDL_Rect* rect);
 
 private:
 	std::map<std::string, SDL_Texture*> spriteCache;

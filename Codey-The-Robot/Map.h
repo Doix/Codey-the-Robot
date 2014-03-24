@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <map>
 
 class Sprite;
 class Graphics;
@@ -13,11 +14,10 @@ class Rectangle;
 class Map
 {
 public:
-	Map();
+	Map(Graphics & graphics);
 	~Map();
 
-	enum TileType{ GROUND_TILE, BARRIER_TILE, TILE_OUT_OF_BOUNDS };
-
+	enum TileType{ GROUND_TILE = 0, BARRIER_TILE = 1, TILE_OUT_OF_BOUNDS = 2 };
 	class CollisionTile
 	{
 	public:
@@ -37,7 +37,11 @@ public:
 
 	void update(int elapsedTimeMs);
 	void draw(Graphics& graphics) const;
+	void Map::setTile(int row, int col, TileType tileType);
 private:
+	void initializeSprites(Graphics& graphics);
+	std::map<TileType, std::shared_ptr<Sprite>> tileSprites;
+
 	class Tile
 	{
 	public:
@@ -53,5 +57,4 @@ private:
 	std::vector<std::vector<Tile> >  tiles;
 	int getColRow(const int pos) const;
 };
-
 #endif MAP_H_

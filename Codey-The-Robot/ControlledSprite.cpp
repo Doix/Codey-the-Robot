@@ -107,6 +107,13 @@ Rectangle ControlledSprite::damageRectangle() const{
 		Game::TILE_SIZE / 2);
 }
 
+Rectangle ControlledSprite::clickRectangle() const{
+	return Rectangle(PosX,
+		PosY,
+		Game::TILE_SIZE,
+		Game::TILE_SIZE);
+}
+
 //Get collision rectangles for distance travelled delta
 Rectangle ControlledSprite::leftCollision(int delta) const{
 	assert(delta <= 0);

@@ -17,6 +17,7 @@ MapScreen::MapScreen(Game* game) : Screen(game)
 {
 
 	codey.reset(new MapCodey(*game->getGraphics(), 46, 308));
+	level = "1";
 
 	texture = game->getGraphics()->loadTexture(MAP_FILE_PATH);
 	xoffset = 0;
@@ -34,7 +35,11 @@ MapScreen::MapScreen(Game* game) : Screen(game)
 
 	circles[Rectangle(242, 311, 102, 97)] = std::make_tuple(250, 311,"2");
 
-	circles[Rectangle(62, 21, 102, 97)] = std::make_tuple(70, 23,"3");
+	circles[Rectangle(240, 150, 102, 97)] = std::make_tuple(250, 152, "3");
+
+	circles[Rectangle(62, 21, 102, 97)] = std::make_tuple(70, 23,"4");
+
+	circles[Rectangle(416, 21, 102, 97)] = std::make_tuple(426, 24, "5");
 }
 
 MapScreen::~MapScreen()
@@ -73,7 +78,7 @@ void MapScreen::update(int time) {
 			if (playButton->isClicked(x,y)) {
 				
 				game->setScreen(new GameScreen(game, 
-					std::shared_ptr<Level>(new Level(level))));
+					std::shared_ptr<Level>(new Level(level,game->getGraphics()))));
 				return;
 			}
 			else if (menuButton->isClicked(x,y)){
@@ -93,6 +98,7 @@ void MapScreen::update(int time) {
 					codey->moveTo(posX, posY);
 				}
 			}
+			
 		}
 		printf("%d %d\n", x, y);
 	}

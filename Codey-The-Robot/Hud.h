@@ -17,8 +17,8 @@ public:
 
 	void update(int elapsedTimeMs);
 	void draw(Graphics& graphics);
-	void click(std::tuple<int, int> clicked);
-
+	bool click(std::tuple<int, int> clicked);
+	void setPlayer(std::shared_ptr<ControlledSprite> player);
 private:
 	int PosX;
 	int PosY;
@@ -27,11 +27,11 @@ private:
 
 	std::unique_ptr<Sprite> sprite;
 	CommandAction curCommand;
-	void Hud::initializeSprites(Graphics& graphics);
+	void initializeSprites(Graphics& graphics);
 	std::map<CommandAction, std::unique_ptr<Sprite>> buttons;
 	std::vector<CommandAction> availableCommands;
 
-	void Hud::setPlayer(std::shared_ptr<ControlledSprite> player);
+
 
 };
 

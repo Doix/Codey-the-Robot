@@ -2,6 +2,7 @@
 #include "AnimatedSprite.h"
 #include "Game.h"
 #include <iostream>
+#include "Rectangle.h"
 
 namespace{
 	const int BUTTON_SIZE = 32;
@@ -35,6 +36,11 @@ Hud::~Hud()
 void Hud::draw(Graphics& graphics){
 	sprite->draw(graphics, PosX, PosY, HUD_WIDTH, HUD_HEIGHT);
 
+	
+	SDL_Rect rect = player->clickRectangle();
+	graphics.drawRectanlge(&rect);
+
+
 	int x = 666;
 	int y = 374;
 	int count = 0;
@@ -67,11 +73,13 @@ void Hud::draw(Graphics& graphics){
 
 }
 
-void Hud::click(std::tuple<int, int> clicked) {
+bool Hud::click(std::tuple<int, int> clicked) {
 	int x, y;
+	bool ret = false;
 	std::tie(x, y) = clicked;
 	if (!player->isBusy()) {
 		if (x > 666 && x < 926 && y >375 && y < 470) {
+			ret = true;
 			x -= 655;
 			y -= 375;
 			unsigned int col = x / (BUTTON_SIZE + 10);
@@ -85,6 +93,7 @@ void Hud::click(std::tuple<int, int> clicked) {
 		}
 
 		if (x > 666 && x < 926 && y > 10 && y < 360) {
+			ret = true;
 			x -= 655;
 			y -= 21;
 			int col = x / (BUTTON_SIZE + 10);
@@ -96,6 +105,7 @@ void Hud::click(std::tuple<int, int> clicked) {
 			}
 		}
 	}
+	return ret;
 }
 
 void Hud::initializeSprites(Graphics& graphics) {

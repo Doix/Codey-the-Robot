@@ -3,6 +3,7 @@
 
 #include "Graphics.h"
 #include "Input.h"
+#include "angelscript.h"
 
 class Screen;
 
@@ -28,6 +29,7 @@ private:
 	Graphics* _graphics;
 	std::shared_ptr<Screen> _screen;
 	Input* _input;
+	asIScriptEngine *engine;
 };
 
 #endif // GAME_H_

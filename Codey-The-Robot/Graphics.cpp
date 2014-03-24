@@ -113,6 +113,11 @@ SDL_Texture* Graphics::loadTexture(std::string path)
 }
 
 
+
+void Graphics::drawRectanlge(const SDL_Rect* rect) {
+	SDL_RenderDrawRect(renderer, rect);
+}
+
 //Draw a texture at a destination rectangle based on a source rectangle
 //LoadTexture method must be used to get the texture input
 void Graphics::renderTexture(

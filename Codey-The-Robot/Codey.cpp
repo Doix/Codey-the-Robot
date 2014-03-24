@@ -17,6 +17,10 @@ Codey::Codey(Graphics& graphics, int x, int y) : ControlledSprite(graphics, x, y
 	initialiseSpriteSheets(graphics);
 }
 
+Codey *Codey_Factory(Graphics& graphics, int x, int y) {
+	return new Codey(graphics, x, y);
+}
+
 Codey::~Codey()
 {
 }

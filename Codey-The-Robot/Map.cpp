@@ -141,6 +141,22 @@ void Map::initializeSprites(Graphics& graphics) {
 		getMapTileXY(0), getMapTileXY(0),
 		MAP_TILE_SIZE, MAP_TILE_SIZE));
 
+	tileSprites[TileType::TILE_OUT_OF_BOUNDS] = std::unique_ptr<Sprite>(new Sprite(graphics, MAP_FILE_PATH,
+		getMapTileXY(2), getMapTileXY(0),
+		MAP_TILE_SIZE, MAP_TILE_SIZE));
+
+	tileSprites[TileType::YELLOW_TILE] = std::unique_ptr<Sprite>(new Sprite(graphics, MAP_FILE_PATH,
+		getMapTileXY(1), getMapTileXY(0),
+		MAP_TILE_SIZE, MAP_TILE_SIZE));
+
+	tileSprites[TileType::GREEN_TILE] = std::unique_ptr<Sprite>(new Sprite(graphics, MAP_FILE_PATH,
+		getMapTileXY(3), getMapTileXY(0),
+		MAP_TILE_SIZE, MAP_TILE_SIZE));
+
+	tileSprites[TileType::VICOTRY_TILE] = std::unique_ptr<Sprite>(new Sprite(graphics, MAP_FILE_PATH,
+		getMapTileXY(5), getMapTileXY(7),
+		MAP_TILE_SIZE, MAP_TILE_SIZE));
+
 }
 
 //need to use this as dividing by zero rounds to zero, not down, so collision not working until -pos was greater than tile size

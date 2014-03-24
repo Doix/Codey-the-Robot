@@ -20,7 +20,7 @@ public:
 	void AddRef() { /* do nothing */ }
 	void ReleaseRef() { /* do nothing */ }
 
-	enum TileType{ GROUND_TILE = 0, BARRIER_TILE = 1, TILE_OUT_OF_BOUNDS = 2 };
+	enum TileType{ GROUND_TILE = 0, BARRIER_TILE = 1, TILE_OUT_OF_BOUNDS = 2, YELLOW_TILE = 3, GREEN_TILE = 4, VICOTRY_TILE = 5 };
 	class CollisionTile
 	{
 	public:

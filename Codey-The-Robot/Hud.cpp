@@ -136,7 +136,7 @@ bool Hud::click(std::tuple<int, int> clicked) {
 			if (col < availableCommands.size()) {
 				CommandAction command = availableCommands.at(col);
 				if (command == CommandAction::LOOP) {
-					player->sendCommand(std::shared_ptr<LoopCommand>(new LoopCommand(command, 2)));
+					player->sendCommand(std::shared_ptr<LoopCommand>(new LoopCommand(command, 1)));
 					insertMode = InsertMode::LOOP;
 					std::list < std::shared_ptr<Command>>* commands = player->getCommands();
 					loopLocation = commands->size() - 1;

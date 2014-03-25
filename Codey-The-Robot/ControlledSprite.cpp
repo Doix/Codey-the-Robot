@@ -90,6 +90,11 @@ void ControlledSprite::startCommands(){
 	}
 }
 
+void ControlledSprite::restart() {
+	resetSprite();
+	commands.restart();
+}
+
 std::list < std::shared_ptr<Command>>* ControlledSprite::getCommands() {
 	return commands.getList();
 }

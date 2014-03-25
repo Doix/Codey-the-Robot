@@ -26,6 +26,7 @@ public:
 
 	void nextTutorialText();
 	bool tutorialComplete;
+	void restart();
 
 private:
 	Graphics* graphics;

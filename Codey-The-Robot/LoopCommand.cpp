@@ -25,6 +25,7 @@ void LoopCommand::addCommand(std::shared_ptr<Command> c) {
 
 void LoopCommand::restart() {
 	amountLeft = repeatAmount;
+	commands.restart();
 }
 
 CommandAction LoopCommand::getCommand(){

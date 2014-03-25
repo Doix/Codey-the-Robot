@@ -150,11 +150,11 @@
     <ClCompile Include="ChopperEnemy.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="DogEnemy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TutorialText.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DogEnemy.cpp">
+      <Filter>Source Files\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -215,9 +215,6 @@
     <ClInclude Include="Level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="add_on\weakref\weakref.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="add_on\contextmgr\contextmgr.h">
       <Filter>Header Files\AngelScript</Filter>
     </ClInclude>
@@ -272,11 +269,14 @@
     <ClInclude Include="ChopperEnemy.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="DogEnemy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TutorialText.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="add_on\weakref\weakref.h">
+      <Filter>Header Files\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="DogEnemy.h">
+      <Filter>Header Files\Characters</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

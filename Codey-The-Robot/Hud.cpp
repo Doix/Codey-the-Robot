@@ -164,6 +164,10 @@ bool Hud::click(std::tuple<int, int> clicked) {
 
 			unsigned int index = col + row * 6;
 			if (index < player->getCommands()->size()) {
+				if (index < loopLocation)
+					loopLocation--;
+				else if (index == loopLocation)
+					insertMode = InsertMode::MAIN;
 				player->removeCommand(index);
 			}
 		}

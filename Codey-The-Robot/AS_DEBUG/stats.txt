@@ -1,32 +1,21 @@
 
 Total count
-PshGPtr    : 898
-PSF        : 2
-RET        : 898
-JMP        : 897
-JZ         : 897
-CMPIi      : 897
-PshRPtr    : 1
-STR        : 1
-CALLSYS    : 901
-SUSPEND    : 1796
-CHKREF     : 898
-GETREF     : 1
-SetV4      : 897
-CpyVtoR4   : 897
-CpyRtoV4   : 897
-VAR        : 1
-JLowZ      : 897
+RET        : 934
+SUSPEND    : 934
 
 Never executed
 PopPtr    
+PshGPtr   
 PshC4     
 PshV4     
+PSF       
 SwapPtr   
 NOT       
 PshG4     
 LdGRdR4   
 CALL      
+JMP       
+JZ        
 JNZ       
 JS        
 JNS       
@@ -68,10 +57,14 @@ CMPd
 CMPu      
 CMPf      
 CMPi      
+CMPIi     
 CMPIf     
 CMPIu     
 JMPP      
 PopRPtr   
+PshRPtr   
+STR       
+CALLSYS   
 CALLBND   
 ALLOC     
 FREE      
@@ -79,17 +72,22 @@ LOADOBJ
 STOREOBJ  
 GETOBJ    
 REFCPY    
+CHKREF    
 GETOBJREF 
+GETREF    
 PshNull   
 ClrVPtr   
 OBJTYPE   
 TYPEID    
+SetV4     
 SetV8     
 ADDSi     
 CpyVtoV4  
 CpyVtoV8  
+CpyVtoR4  
 CpyVtoR8  
 CpyVtoG4  
+CpyRtoV4  
 CpyRtoV8  
 CpyGtoV4  
 WRTV1     
@@ -104,6 +102,7 @@ LDG
 LDV       
 PGA       
 CmpPtr    
+VAR       
 iTOf      
 fTOi      
 uTOf      
@@ -190,6 +189,7 @@ MODu64
 LoadRObjR 
 LoadVObjR 
 RefCpyV   
+JLowZ     
 JLowNZ    
 AllocMem  
 SetListSiz
@@ -197,28 +197,6 @@ PshListElm
 SetListTyp
 
 Sequences
-PshGPtr   , CHKREF     : 898
-PSF       , CALLSYS    : 2
-RET       , SUSPEND    : 897
-JMP       , CpyVtoR4   : 897
-JZ        , SetV4      : 897
-CMPIi     , JZ         : 897
-PshRPtr   , PSF        : 1
-STR       , CALLSYS    : 1
-CALLSYS   , PSF        : 1
-CALLSYS   , PshRPtr    : 1
-CALLSYS   , SUSPEND    : 1
-CALLSYS   , CpyRtoV4   : 897
-CALLSYS   , VAR        : 1
-SUSPEND   , PshGPtr    : 897
-SUSPEND   , RET        : 898
-SUSPEND   , STR        : 1
-CHKREF    , CALLSYS    : 897
-CHKREF    , GETREF     : 1
-GETREF    , CALLSYS    : 1
-SetV4     , JMP        : 897
-CpyVtoR4  , JLowZ      : 897
-CpyRtoV4  , CMPIi      : 897
-VAR       , PshGPtr    : 1
-JLowZ     , SUSPEND    : 897
+RET       , SUSPEND    : 933
+SUSPEND   , RET        : 934
 LABEL     , SUSPEND    : 1

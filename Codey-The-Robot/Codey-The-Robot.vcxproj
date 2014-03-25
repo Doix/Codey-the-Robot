@@ -40,6 +40,7 @@
     <ClCompile Include="IntroScreen.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LoopCommand.cpp" />
+    <ClCompile Include="LoopyLeo.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ControlledSprite.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -78,6 +79,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="ControlledSprite.h" />
     <ClInclude Include="IntroScreen.h" />
+    <ClInclude Include="LoopyLeo.h" />
     <ClInclude Include="MapCodey.h" />
     <ClInclude Include="MapScreen.h" />
     <ClInclude Include="Screen.h" />

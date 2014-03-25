@@ -14,7 +14,7 @@ public:
 	
 protected:
 	void resetSprite();
-	void initialiseSpriteSheets(Graphics& graphics);
+	virtual void initialiseSpriteSheets(Graphics& graphics);
 	bool startedDeathSequence;
 	bool finishedDying;
 	int deathSeqTimer;

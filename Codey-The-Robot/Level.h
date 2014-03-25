@@ -24,13 +24,14 @@ public:
 	void setTutorialText(string &msg);
 
 	void nextTutorialText();
+	bool tutorialComplete;
 
 private:
 	Graphics* graphics;
 	std::unique_ptr<Map> map;
 	string name;
-	std::vector < std::shared_ptr<Codey>> players;;
-	std::vector<std::shared_ptr<Enemy>> enemies;
+	std::vector <std::shared_ptr<Codey>> players;;
+	std::vector<std::shared_ptr<ControlledSprite>> enemies;
 	void LoadEntities();
 	asIScriptEngine* engine;
 	void setupAngelscript();

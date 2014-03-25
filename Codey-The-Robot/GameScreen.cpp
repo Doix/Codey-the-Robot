@@ -15,43 +15,43 @@ GameScreen::~GameScreen()
 }
 
 void GameScreen::draw() {
-
 	level->draw();
 	hud->draw(*game->getGraphics());
 }
 
 void GameScreen::update(int elapsedTimeInMs) {
 
-	if (game->getInput()->wasKeyReleased(SDLK_SPACE)) {
-		bool busy = false;
-		for (auto player : level->getPlayers()) {
-			if (player->isBusy()) {
-				busy = true;
+	if (level->tutorialComplete){
+		if (game->getInput()->wasKeyReleased(SDLK_SPACE)) {
+			bool busy = false;
+			for (auto player : level->getPlayers()) {
+				if (player->isBusy()) {
+					busy = true;
+				}
+			}
+			if (!busy)
+				level->start();
+		}
+
+		if (game->getInput()->wasMouseClicked()){
+			hud->click(game->getInput()->getMouseClick());
+			for (auto player : level->getPlayers()) {
+				int x, y;
+				std::tie(x, y) = game->getInput()->getMouseClick();
+				if (player->clickRectangle().contains(x, y))
+					hud->setPlayer(player);
 			}
 		}
-		if (!busy)
-			level->start();
 	}
-
-	if (game->getInput()->wasMouseClicked()){
-		hud->click(game->getInput()->getMouseClick());
-		for (auto player : level->getPlayers()) {
-			int x, y;
-			std::tie(x, y) = game->getInput()->getMouseClick();
-			if (player->clickRectangle().contains(x, y))
-				hud->setPlayer(player);
-		}
+	else if (game->getInput()->wasKeyPressed(SDLK_RETURN)){
+		level->nextTutorialText();
+		return;
 	}
 	
 	if (game->getInput()->wasKeyPressed(SDLK_ESCAPE)){
 		game->setScreen(new MapScreen(game));
 		return;
 	}
-
-	if (game->getInput()->wasKeyPressed(SDLK_RETURN)){
-		level->nextTutorialText();
-		return;
-	}
-
+	
 	level->update(elapsedTimeInMs);
 }

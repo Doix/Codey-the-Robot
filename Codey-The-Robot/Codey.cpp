@@ -70,8 +70,6 @@ void Codey::initialiseSpriteSheets(Graphics& graphics){
 		0 * CODEY_TILE_SIZE, 2 * CODEY_TILE_SIZE,
 		CODEY_TILE_SIZE, CODEY_TILE_SIZE, FPS, 2));
 
-	//TODO update these sprites
-
 	sprites[SpriteState(MotionType::STANDING, DirectionFacing::RIGHT)] =
 		std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,

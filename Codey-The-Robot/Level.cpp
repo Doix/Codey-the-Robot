@@ -3,6 +3,7 @@
 #include "Codey.h"
 #include "Game.h"
 #include "Enemy.h"
+#include "LoopyLeo.h"
 #include "Rectangle.h"
 #include <iostream>
 #include <regex>
@@ -84,6 +85,12 @@ void Level::LoadEntities() {
 				std::stoi(it++->str()) * Game::TILE_SIZE,
 				std::stoi(it++->str()) * Game::TILE_SIZE)));
 		}
+		else if (object == "Loopy") {
+			it++;
+			players.push_back(std::shared_ptr<LoopyLeo>(new LoopyLeo(*graphics,
+				std::stoi(it++->str()) * Game::TILE_SIZE,
+				std::stoi(it++->str()) * Game::TILE_SIZE)));
+		}
 
 	}
 }
@@ -122,6 +129,9 @@ void Level::draw() {
 
 	if (tutorialText.size() > tutorialLine){
 		graphics->renderText(tutorialText.at(tutorialLine), 130, 72);
+	}
+	else{
+		tutorialComplete = true;
 	}
 }
 

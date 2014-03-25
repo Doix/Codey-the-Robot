@@ -159,7 +159,7 @@ bool Graphics::renderText(std::string textureText, const int x, const int y){
 		}
 		else
 		{
-			//Get image dimensions
+			//Get text dimensions
 			SDL_Rect destinationRect;
 			destinationRect.x = x;
 			destinationRect.y = y;

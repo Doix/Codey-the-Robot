@@ -19,6 +19,7 @@ public:
 	~TutorialText();
 	
 	void draw(Graphics& graphics) const;
+	void update(int elapsedTimeInMs);
 	void nextTutorialText();
 
 	bool tutorialComplete;

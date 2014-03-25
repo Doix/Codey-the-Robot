@@ -8,4 +8,13 @@ void init() {
 	level.setTutorialText("Well, HOWDY there pard'ner, my name\'s Loopy Leo!", 1);
 	level.setTutorialText("Hi, I\'m Codey and I'm here to save the World", 0);
 	level.setTutorialText("Well I\'ll be dar-niddly-arned. That\'s something I can help you with\nLet me teach you how to Loop!", 1);
+	level.setTutorialText("A loop is just a set of actions that you repeat over and over\n"+
+	"You can do this as many times as you want\n"
+	+ "I'll sometimes just loop over the same commands all day!\n"
+	+"It makes commands a lot shorter to write as you don't have to repeat yourself.\n"
+	+"Lets try it here. Use the loop command to start writing a loop\n"
+	+"Then choose all the commands you want to repeat\n"
+	+"And then you choose the loop command again to end the loop!\n"
+	+"It's magic. That's why I LOOOOOOOVE loops!"
+	,1);
 }

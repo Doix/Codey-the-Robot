@@ -19,6 +19,7 @@ public:
 	~Level();
 	void update(int elapsedTimeInMs);
 	void draw();
+	void drawTutorial();
 	std::vector < std::shared_ptr<Codey>> getPlayers();
 	void start();
 	void levelWon();

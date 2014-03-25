@@ -33,8 +33,6 @@ void MessageCallback(const asSMessageInfo *msg, void *){
 	}
 }
 
-
-
 Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics), tutorialComplete(true) {
 	map.reset(Map::createMapFromFile(*graphics, "content/levels/" + name + "/map"));
 	LoadEntities();
@@ -56,11 +54,10 @@ Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphi
 	ctx->Release();
 
 }
+
 Level::~Level() {
 	engine->Release();
 }
-
-
 
 void Level::start() {
 	for (auto player : players)
@@ -124,16 +121,21 @@ void Level::update(int elapsedTimeInMs) {
 	ctx->Execute();
 	ctx->Release();
 	
-	map->update(elapsedTimeInMs);
-	for (auto player : players)
-		player->update(elapsedTimeInMs, *map);
-	for (auto enemy: enemies)
-		enemy->update(elapsedTimeInMs, *map);
+	if (!tutorialComplete){
+		tutorialText->update(elapsedTimeInMs);
+	}
+	else{
+		map->update(elapsedTimeInMs);
+		for (auto player : players)
+			player->update(elapsedTimeInMs, *map);
+		for (auto enemy : enemies)
+			enemy->update(elapsedTimeInMs, *map);
 
-	for (auto player : players){
-		for (auto enemy : enemies) {
-			if (enemy->damageRectangle().collidesWith(player->damageRectangle())){
-				player->deathSequence();
+		for (auto player : players){
+			for (auto enemy : enemies) {
+				if (enemy->damageRectangle().collidesWith(player->damageRectangle())){
+					player->deathSequence();
+				}
 			}
 		}
 	}
@@ -145,14 +147,12 @@ void Level::draw() {
 		player->draw(*graphics);
 
 	for (auto enemy : enemies) 
-		enemy->draw(*graphics);
-
-	if (!tutorialComplete){
-		tutorialText->draw(*graphics);
-	}
-	
+		enemy->draw(*graphics);		
 }
 
+void Level::drawTutorial(){
+	tutorialText->draw(*graphics);
+}
 
 std::vector<std::shared_ptr<Codey>> Level::getPlayers() {
 	return players;

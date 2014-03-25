@@ -15,7 +15,7 @@ namespace{
 
 	const int BOX_X_POS = TEXT_X_POS - MARGIN;
 	const int BOX_Y_POS = TEXT_Y_POS - MARGIN;
-	const int BOX_WIDTH = TEXT_WIDTH + MARGIN;
+	const int BOX_WIDTH = TEXT_WIDTH + 3*MARGIN;
 	const int BOX_HEIGHT = TEXT_HEIGHT + MARGIN;
 	
 	const int PORTRAIT_BOX_WIDTH = 200;
@@ -58,8 +58,11 @@ TutorialText::~TutorialText(){
 
 void TutorialText::draw(Graphics& graphics) const{
 	renderTextBox(graphics);
-	graphics.renderText(std::get<0>(tutorialText[currentSpeakerNo])[currentLineNo], TEXT_X_POS, TEXT_Y_POS, TEXT_WIDTH);
-		
+	graphics.renderText(std::get<0>(tutorialText[currentSpeakerNo])[currentLineNo], TEXT_X_POS, TEXT_Y_POS, TEXT_WIDTH);		
+}
+
+void TutorialText::update(int elapsedTimeInMs){
+	speakerSprites[currentSpeakerId]->update(elapsedTimeInMs);
 }
 
 
@@ -95,17 +98,18 @@ void TutorialText::renderTextBox(Graphics& graphics) const{
 void TutorialText::nextTutorialText(){
 	
 	++currentLineNo;
-	if (!currentLineNo < currentSpeakerNoOfLines){
+	if (!(currentLineNo < currentSpeakerNoOfLines)){
 		++currentSpeakerNo;
+		if (currentSpeakerNo < totalSpeakers){
+			currentLineNo = 0;
+			currentSpeakerNoOfLines = std::get<0>(tutorialText[currentSpeakerNo]).size();
+			currentSpeakerId = std::get<1>(tutorialText[currentSpeakerNo]);
+		}
+		else{
+			tutorialComplete = true;
+		}
 	}
-	if(currentSpeakerNo < totalSpeakers){		
-		currentLineNo = 0;
-		currentSpeakerNoOfLines = std::get<0>(tutorialText[currentSpeakerNo]).size();
-		currentSpeakerId = std::get<1>(tutorialText[currentSpeakerNo]);
-	}
-	else{
-		tutorialComplete = true;
-	}		
+			
 }
 
 void TutorialText::initSprites(Graphics& graphics){
@@ -118,6 +122,6 @@ void TutorialText::initSprites(Graphics& graphics){
 	speakerSprites[LOOPY_ID] = std::unique_ptr<Sprite>(new AnimatedSprite(
 		graphics,
 		LOOPY_FILE_PATH,
-		150, 944,
+		150, 943,
 		LOOPY_WIDTH, LOOPY_HEIGHT, 10, 3));
 }

@@ -1,26 +1,26 @@
 
 Total count
-PshGPtr    : 515
-PshC4      : 3
-PSF        : 6
-RET        : 513
-JMP        : 512
-JZ         : 512
-CMPIi      : 512
-PshRPtr    : 3
-STR        : 3
-CALLSYS    : 524
-SUSPEND    : 1028
-CHKREF     : 515
-GETREF     : 3
-SetV4      : 512
-CpyVtoR4   : 512
-CpyRtoV4   : 512
-VAR        : 3
-JLowZ      : 512
+PopPtr     : 1
+PshGPtr    : 1494
+PshC4      : 4
+PSF        : 41
+RET        : 1491
+JMP        : 1490
+JZ         : 1490
+CMPIi      : 1490
+PshRPtr    : 11
+STR        : 11
+CALLSYS    : 1539
+SUSPEND    : 2985
+CHKREF     : 1494
+GETREF     : 11
+SetV4      : 1490
+CpyVtoR4   : 1490
+CpyRtoV4   : 1490
+VAR        : 11
+JLowZ      : 1490
 
 Never executed
-PopPtr    
 PshV4     
 SwapPtr   
 NOT       
@@ -197,29 +197,37 @@ PshListElm
 SetListTyp
 
 Sequences
-PshGPtr   , CHKREF     : 515
-PshC4     , STR        : 3
-PSF       , CALLSYS    : 6
-RET       , SUSPEND    : 512
-JMP       , CpyVtoR4   : 512
-JZ        , SetV4      : 512
-CMPIi     , JZ         : 512
-PshRPtr   , PSF        : 3
-STR       , CALLSYS    : 3
-CALLSYS   , PSF        : 3
-CALLSYS   , PshRPtr    : 3
-CALLSYS   , SUSPEND    : 3
-CALLSYS   , CpyRtoV4   : 512
-CALLSYS   , VAR        : 3
-SUSPEND   , PshGPtr    : 512
-SUSPEND   , PshC4      : 3
-SUSPEND   , RET        : 513
-CHKREF    , CALLSYS    : 512
-CHKREF    , GETREF     : 3
-GETREF    , CALLSYS    : 3
-SetV4     , JMP        : 512
-CpyVtoR4  , JLowZ      : 512
-CpyRtoV4  , CMPIi      : 512
-VAR       , PshGPtr    : 3
-JLowZ     , SUSPEND    : 512
+PopPtr    , VAR        : 1
+PshGPtr   , CHKREF     : 1494
+PshC4     , STR        : 4
+PSF       , PSF        : 6
+PSF       , STR        : 7
+PSF       , CALLSYS    : 27
+PSF       , GETREF     : 1
+RET       , SUSPEND    : 1490
+JMP       , CpyVtoR4   : 1490
+JZ        , SetV4      : 1490
+CMPIi     , JZ         : 1490
+PshRPtr   , PSF        : 10
+PshRPtr   , GETREF     : 1
+STR       , CALLSYS    : 11
+CALLSYS   , PopPtr     : 1
+CALLSYS   , PSF        : 18
+CALLSYS   , PshRPtr    : 11
+CALLSYS   , SUSPEND    : 4
+CALLSYS   , GETREF     : 5
+CALLSYS   , CpyRtoV4   : 1490
+CALLSYS   , VAR        : 10
+SUSPEND   , PshGPtr    : 1490
+SUSPEND   , PshC4      : 4
+SUSPEND   , RET        : 1491
+CHKREF    , CALLSYS    : 1490
+CHKREF    , GETREF     : 4
+GETREF    , CALLSYS    : 11
+SetV4     , JMP        : 1490
+CpyVtoR4  , JLowZ      : 1490
+CpyRtoV4  , CMPIi      : 1490
+VAR       , PshGPtr    : 4
+VAR       , PSF        : 7
+JLowZ     , SUSPEND    : 1490
 LABEL     , SUSPEND    : 1

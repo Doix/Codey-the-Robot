@@ -15,8 +15,12 @@ GameScreen::~GameScreen()
 }
 
 void GameScreen::draw() {
-	hud->draw(*game->getGraphics());
+	
 	level->draw();
+	hud->draw(*game->getGraphics());
+	if (!(level->tutorialComplete)){
+		level->drawTutorial();
+	}
 	
 }
 

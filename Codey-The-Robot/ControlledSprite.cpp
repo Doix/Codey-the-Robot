@@ -327,6 +327,9 @@ void ControlledSprite::executeCommand(CommandAction command){
 			}
 			stopMoving();
 			break;
+		case CommandAction::NONE:
+			stopMoving();
+			break;
 		}
 	}
 	else{
@@ -382,9 +385,9 @@ void ControlledSprite::stopMoving(){
 }
 
 int ControlledSprite::getCol() {
-	return round(PosX / Game::TILE_SIZE);
+	return static_cast<int>(round(PosX / Game::TILE_SIZE));
 }
 
 int ControlledSprite::getRow() {
-	return round(PosY / Game::TILE_SIZE);
+	return static_cast<int>(round(PosY / Game::TILE_SIZE));
 }

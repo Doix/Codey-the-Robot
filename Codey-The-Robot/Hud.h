@@ -9,6 +9,12 @@
 #include "Commands.h"
 #include "ControlledSprite.h"
 
+enum class InsertMode {
+	MAIN,
+	LOOP
+};
+
+
 class Hud
 {
 public:
@@ -22,7 +28,7 @@ public:
 private:
 	int PosX;
 	int PosY;
-
+	int loopLocation;
 	std::shared_ptr<ControlledSprite> player;
 
 	std::unique_ptr<Sprite> sprite;
@@ -30,8 +36,7 @@ private:
 	void initializeSprites(Graphics& graphics);
 	std::map<CommandAction, std::unique_ptr<Sprite>> buttons;
 	std::vector<CommandAction> availableCommands;
-
-
+	InsertMode insertMode;
 
 };
 

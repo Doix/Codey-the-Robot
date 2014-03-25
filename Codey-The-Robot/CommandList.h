@@ -4,6 +4,7 @@
 #include "Commands.h"
 #include <list>
 #include <memory>
+#include <vector>
 
 class CommandList {
 public:
@@ -16,7 +17,7 @@ public:
 	void addCommand(std::shared_ptr<Command> c, int pos);
 	void restart();
 	std::list < std::shared_ptr<Command>>* getList();
-
+	int size();
 	void deleteCommand(int index);
 
 private:

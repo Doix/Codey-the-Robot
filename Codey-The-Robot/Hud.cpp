@@ -3,6 +3,7 @@
 #include "Game.h"
 #include <iostream>
 #include "Rectangle.h"
+#include "LoopCommand.h"
 
 namespace{
 	const int BUTTON_SIZE = 32;
@@ -26,8 +27,13 @@ Hud::Hud(Graphics& graphics, int x, int y, std::shared_ptr<ControlledSprite> pla
 	initializeSprites(graphics);
 
 	// lets just hardcode this for now
-	availableCommands = std::vector<CommandAction>{CommandAction::MOVE_FORWARD, CommandAction::TURN_LEFT, CommandAction::TURN_RIGHT, CommandAction::LOOP};
+	availableCommands = std::vector<CommandAction>{CommandAction::MOVE_FORWARD, CommandAction::TURN_LEFT, CommandAction::TURN_RIGHT,
+	CommandAction::LOOP};
 	setPlayer(player);
+	
+	insertMode = InsertMode::MAIN;
+	loopLocation = 0;
+
 }
 
 //Destructor - release the sprite
@@ -64,15 +70,55 @@ void Hud::draw(Graphics& graphics){
 	std::list < std::shared_ptr<Command>>* commands = player->getCommands();
 
 	for (std::shared_ptr<Command> command : *commands){
-		buttons[command->getCommand()]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
-		x += BUTTON_SIZE + 10;
-		count++;
-		if (count % 6 == 0){
+
+		if (std::dynamic_pointer_cast<LoopCommand>(command)) {
+			count = 0;
+			std::shared_ptr<LoopCommand>loopCommand = std::dynamic_pointer_cast<LoopCommand>(command);
+			if (x != 666) {
+				x = 666;
+				y += BUTTON_SIZE + 10;
+			}
+			buttons[CommandAction::LOOP]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
+
+			y += BUTTON_SIZE + 10;
+
+			for (std::shared_ptr<Command> command2 : *loopCommand->getCommands()) {
+				buttons[command2->getCommand()]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
+				x += BUTTON_SIZE + 10;
+				count++;
+				if (count % 6 == 0){
+					x = 666;
+					y += BUTTON_SIZE + 10;
+				}
+			}
+
+			
+
+			if (insertMode == InsertMode::LOOP)
+				buttons[CommandAction::NONE_SELECTED]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
+			else
+				buttons[CommandAction::NONE]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
+
+			y += BUTTON_SIZE + 10;
 			x = 666;
+			buttons[CommandAction::LOOP]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
+
 			y += BUTTON_SIZE + 10;
 		}
+		else {
+			buttons[command->getCommand()]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
+			x += BUTTON_SIZE + 10;
+			count++;
+			if (count % 6 == 0){
+				x = 666;
+				y += BUTTON_SIZE + 10;
+			}
+		}
 	}
-
+	if (insertMode == InsertMode::MAIN)
+		buttons[CommandAction::NONE_SELECTED]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
+	else 
+		buttons[CommandAction::NONE]->draw(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE);
 }
 
 bool Hud::click(std::tuple<int, int> clicked) {
@@ -86,11 +132,26 @@ bool Hud::click(std::tuple<int, int> clicked) {
 			y -= 375;
 			unsigned int col = x / (BUTTON_SIZE + 10);
 			unsigned int row = y / BUTTON_SIZE;
-			//TODO:: will need to be updated to handle multiple rows
-			//when we have enough commands
+
 			if (col < availableCommands.size()) {
 				CommandAction command = availableCommands.at(col);
-				player->sendCommand(std::shared_ptr<Command>(new Command(command)));
+				if (command == CommandAction::LOOP) {
+					player->sendCommand(std::shared_ptr<LoopCommand>(new LoopCommand(command, 2)));
+					insertMode = InsertMode::LOOP;
+					std::list < std::shared_ptr<Command>>* commands = player->getCommands();
+					loopLocation = commands->size() - 1;
+				}
+				else {
+					if (insertMode == InsertMode::MAIN)
+						player->sendCommand(std::shared_ptr<Command>(new Command(command)));
+					else {
+						std::list < std::shared_ptr<Command>>* commands = player->getCommands();
+						std::list<std::shared_ptr<Command>>::iterator it = commands->begin();
+						std::advance(it, loopLocation);
+						std::shared_ptr<LoopCommand> loopCommand = std::dynamic_pointer_cast<LoopCommand>(*it);
+						loopCommand->addCommand(std::shared_ptr<Command>(new Command(command)));
+					}
+				}
 			}
 		}
 
@@ -117,7 +178,8 @@ void Hud::initializeSprites(Graphics& graphics) {
 	buttons[CommandAction::LOOP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 1, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
 	buttons[CommandAction::MOVE_FORWARD] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 0, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
 	buttons[CommandAction::TURN_LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 2, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
-	//buttons[CommandAction::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 4, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
+	buttons[CommandAction::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 4, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
+	buttons[CommandAction::NONE_SELECTED] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 5, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
 
 }
 

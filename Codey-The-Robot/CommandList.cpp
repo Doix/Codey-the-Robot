@@ -1,5 +1,6 @@
 #include "CommandList.h"
-
+#include "LoopCommand.h"
+#include <memory>
 
 CommandList::CommandList() {
 }
@@ -22,8 +23,12 @@ CommandAction CommandList::getCommand() {
 void CommandList::addCommand(std::shared_ptr<Command> c) {
 	commands.push_back(c);
 	if (commands.size() == 1){
-		restart();
+		iterator = commands.begin();
 	}
+}
+
+int CommandList::size() {
+	return commands.size();
 }
 
 bool CommandList::isFinished() {
@@ -32,6 +37,13 @@ bool CommandList::isFinished() {
 
 void CommandList::restart() {
 	iterator = commands.begin();
+	
+	for (auto command : commands) {
+		std::shared_ptr<LoopCommand>loopCommand = std::dynamic_pointer_cast<LoopCommand>(command);
+		if (loopCommand) {
+			loopCommand->restart();
+		}
+	}
 }
 
 void CommandList::deleteCommand(int index) {

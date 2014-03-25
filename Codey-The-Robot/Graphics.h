@@ -25,7 +25,7 @@ public:
 	void drawRectangle(const SDL_Rect* rect);
 
 	//Creates image from font string
-	bool renderText(std::string textureText, const int x, const int y);
+	bool renderText(std::string textureText, const int x, const int y, const int width);
 
 private:
 	std::map<std::string, SDL_Texture*> spriteCache;

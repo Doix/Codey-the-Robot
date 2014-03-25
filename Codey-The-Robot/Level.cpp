@@ -136,7 +136,7 @@ void Level::draw() {
 		enemy->draw(*graphics);
 
 	if (tutorialText.size() > tutorialLine){
-		graphics->renderText(tutorialText.at(tutorialLine), 130, 72);
+		graphics->renderText(tutorialText.at(tutorialLine), 130, 72, 500);
 	}
 	else{
 		tutorialComplete = true;

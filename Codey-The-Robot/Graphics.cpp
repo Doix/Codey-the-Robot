@@ -138,10 +138,10 @@ void Graphics::drawRectangle(const SDL_Rect* rect) {
 	SDL_RenderDrawRect(renderer, rect);
 }
 
-bool Graphics::renderText(std::string textureText, const int x, const int y){
+bool Graphics::renderText(std::string textureText, const int x, const int y, const int width){
 	
 	SDL_Surface* textSurface;
-	textSurface = TTF_RenderText_Blended_Wrapped(gFont, textureText.c_str(), textColor, 500);
+	textSurface = TTF_RenderText_Blended_Wrapped(gFont, textureText.c_str(), textColor, width);
 
 	if (textSurface == NULL)
 	{
@@ -166,14 +166,6 @@ bool Graphics::renderText(std::string textureText, const int x, const int y){
 			destinationRect.w = textSurface->w;
 			destinationRect.h = textSurface->h;
 
-			SDL_Rect outlineRect;
-			outlineRect.x = destinationRect.x - 20;
-			outlineRect.y = destinationRect.y - 20;
-			outlineRect.w = destinationRect.w + 20;
-			outlineRect.h = destinationRect.h + 20;
-
-			SDL_RenderFillRect(renderer, &outlineRect);
-			
 			renderTexture(
 				textTexture,
 				&textSurface->clip_rect,

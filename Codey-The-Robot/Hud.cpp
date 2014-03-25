@@ -13,10 +13,6 @@ namespace{
 	const int BUTTON_HEIGHT = 95;
 	const int HUD_WIDTH = Game::TILE_SIZE * 4;
 	const int HUD_HEIGHT = Game::TILE_SIZE * 6;
-
-	const int LOOP_COMMAND = 1;
-	const int NONE = 2;
-	const int NONE_SELECTED = 3;
 }
 
 
@@ -202,7 +198,7 @@ bool Hud::click(std::tuple<int, int> clicked) {
 							loopCommand->removeCommand(loopIndex);
 						}
 						else {
-							player->removeCommand(index);
+							player->removeCommand(commandIndex);
 							insertMode = InsertMode::MAIN;
 						}
 					}
@@ -219,24 +215,6 @@ bool Hud::click(std::tuple<int, int> clicked) {
 				commandIndex++;
 				
 			}
-
-
-			/*
-			ret = true;
-			x -= 655;
-			y -= 21;
-			int col = x / (BUTTON_SIZE + 10);
-			int row = y / BUTTON_SIZE;
-
-			unsigned int index = col + row * 6;
-			if (index < player->getCommands()->size()) {
-				if (index < loopLocation)
-					loopLocation--;
-				else if (index == loopLocation)
-					insertMode = InsertMode::MAIN;
-				player->removeCommand(index);
-			}
-			*/
 		}
 	}
 	return ret;

@@ -1,21 +1,32 @@
 
 Total count
-RET        : 934
-SUSPEND    : 934
+PshGPtr    : 1984
+PSF        : 2
+RET        : 1984
+JMP        : 1983
+JZ         : 1983
+CMPIi      : 1983
+PshRPtr    : 1
+STR        : 1
+CALLSYS    : 1987
+SUSPEND    : 3968
+CHKREF     : 1984
+GETREF     : 1
+SetV4      : 1983
+CpyVtoR4   : 1983
+CpyRtoV4   : 1983
+VAR        : 1
+JLowZ      : 1983
 
 Never executed
 PopPtr    
-PshGPtr   
 PshC4     
 PshV4     
-PSF       
 SwapPtr   
 NOT       
 PshG4     
 LdGRdR4   
 CALL      
-JMP       
-JZ        
 JNZ       
 JS        
 JNS       
@@ -57,14 +68,10 @@ CMPd
 CMPu      
 CMPf      
 CMPi      
-CMPIi     
 CMPIf     
 CMPIu     
 JMPP      
 PopRPtr   
-PshRPtr   
-STR       
-CALLSYS   
 CALLBND   
 ALLOC     
 FREE      
@@ -72,22 +79,17 @@ LOADOBJ
 STOREOBJ  
 GETOBJ    
 REFCPY    
-CHKREF    
 GETOBJREF 
-GETREF    
 PshNull   
 ClrVPtr   
 OBJTYPE   
 TYPEID    
-SetV4     
 SetV8     
 ADDSi     
 CpyVtoV4  
 CpyVtoV8  
-CpyVtoR4  
 CpyVtoR8  
 CpyVtoG4  
-CpyRtoV4  
 CpyRtoV8  
 CpyGtoV4  
 WRTV1     
@@ -102,7 +104,6 @@ LDG
 LDV       
 PGA       
 CmpPtr    
-VAR       
 iTOf      
 fTOi      
 uTOf      
@@ -189,7 +190,6 @@ MODu64
 LoadRObjR 
 LoadVObjR 
 RefCpyV   
-JLowZ     
 JLowNZ    
 AllocMem  
 SetListSiz
@@ -197,6 +197,28 @@ PshListElm
 SetListTyp
 
 Sequences
-RET       , SUSPEND    : 933
-SUSPEND   , RET        : 934
+PshGPtr   , CHKREF     : 1984
+PSF       , CALLSYS    : 2
+RET       , SUSPEND    : 1983
+JMP       , CpyVtoR4   : 1983
+JZ        , SetV4      : 1983
+CMPIi     , JZ         : 1983
+PshRPtr   , PSF        : 1
+STR       , CALLSYS    : 1
+CALLSYS   , PSF        : 1
+CALLSYS   , PshRPtr    : 1
+CALLSYS   , SUSPEND    : 1
+CALLSYS   , CpyRtoV4   : 1983
+CALLSYS   , VAR        : 1
+SUSPEND   , PshGPtr    : 1983
+SUSPEND   , RET        : 1984
+SUSPEND   , STR        : 1
+CHKREF    , CALLSYS    : 1983
+CHKREF    , GETREF     : 1
+GETREF    , CALLSYS    : 1
+SetV4     , JMP        : 1983
+CpyVtoR4  , JLowZ      : 1983
+CpyRtoV4  , CMPIi      : 1983
+VAR       , PshGPtr    : 1
+JLowZ     , SUSPEND    : 1983
 LABEL     , SUSPEND    : 1

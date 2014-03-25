@@ -128,7 +128,8 @@ void Codey::deathSequence(){
 		startedDeathSequence = true;	
 		deathSeqTimer = 0;
 		started = false;//stop current commands
-		currentMotion = MotionType::DYING;		
+		currentMotion = MotionType::DYING;	
+		currentDirection = DirectionFacing::RIGHT;
 		printf("Codey is going to die now! :'( \n");
 	}
 	

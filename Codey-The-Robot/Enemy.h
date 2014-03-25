@@ -12,11 +12,12 @@ class Enemy : public ControlledSprite
 public:
 	Enemy(Graphics& graphics, int PosX, int PosY);
 	~Enemy();
+	virtual void draw(Graphics& graphics) = 0;
 
 protected:
-	void initialiseSpriteSheets(Graphics& graphics);
+	virtual void initialiseSpriteSheets(Graphics& graphics) = 0;
 	bool checkFinished();
-	void initCommands();
+	virtual void initCommands() = 0;
 };
 
 #endif // ENEMY_H_

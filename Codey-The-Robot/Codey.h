@@ -9,7 +9,7 @@ public:
 	Codey(Graphics& graphics, int x, int y);
 	~Codey();
 	void update(int elapsedTimeMs, const Map& map);
-	void draw(Graphics& graphics);
+	virtual void draw(Graphics& graphics);
 	void deathSequence();
 	
 protected:

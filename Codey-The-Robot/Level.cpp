@@ -3,6 +3,8 @@
 #include "Codey.h"
 #include "Game.h"
 #include "Enemy.h"
+#include "ChopperEnemy.h"
+#include "DogEnemy.h"
 #include "LoopyLeo.h"
 #include "Rectangle.h"
 #include <iostream>
@@ -79,9 +81,15 @@ void Level::LoadEntities() {
 				std::stoi(it++->str()) * Game::TILE_SIZE,
 				std::stoi(it++->str()) * Game::TILE_SIZE)));
 		}
-		else if (object == "Enemy") {
+		else if (object == "EnemyDog") {
 			it++;
-			enemies.push_back(std::shared_ptr<Enemy>(new Enemy(*graphics,
+			enemies.push_back(std::shared_ptr<Enemy>(new DogEnemy(*graphics,
+				std::stoi(it++->str()) * Game::TILE_SIZE,
+				std::stoi(it++->str()) * Game::TILE_SIZE)));
+		}
+		else if (object == "EnemyChopper") {
+			it++;
+			enemies.push_back(std::shared_ptr<Enemy>(new ChopperEnemy(*graphics,
 				std::stoi(it++->str()) * Game::TILE_SIZE,
 				std::stoi(it++->str()) * Game::TILE_SIZE)));
 		}

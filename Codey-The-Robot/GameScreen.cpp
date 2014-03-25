@@ -15,8 +15,9 @@ GameScreen::~GameScreen()
 }
 
 void GameScreen::draw() {
-	level->draw();
 	hud->draw(*game->getGraphics());
+	level->draw();
+	
 }
 
 void GameScreen::update(int elapsedTimeInMs) {

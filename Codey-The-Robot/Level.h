@@ -22,7 +22,7 @@ public:
 	std::vector < std::shared_ptr<Codey>> getPlayers();
 	void start();
 	void levelWon();
-	void setTutorialText(string &msg);
+	void setTutorialText(string &msg, int speakerId);
 
 	void nextTutorialText();
 	bool tutorialComplete;

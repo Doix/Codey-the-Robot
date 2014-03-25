@@ -5,5 +5,7 @@ void update () {
 }
 
 void init() {
-	level.setTutorialText("weeeeeeeeeeeeee text goes here!\n is this a new line\n Figure out how to draw it from here");
+	level.setTutorialText("Well, HOWDY there pard'ner, my name\'s Loopy Leo!", 1);
+	level.setTutorialText("Hi, I\'m Codey and I'm here to save the World", 0);
+	level.setTutorialText("Well I\'ll be dar-niddly-arned. That\'s something I can help you with/nLet me teach you how to Loop!", 1);
 }

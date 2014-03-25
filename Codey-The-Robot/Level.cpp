@@ -35,11 +35,17 @@ void MessageCallback(const asSMessageInfo *msg, void *){
 
 
 
-Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics), tutorialComplete(false) {
+Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics), tutorialComplete(true) {
 	map.reset(Map::createMapFromFile(*graphics, "content/levels/" + name + "/map"));
 	LoadEntities();
 
 	setupAngelscript();
+
+	tutorialText.reset(new TutorialText(*graphics));
+
+	//setTutorialText("Well, HOWDY there pard'ner, my name\'s Loopy Leo!", "Loopy");
+	//setTutorialText("Hi, I\'m Codey and I'm here to save the World", "Codey");
+	//setTutorialText("Well I\'ll be dar-niddly-arned. That\'s something I can help you with/nLet me teach you how to Loop!", "Loopy");
 
 
 	asIScriptModule *mod = engine->GetModule("MyModule");
@@ -156,9 +162,10 @@ void Level::levelWon() {
 	printf("won!\n");
 }
 
-void Level::setTutorialText(string &msg)
-{
-	tutorialText.reset(new TutorialText(*graphics, msg));
+void Level::setTutorialText(string &msg, int speakerId)
+{			
+	tutorialText->setTutorialText(msg, speakerId);
+	tutorialComplete = false;
 }
 
 void Level::nextTutorialText(){
@@ -202,7 +209,7 @@ void Level::setupAngelscript() {
 
 	engine->RegisterGlobalProperty("Level level", this);
 	engine->RegisterObjectMethod("Level", "void win()", asMETHOD(Level, levelWon), asCALL_THISCALL);
-	engine->RegisterObjectMethod("Level", "void setTutorialText(const string &in)", asMETHOD(Level, setTutorialText), asCALL_THISCALL);
+	engine->RegisterObjectMethod("Level", "void setTutorialText(const string &in, int speakerId)", asMETHOD(Level, setTutorialText), asCALL_THISCALL);
 
 	int i = 0;
 	for (auto player : players) {

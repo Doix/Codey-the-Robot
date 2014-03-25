@@ -1,26 +1,26 @@
 
 Total count
-PshGPtr    : 981
-PSF        : 2
-RET        : 981
-JMP        : 980
-JZ         : 980
-CMPIi      : 980
-PshRPtr    : 1
-STR        : 1
-CALLSYS    : 984
-SUSPEND    : 1962
-CHKREF     : 981
-GETREF     : 1
-SetV4      : 980
-CpyVtoR4   : 980
-CpyRtoV4   : 980
-VAR        : 1
-JLowZ      : 980
+PshGPtr    : 200
+PshC4      : 3
+PSF        : 6
+RET        : 198
+JMP        : 197
+JZ         : 197
+CMPIi      : 197
+PshRPtr    : 3
+STR        : 3
+CALLSYS    : 209
+SUSPEND    : 398
+CHKREF     : 200
+GETREF     : 3
+SetV4      : 197
+CpyVtoR4   : 197
+CpyRtoV4   : 197
+VAR        : 3
+JLowZ      : 197
 
 Never executed
 PopPtr    
-PshC4     
 PshV4     
 SwapPtr   
 NOT       
@@ -197,28 +197,29 @@ PshListElm
 SetListTyp
 
 Sequences
-PshGPtr   , CHKREF     : 981
-PSF       , CALLSYS    : 2
-RET       , SUSPEND    : 980
-JMP       , CpyVtoR4   : 980
-JZ        , SetV4      : 980
-CMPIi     , JZ         : 980
-PshRPtr   , PSF        : 1
-STR       , CALLSYS    : 1
-CALLSYS   , PSF        : 1
-CALLSYS   , PshRPtr    : 1
-CALLSYS   , SUSPEND    : 1
-CALLSYS   , CpyRtoV4   : 980
-CALLSYS   , VAR        : 1
-SUSPEND   , PshGPtr    : 980
-SUSPEND   , RET        : 981
-SUSPEND   , STR        : 1
-CHKREF    , CALLSYS    : 980
-CHKREF    , GETREF     : 1
-GETREF    , CALLSYS    : 1
-SetV4     , JMP        : 980
-CpyVtoR4  , JLowZ      : 980
-CpyRtoV4  , CMPIi      : 980
-VAR       , PshGPtr    : 1
-JLowZ     , SUSPEND    : 980
+PshGPtr   , CHKREF     : 200
+PshC4     , STR        : 3
+PSF       , CALLSYS    : 6
+RET       , SUSPEND    : 197
+JMP       , CpyVtoR4   : 197
+JZ        , SetV4      : 197
+CMPIi     , JZ         : 197
+PshRPtr   , PSF        : 3
+STR       , CALLSYS    : 3
+CALLSYS   , PSF        : 3
+CALLSYS   , PshRPtr    : 3
+CALLSYS   , SUSPEND    : 3
+CALLSYS   , CpyRtoV4   : 197
+CALLSYS   , VAR        : 3
+SUSPEND   , PshGPtr    : 197
+SUSPEND   , PshC4      : 3
+SUSPEND   , RET        : 198
+CHKREF    , CALLSYS    : 197
+CHKREF    , GETREF     : 3
+GETREF    , CALLSYS    : 3
+SetV4     , JMP        : 197
+CpyVtoR4  , JLowZ      : 197
+CpyRtoV4  , CMPIi      : 197
+VAR       , PshGPtr    : 3
+JLowZ     , SUSPEND    : 197
 LABEL     , SUSPEND    : 1

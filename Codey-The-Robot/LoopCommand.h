@@ -13,6 +13,9 @@ public:
 	void addCommand(std::shared_ptr<Command> c);
 	std::list < std::shared_ptr<Command>>* getCommands();
 	virtual void restart();
+	int size();
+
+	void removeCommand(int index);
 protected:
 	CommandAction command;
 	int repeatAmount;

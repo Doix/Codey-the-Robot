@@ -38,6 +38,7 @@
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Hud.cpp" />
+    <ClCompile Include="HudButton.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="IntroScreen.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="HudButton.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Hud.h" />
     <ClInclude Include="Input.h" />

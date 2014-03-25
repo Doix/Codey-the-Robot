@@ -15,6 +15,9 @@ Button::Button(Graphics& graphics, const std::string& file_path,
 {
 }
 
+Button::Button(Sprite& sprite, Rectangle rect) : Sprite(sprite), rect(rect){
+}
+
 //empty destructor
 Button::~Button()
 {

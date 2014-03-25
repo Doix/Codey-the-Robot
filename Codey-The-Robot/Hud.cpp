@@ -208,6 +208,7 @@ bool Hud::click(std::tuple<int, int> clicked) {
 					}
 					else {
 						player->removeCommand(commandIndex);
+						insertMode = InsertMode::MAIN;
 					}
 				}
 				if (inLoop) {

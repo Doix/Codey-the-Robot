@@ -42,11 +42,16 @@ void GameScreen::update(int elapsedTimeInMs) {
 				hud->setPlayer(player);
 		}
 	}
-
-	level->update(elapsedTimeInMs);
-
+	
 	if (game->getInput()->wasKeyPressed(SDLK_ESCAPE)){
 		game->setScreen(new MapScreen(game));
 		return;
 	}
+
+	if (game->getInput()->wasKeyPressed(SDLK_RETURN)){
+		level->nextTutorialText();
+		return;
+	}
+
+	level->update(elapsedTimeInMs);
 }

@@ -40,7 +40,7 @@ void Hud::draw(Graphics& graphics){
 
 	
 	SDL_Rect rect = player->clickRectangle();
-	graphics.drawRectanlge(&rect);
+	graphics.drawRectangle(&rect);
 
 
 	int x = 666;

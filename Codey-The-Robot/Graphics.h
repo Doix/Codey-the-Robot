@@ -4,6 +4,8 @@
 #include <string>
 #include "SDL.h"
 #include <map>
+#include "SDL_ttf.h"
+#include <memory>
 
 class Graphics
 {
@@ -20,12 +22,18 @@ public:
 
 	void flip() const;
 	void clear() const;
-	void drawRectanlge(const SDL_Rect* rect);
+	void drawRectangle(const SDL_Rect* rect);
+
+	//Creates image from font string
+	bool renderText(std::string textureText, const int x, const int y);
 
 private:
 	std::map<std::string, SDL_Texture*> spriteCache;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
+	TTF_Font *gFont = nullptr;
+	SDL_Color textColor;
+	
 };
 
 #endif // GRAPHICS_H_

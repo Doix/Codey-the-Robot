@@ -23,6 +23,8 @@ public:
 	void levelWon();
 	void setTutorialText(string &msg);
 
+	void nextTutorialText();
+
 private:
 	Graphics* graphics;
 	std::unique_ptr<Map> map;
@@ -32,6 +34,9 @@ private:
 	void LoadEntities();
 	asIScriptEngine* engine;
 	void setupAngelscript();
+
+	std::vector<std::string> tutorialText;
+	int tutorialLine;
 };
 
 #endif // LEVLE_H_

@@ -17,6 +17,7 @@ IntroScreen::~IntroScreen()
 
 void IntroScreen::draw() {
 	background->draw(*game->getGraphics(), 0, 0, 940, 480);
+
 }
 
 void IntroScreen::update(int time) {

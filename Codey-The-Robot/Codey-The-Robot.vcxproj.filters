@@ -209,9 +209,6 @@
     <ClInclude Include="add_on\weakref\weakref.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="add_on\autowrapper\aswrappedcall.h">
-      <Filter>Header Files\AngelScript</Filter>
-    </ClInclude>
     <ClInclude Include="add_on\contextmgr\contextmgr.h">
       <Filter>Header Files\AngelScript</Filter>
     </ClInclude>

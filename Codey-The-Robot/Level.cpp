@@ -11,6 +11,8 @@
 #include <angelscript.h>
 #include "add_on/scriptstdstring/scriptstdstring.h"
 #include "add_on/scriptbuilder/scriptbuilder.h"
+#include <sstream>
+#include <vector>
 
 using std::regex;
 using std::string;
@@ -30,7 +32,7 @@ void MessageCallback(const asSMessageInfo *msg, void *){
 
 
 
-Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics) {
+Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics), tutorialLine(0) {
 	map.reset(Map::createMapFromFile(*graphics, "content/levels/" + name + "/map"));
 	LoadEntities();
 
@@ -117,6 +119,10 @@ void Level::draw() {
 
 	for (auto enemy : enemies) 
 		enemy->draw(*graphics);
+
+	if (tutorialText.size() > tutorialLine){
+		graphics->renderText(tutorialText.at(tutorialLine), 130, 72);
+	}
 }
 
 
@@ -136,8 +142,16 @@ void Level::levelWon() {
 
 void Level::setTutorialText(string &msg)
 {
-	//TODO: Do things with this
-	printf("%s", msg.c_str());
+	std::stringstream ss(msg);
+	std::string tutText;
+	while (std::getline(ss,tutText)) {
+		tutText += "\n\n Hit \'Enter\' to continue";
+		tutorialText.push_back(tutText);
+	}
+}
+
+void Level::nextTutorialText(){
+	++tutorialLine;
 }
 
 void Level::setupAngelscript() {

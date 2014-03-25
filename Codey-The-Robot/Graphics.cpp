@@ -50,6 +50,21 @@ Graphics::Graphics()
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 	}
+
+	//Initialize SDL_ttf
+	if (TTF_Init() == -1)
+	{
+		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+	}
+
+	textColor = { 0, 0, 0 };
+
+	// Open the font
+	gFont = TTF_OpenFont("content/Font/ITCKRIST.ttf", 28);
+	if (gFont == NULL)
+	{
+		printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
+	}
 }
 
 //destructor, ends SDL_IMG tool and destroys window, renderer and any spriteCaches
@@ -64,7 +79,12 @@ Graphics::~Graphics()
 		SDL_DestroyTexture(entry.second);
 	}
 
+	//Free global font
+	TTF_CloseFont(gFont);
+	gFont = nullptr;
+
 	IMG_Quit();
+	TTF_Quit();	
 }
 
 /**
@@ -114,8 +134,58 @@ SDL_Texture* Graphics::loadTexture(std::string path)
 
 
 
-void Graphics::drawRectanlge(const SDL_Rect* rect) {
+void Graphics::drawRectangle(const SDL_Rect* rect) {
 	SDL_RenderDrawRect(renderer, rect);
+}
+
+bool Graphics::renderText(std::string textureText, const int x, const int y){
+	
+	SDL_Surface* textSurface;
+	textSurface = TTF_RenderText_Blended_Wrapped(gFont, textureText.c_str(), textColor, 500);
+
+	if (textSurface == NULL)
+	{
+		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+		return false;
+	}
+	else
+	{
+		//Create texture from surface pixels
+		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		if (textTexture == NULL)
+		{
+			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
+			return false;
+		}
+		else
+		{
+			//Get image dimensions
+			SDL_Rect destinationRect;
+			destinationRect.x = x;
+			destinationRect.y = y;
+			destinationRect.w = textSurface->w;
+			destinationRect.h = textSurface->h;
+
+			SDL_Rect outlineRect;
+			outlineRect.x = destinationRect.x - 20;
+			outlineRect.y = destinationRect.y - 20;
+			outlineRect.w = destinationRect.w + 20;
+			outlineRect.h = destinationRect.h + 20;
+
+			SDL_RenderFillRect(renderer, &outlineRect);
+			
+			renderTexture(
+				textTexture,
+				&textSurface->clip_rect,
+				&destinationRect);
+		}
+
+		//Get rid of old surface
+		SDL_FreeSurface(textSurface);
+	}
+
+	return true;
+	
 }
 
 //Draw a texture at a destination rectangle based on a source rectangle

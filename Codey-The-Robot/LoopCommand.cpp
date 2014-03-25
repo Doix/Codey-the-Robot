@@ -23,9 +23,17 @@ void LoopCommand::addCommand(std::shared_ptr<Command> c) {
 	commands.addCommand(c);
 }
 
+void LoopCommand::removeCommand(int index) {
+	commands.deleteCommand(index);
+}
+
 void LoopCommand::restart() {
 	amountLeft = repeatAmount;
 	commands.restart();
+}
+
+int LoopCommand::size() {
+	return commands.size();
 }
 
 CommandAction LoopCommand::getCommand(){

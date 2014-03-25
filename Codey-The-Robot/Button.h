@@ -12,12 +12,14 @@ public:
 		int width, int height,
 		Rectangle rect);
 
+	Button(Sprite& sprite, Rectangle rect);
+
 	~Button();
 	bool isClicked(int px, int py);
 
-private:
+protected:
 	const Rectangle rect;
 
 };
 
-#endif // ANIMATED_SPRITE_H_
+#endif // BUTTON_H_

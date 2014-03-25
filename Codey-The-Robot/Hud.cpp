@@ -26,7 +26,7 @@ Hud::Hud(Graphics& graphics, int x, int y, std::shared_ptr<ControlledSprite> pla
 	initializeSprites(graphics);
 
 	// lets just hardcode this for now
-	availableCommands = std::vector<CommandAction>{CommandAction::MOVE_FORWARD, CommandAction::TURN_LEFT, CommandAction::TURN_RIGHT};
+	availableCommands = std::vector<CommandAction>{CommandAction::MOVE_FORWARD, CommandAction::TURN_LEFT, CommandAction::TURN_RIGHT, CommandAction::LOOP};
 	setPlayer(player);
 }
 

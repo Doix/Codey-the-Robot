@@ -1,22 +1,22 @@
 
 Total count
-PshGPtr    : 1984
+PshGPtr    : 981
 PSF        : 2
-RET        : 1984
-JMP        : 1983
-JZ         : 1983
-CMPIi      : 1983
+RET        : 981
+JMP        : 980
+JZ         : 980
+CMPIi      : 980
 PshRPtr    : 1
 STR        : 1
-CALLSYS    : 1987
-SUSPEND    : 3968
-CHKREF     : 1984
+CALLSYS    : 984
+SUSPEND    : 1962
+CHKREF     : 981
 GETREF     : 1
-SetV4      : 1983
-CpyVtoR4   : 1983
-CpyRtoV4   : 1983
+SetV4      : 980
+CpyVtoR4   : 980
+CpyRtoV4   : 980
 VAR        : 1
-JLowZ      : 1983
+JLowZ      : 980
 
 Never executed
 PopPtr    
@@ -197,28 +197,28 @@ PshListElm
 SetListTyp
 
 Sequences
-PshGPtr   , CHKREF     : 1984
+PshGPtr   , CHKREF     : 981
 PSF       , CALLSYS    : 2
-RET       , SUSPEND    : 1983
-JMP       , CpyVtoR4   : 1983
-JZ        , SetV4      : 1983
-CMPIi     , JZ         : 1983
+RET       , SUSPEND    : 980
+JMP       , CpyVtoR4   : 980
+JZ        , SetV4      : 980
+CMPIi     , JZ         : 980
 PshRPtr   , PSF        : 1
 STR       , CALLSYS    : 1
 CALLSYS   , PSF        : 1
 CALLSYS   , PshRPtr    : 1
 CALLSYS   , SUSPEND    : 1
-CALLSYS   , CpyRtoV4   : 1983
+CALLSYS   , CpyRtoV4   : 980
 CALLSYS   , VAR        : 1
-SUSPEND   , PshGPtr    : 1983
-SUSPEND   , RET        : 1984
+SUSPEND   , PshGPtr    : 980
+SUSPEND   , RET        : 981
 SUSPEND   , STR        : 1
-CHKREF    , CALLSYS    : 1983
+CHKREF    , CALLSYS    : 980
 CHKREF    , GETREF     : 1
 GETREF    , CALLSYS    : 1
-SetV4     , JMP        : 1983
-CpyVtoR4  , JLowZ      : 1983
-CpyRtoV4  , CMPIi      : 1983
+SetV4     , JMP        : 980
+CpyVtoR4  , JLowZ      : 980
+CpyRtoV4  , CMPIi      : 980
 VAR       , PshGPtr    : 1
-JLowZ     , SUSPEND    : 1983
+JLowZ     , SUSPEND    : 980
 LABEL     , SUSPEND    : 1

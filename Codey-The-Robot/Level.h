@@ -1,5 +1,5 @@
-#ifndef LEVLE_H_
-#define LEVLE_H_
+#ifndef LEVEL_H_
+#define LEVEL_H_
 
 #include <string>
 #include "Graphics.h"
@@ -8,6 +8,7 @@
 #include "Enemy.h"
 #include "Codey.h"
 #include "angelscript.h"
+#include "TutorialText.h"
 
 using std::string;
 
@@ -36,9 +37,8 @@ private:
 	asIScriptEngine* engine;
 	void setupAngelscript();
 
-	std::vector<std::string> tutorialText;
-	int tutorialLine;
+	std::unique_ptr<TutorialText> tutorialText;
 };
 
-#endif // LEVLE_H_
+#endif // LEVEL_H_
 

@@ -35,7 +35,7 @@ void MessageCallback(const asSMessageInfo *msg, void *){
 
 
 
-Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics), tutorialLine(0) {
+Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics), tutorialComplete(false) {
 	map.reset(Map::createMapFromFile(*graphics, "content/levels/" + name + "/map"));
 	LoadEntities();
 
@@ -135,12 +135,10 @@ void Level::draw() {
 	for (auto enemy : enemies) 
 		enemy->draw(*graphics);
 
-	if (tutorialText.size() > tutorialLine){
-		graphics->renderText(tutorialText.at(tutorialLine), 130, 72, 500);
+	if (!tutorialComplete){
+		tutorialText->draw(*graphics);
 	}
-	else{
-		tutorialComplete = true;
-	}
+	
 }
 
 
@@ -160,16 +158,14 @@ void Level::levelWon() {
 
 void Level::setTutorialText(string &msg)
 {
-	std::stringstream ss(msg);
-	std::string tutText;
-	while (std::getline(ss,tutText)) {
-		tutText += "\n\n Hit \'Enter\' to continue";
-		tutorialText.push_back(tutText);
-	}
+	tutorialText.reset(new TutorialText(*graphics, msg));
 }
 
 void Level::nextTutorialText(){
-	++tutorialLine;
+	tutorialText->nextTutorialText();
+	if (tutorialText->tutorialComplete){
+		tutorialComplete = true;
+	}
 }
 
 void Level::setupAngelscript() {

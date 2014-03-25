@@ -51,6 +51,7 @@
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="SpriteState.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TutorialText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="add_on\contextmgr\contextmgr.h" />
@@ -92,6 +93,7 @@
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteState.h" />
+    <ClInclude Include="TutorialText.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D3FBF8BD-36FE-475F-801C-8BE213532EF5}</ProjectGuid>

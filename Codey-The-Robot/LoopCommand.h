@@ -10,7 +10,9 @@ public:
 	~LoopCommand();
 	virtual bool isFinished();
 	virtual CommandAction getCommand();
-	void LoopCommand::addCommand(std::shared_ptr<Command> c);
+	void addCommand(std::shared_ptr<Command> c);
+	std::list < std::shared_ptr<Command>>* getCommands();
+	virtual void restart();
 protected:
 	CommandAction command;
 	int repeatAmount;

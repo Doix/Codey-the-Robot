@@ -5,6 +5,7 @@ enum class CommandAction {
 		TURN_RIGHT, 
 		MOVE_FORWARD , 
 		LOOP,
+		NONE_SELECTED,
 		NONE
 };
 
@@ -17,6 +18,7 @@ public:
 	~Command();
 	virtual CommandAction getCommand();
 	virtual bool isFinished();
+	virtual void restart() {};
 protected:
 	CommandAction command;
 };

@@ -14,7 +14,7 @@ LoopCommand::~LoopCommand() {
 }
 
 bool LoopCommand::isFinished(){
-	if (amountLeft == 0 && commands.isFinished())
+	if (amountLeft == 0 && commands.isFinished() || commands.size() == 0)
 		return true;
 	return false;
 }
@@ -23,11 +23,24 @@ void LoopCommand::addCommand(std::shared_ptr<Command> c) {
 	commands.addCommand(c);
 }
 
-CommandAction LoopCommand::getCommand(){
-	if (commands.isFinished()) {
-		amountLeft--;
-		commands.restart();
-	}
+void LoopCommand::restart() {
+	amountLeft = repeatAmount;
+	commands.restart();
+}
 
-	return commands.getCommand();
+CommandAction LoopCommand::getCommand(){
+	if (commands.size() > 0) {
+		if (commands.isFinished()) {
+			amountLeft--;
+			commands.restart();
+		}
+		CommandAction command = commands.getCommand();
+		return command;
+	}
+	else
+		return CommandAction::NONE; 
+}
+
+std::list < std::shared_ptr<Command>>* LoopCommand::getCommands() {
+	return commands.getList();
 }

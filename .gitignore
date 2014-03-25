@@ -170,3 +170,4 @@ $RECYCLE.BIN/
 .DS_Store
 *.orig
 AS_DEBUG/
+Codey-The-Robot/AS_DEBUG/stats.txt

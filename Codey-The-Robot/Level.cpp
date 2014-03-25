@@ -67,6 +67,12 @@ void Level::start() {
 		player->startCommands();
 }
 
+void Level::restart() {
+	for (auto player : players) {
+		player->restart();
+	}
+}
+
 void Level::LoadEntities() {
 	std::ifstream fs("content/levels/" + name + "/entities");
 	string line;

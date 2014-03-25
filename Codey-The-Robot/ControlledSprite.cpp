@@ -90,6 +90,11 @@ void ControlledSprite::startCommands(){
 	}
 }
 
+void ControlledSprite::restart() {
+	resetSprite();
+	commands.restart();
+}
+
 std::list < std::shared_ptr<Command>>* ControlledSprite::getCommands() {
 	return commands.getList();
 }
@@ -327,6 +332,9 @@ void ControlledSprite::executeCommand(CommandAction command){
 			}
 			stopMoving();
 			break;
+		case CommandAction::NONE:
+			stopMoving();
+			break;
 		}
 	}
 	else{
@@ -382,9 +390,9 @@ void ControlledSprite::stopMoving(){
 }
 
 int ControlledSprite::getCol() {
-	return round(PosX / Game::TILE_SIZE);
+	return static_cast<int>(round(PosX / Game::TILE_SIZE));
 }
 
 int ControlledSprite::getRow() {
-	return round(PosY / Game::TILE_SIZE);
+	return static_cast<int>(round(PosY / Game::TILE_SIZE));
 }

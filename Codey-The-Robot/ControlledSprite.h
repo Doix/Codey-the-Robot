@@ -33,6 +33,8 @@ public:
 	Rectangle damageRectangle() const;
 	Rectangle clickRectangle() const;
 
+	void restart();
+
 	int getRow();
 	int getCol();
 

@@ -34,6 +34,13 @@ void GameScreen::update(int elapsedTimeInMs) {
 				level->start();
 		}
 
+
+		if (level->tutorialComplete){
+			if (game->getInput()->wasKeyReleased(SDLK_r)) {
+				level->restart();
+			}
+		}
+
 		if (game->getInput()->wasMouseClicked()){
 			hud->click(game->getInput()->getMouseClick());
 			for (auto player : level->getPlayers()) {

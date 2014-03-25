@@ -24,8 +24,6 @@ public:
 	bool tutorialComplete;
 	void setTutorialText(std::string message, int speakerId);
 private:
-
-	int getSpeakerId(std::string speaker);
 	void initSprites(Graphics& graphics);
 	std::map<int, std::unique_ptr<Sprite>> speakerSprites;
 
@@ -45,7 +43,6 @@ private:
 
 	int currentSpeakerId;
 
-	int addSpeakerCount;
 };
 
 #endif //TUTORIAL_TEXT_H_

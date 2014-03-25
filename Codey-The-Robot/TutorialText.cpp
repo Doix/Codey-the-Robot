@@ -8,7 +8,7 @@
 namespace{
 	const int TEXT_X_POS = 350;
 	const int TEXT_Y_POS = 150;
-	const int TEXT_WIDTH = 500;
+	const int TEXT_WIDTH = 450;
 	const int TEXT_HEIGHT = 200;
 
 	const int MARGIN = 20;
@@ -35,7 +35,14 @@ namespace{
 }
 
 
-TutorialText::TutorialText(Graphics& graphics) : tutorialLine(0), addSpeakerCount(-1), tutorialComplete(true), firstText(false){
+TutorialText::TutorialText(Graphics& graphics) : 
+currentSpeakerNo(0), 
+currentLineNo(0),
+totalSpeakers(0),
+currentSpeakerNoOfLines(0), 
+firstText(true), 
+currentSpeakerId(0) 
+{
 	
 	//get Sprite for the text/portrait box
 	tutorialBox.reset(new Sprite(graphics, TEXT_BOX_PATH, 2, 2, 249, 40));
@@ -51,10 +58,8 @@ TutorialText::~TutorialText(){
 
 void TutorialText::draw(Graphics& graphics) const{
 	renderTextBox(graphics);
-
-	if (currentSpeakerNo < totalSpeakers){
-		graphics.renderText(std::get<0>(tutorialText[currentSpeakerNo])[currentLineNo], TEXT_X_POS, TEXT_Y_POS, TEXT_WIDTH);
-	}	
+	graphics.renderText(std::get<0>(tutorialText[currentSpeakerNo])[currentLineNo], TEXT_X_POS, TEXT_Y_POS, TEXT_WIDTH);
+		
 }
 
 
@@ -74,18 +79,10 @@ void TutorialText::setTutorialText(std::string message, int speakerId){
 	}
 
 	if (firstText){
-		currentSpeakerNoOfLines = std::get<0>(tutorialText[addSpeakerCount]).size();
+		currentSpeakerNoOfLines = std::get<0>(tutorialText[totalSpeakers - 1]).size();
+		currentSpeakerId = speakerId;
 		tutorialComplete = false;
 		firstText = false;
-	}
-}
-
-int TutorialText::getSpeakerId(std::string speaker){
-	if (speaker == "Codey"){
-		return CODEY_ID;
-	}
-	else if (speaker == "Loopy"){
-		return LOOPY_ID;
 	}
 }
 
@@ -96,12 +93,12 @@ void TutorialText::renderTextBox(Graphics& graphics) const{
 }
 
 void TutorialText::nextTutorialText(){
-
-	if (currentLineNo < currentSpeakerNoOfLines){
-		++currentLineNo;
-	}
-	else if(currentSpeakerNo < totalSpeakers){
+	
+	++currentLineNo;
+	if (!currentLineNo < currentSpeakerNoOfLines){
 		++currentSpeakerNo;
+	}
+	if(currentSpeakerNo < totalSpeakers){		
 		currentLineNo = 0;
 		currentSpeakerNoOfLines = std::get<0>(tutorialText[currentSpeakerNo]).size();
 		currentSpeakerId = std::get<1>(tutorialText[currentSpeakerNo]);

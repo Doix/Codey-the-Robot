@@ -173,6 +173,7 @@ bool Graphics::renderText(std::string textureText, const int x, const int y, con
 		}
 
 		//Get rid of old surface
+		SDL_DestroyTexture(textTexture);
 		SDL_FreeSurface(textSurface);
 	}
 

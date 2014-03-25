@@ -34,6 +34,7 @@ private:
 	vector<std::tuple<vector<std::string>, int>> tutorialText;
 	int tutorialLine;
 	std::unique_ptr<Sprite> tutorialBox;
+	std::tuple<int, int, int> getSpriteDimension() const;
 
 	int currentSpeakerNo;
 	int currentLineNo;

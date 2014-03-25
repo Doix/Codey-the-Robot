@@ -21,6 +21,14 @@ namespace{
 	const int PORTRAIT_BOX_WIDTH = 200;
 	const int PORTRAIT_BOX_X_POS = BOX_X_POS - PORTRAIT_BOX_WIDTH;
 
+	const int PORTRAIT_X_POS = PORTRAIT_BOX_X_POS + 60;
+	const int PORTRAIT_Y_POS = BOX_Y_POS + 50;
+
+	const int PORTRAIT_CODEY_HEIGHT = 80;
+	const int PORTRAIT_CODEY_WIDTH = 80;
+	const int PORTRAIT_LOOPY_HEIGHT = 80;
+	const int PORTRAIT_LOOPY_WIDTH = 60;
+
 	const std::string TEXT_BOX_PATH = "content/Font/textBox.png";
 
 	const int CODEY_ID = 0;
@@ -91,7 +99,7 @@ void TutorialText::setTutorialText(std::string message, int speakerId){
 
 void TutorialText::renderTextBox(Graphics& graphics) const{
 	tutorialBox->draw(graphics, PORTRAIT_BOX_X_POS, BOX_Y_POS, PORTRAIT_BOX_WIDTH, BOX_HEIGHT);
-	speakerSprites.at(currentSpeakerId)->draw(graphics, PORTRAIT_BOX_X_POS + 50, BOX_Y_POS+50, 80,80);
+	speakerSprites.at(currentSpeakerId)->draw(graphics, std::get<0>(getSpriteDimension()), PORTRAIT_Y_POS, std::get<1>(getSpriteDimension()), std::get<2>(getSpriteDimension()));
 	tutorialBox->draw(graphics, BOX_X_POS, BOX_Y_POS, BOX_WIDTH, BOX_HEIGHT);
 }
 
@@ -124,4 +132,21 @@ void TutorialText::initSprites(Graphics& graphics){
 		LOOPY_FILE_PATH,
 		150, 943,
 		LOOPY_WIDTH, LOOPY_HEIGHT, 10, 3));
+}
+
+std::tuple<int, int, int> TutorialText::getSpriteDimension() const{
+	std::tuple<int, int, int> temp;
+	switch (currentSpeakerId){
+	case(0) ://codey
+		std::get<0>(temp) = PORTRAIT_X_POS - 20;
+		std::get<1>(temp) = PORTRAIT_CODEY_WIDTH;
+		std::get<2>(temp) = PORTRAIT_CODEY_HEIGHT;
+		break;
+	case(1)://loopy
+		std::get<0>(temp) = PORTRAIT_X_POS;
+		std::get<1>(temp) = PORTRAIT_LOOPY_WIDTH;
+		std::get<2>(temp) = PORTRAIT_LOOPY_HEIGHT;
+		break;
+	}
+	return temp;
 }

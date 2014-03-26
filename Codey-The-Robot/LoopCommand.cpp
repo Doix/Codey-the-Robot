@@ -27,6 +27,10 @@ void LoopCommand::removeCommand(int index) {
 	commands.deleteCommand(index);
 }
 
+int LoopCommand::getLoops() {
+	return repeatAmount;
+}
+
 void LoopCommand::restart() {
 	amountLeft = repeatAmount;
 	commands.restart();

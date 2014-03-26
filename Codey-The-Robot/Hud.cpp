@@ -79,6 +79,10 @@ void Hud::draw(Graphics& graphics){
 				y += BUTTON_SIZE + 10;
 			}
 			makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[CommandAction::LOOP], loopCommand);
+			graphics.renderText("start:", x + BUTTON_SIZE + BUTTON_SIZE/4 , y - 5, BUTTON_SIZE);
+
+
+			graphics.renderText(std::to_string(loopCommand->getLoops()+1), x + BUTTON_SIZE * 4, y - 5, BUTTON_SIZE);
 
 			y += BUTTON_SIZE + 10;
 

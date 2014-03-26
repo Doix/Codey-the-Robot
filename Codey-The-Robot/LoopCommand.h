@@ -14,6 +14,7 @@ public:
 	std::list < std::shared_ptr<Command>>* getCommands();
 	virtual void restart();
 	int size();
+	int getLoops();
 
 	void removeCommand(int index);
 protected:

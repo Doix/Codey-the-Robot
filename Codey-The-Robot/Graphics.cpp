@@ -66,7 +66,6 @@ Graphics::Graphics()
 		printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
 	}
 
-	previousText = "";
 }
 
 //destructor, ends SDL_IMG tool and destroys window, renderer and any spriteCaches

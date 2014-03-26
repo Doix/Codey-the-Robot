@@ -31,6 +31,14 @@ int LoopCommand::getLoops() {
 	return repeatAmount;
 }
 
+void LoopCommand::decreaseLoops() {
+	repeatAmount--;
+}
+
+void LoopCommand::increaseLoops() {
+	repeatAmount++;
+}
+
 void LoopCommand::restart() {
 	amountLeft = repeatAmount;
 	commands.restart();

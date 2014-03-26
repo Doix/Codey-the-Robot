@@ -143,51 +143,46 @@ void Graphics::drawRectangle(const SDL_Rect* rect) {
 }
 
 bool Graphics::renderText(std::string textureText, const int x, const int y, const int width){
-	if (previousText != textureText){
-		previousText = textureText;
 
-		SDL_Surface* textSurface;
-		textSurface = TTF_RenderText_Blended_Wrapped(gFont, textureText.c_str(), textColor, width);
+	SDL_Surface* textSurface;
+	textSurface = TTF_RenderText_Blended_Wrapped(gFont, textureText.c_str(), textColor, width);
 
-		if (textSurface == NULL)
+	if (textSurface == NULL)
+	{
+		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+		return false;
+	}
+	else
+	{
+		//Create texture from surface pixels
+		SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		if (textTexture == NULL)
 		{
-			printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
+			printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
 			return false;
 		}
 		else
 		{
-			//Create texture from surface pixels
-			SDL_DestroyTexture(textTexture);
-			textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+			//Get text dimensions
+			SDL_Rect destinationRect;
+			destinationRect.x = x;
+			destinationRect.y = y;
+			destinationRect.w = textSurface->w;
+			destinationRect.h = textSurface->h;
 
-			if (textTexture == NULL)
-			{
-				printf("Unable to create texture from rendered text! SDL Error: %s\n", SDL_GetError());
-				return false;
-			}
-
-			textDestinationRect.x = x;
-			textDestinationRect.y = y;
-			textDestinationRect.w = textSurface->w;
-			textDestinationRect.h = textSurface->h;
-
-			textRectClip = textSurface->clip_rect;
-
-			//Get rid of old surface
-			SDL_FreeSurface(textSurface);
-			textSurface = nullptr;
+			renderTexture(
+				textTexture,
+				&textSurface->clip_rect,
+				&destinationRect);
 		}
-	}
-	else{
 
-		renderTexture(
-			textTexture,
-			&textRectClip,
-			&textDestinationRect);
+		//Get rid of old surface
+		SDL_DestroyTexture(textTexture);
+		SDL_FreeSurface(textSurface);
 	}
 
 	return true;
-	
+
 }
 
 //Draw a texture at a destination rectangle based on a source rectangle

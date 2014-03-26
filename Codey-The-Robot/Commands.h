@@ -6,6 +6,8 @@ enum class CommandAction {
 		MOVE_FORWARD , 
 		LOOP,
 		NONE_SELECTED,
+		LOOP_UP,
+		LOOP_DOWN,
 		NONE
 };
 

@@ -28,9 +28,9 @@ Hud::Hud(Graphics& graphics, int x, int y, std::shared_ptr<ControlledSprite> pla
 
 	// lets just hardcode this for now
 	availableCommands = std::vector<CommandAction>{CommandAction::MOVE_FORWARD, CommandAction::TURN_LEFT, CommandAction::TURN_RIGHT,
-	CommandAction::LOOP};
+		CommandAction::LOOP};
 	setPlayer(player);
-	
+
 	insertMode = InsertMode::MAIN;
 	loopLocation = 0;
 
@@ -44,7 +44,7 @@ Hud::~Hud()
 void Hud::draw(Graphics& graphics){
 	sprite->draw(graphics, PosX, PosY, HUD_WIDTH, HUD_HEIGHT);
 	clickableCommands.clear();
-	
+
 	SDL_Rect rect = player->clickRectangle();
 	graphics.drawRectangle(&rect);
 
@@ -66,7 +66,7 @@ void Hud::draw(Graphics& graphics){
 	x = 666;
 	y = 20;
 	count = 0;
-	int commandLocation =0;
+	int commandLocation = 0;
 	std::list < std::shared_ptr<Command>>* commands = player->getCommands();
 
 	for (std::shared_ptr<Command> command : *commands){
@@ -79,10 +79,16 @@ void Hud::draw(Graphics& graphics){
 				y += BUTTON_SIZE + 10;
 			}
 			makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[CommandAction::LOOP], loopCommand);
-			graphics.renderText("start:", x + BUTTON_SIZE + BUTTON_SIZE/4 , y - 5, BUTTON_SIZE);
+			graphics.renderText("start:", x + BUTTON_SIZE + BUTTON_SIZE / 4, y - 5, BUTTON_SIZE);
 
 
-			graphics.renderText(std::to_string(loopCommand->getLoops()+1), x + BUTTON_SIZE * 4, y - 5, BUTTON_SIZE);
+			graphics.renderText(std::to_string(loopCommand->getLoops() + 1), x + BUTTON_SIZE * 5, y - 5, BUTTON_SIZE);
+
+			makeAndDrawButton(graphics, x + BUTTON_SIZE * 4, y, BUTTON_SIZE / 1.5, BUTTON_SIZE, *buttons[CommandAction::LOOP_UP],
+				std::shared_ptr<Command>(new Command(CommandAction::LOOP_UP)));
+			makeAndDrawButton(graphics, x + BUTTON_SIZE * 6, y, BUTTON_SIZE / 1.5, BUTTON_SIZE, *buttons[CommandAction::LOOP_DOWN],
+				std::shared_ptr<Command>(new Command(CommandAction::LOOP_DOWN)));
+
 
 			y += BUTTON_SIZE + 10;
 
@@ -100,7 +106,7 @@ void Hud::draw(Graphics& graphics){
 				makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[CommandAction::NONE_SELECTED], nullptr);
 			}
 			else {
-				makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[CommandAction::NONE],nullptr);
+				makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[CommandAction::NONE], nullptr);
 			}
 
 			y += BUTTON_SIZE + 10;
@@ -110,7 +116,7 @@ void Hud::draw(Graphics& graphics){
 			y += BUTTON_SIZE + 10;
 		}
 		else {
-			makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[command->getCommand()],command);
+			makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[command->getCommand()], command);
 
 			x += BUTTON_SIZE + 10;
 			count++;
@@ -122,16 +128,16 @@ void Hud::draw(Graphics& graphics){
 		commandLocation++;
 	}
 	if (insertMode == InsertMode::MAIN){
-		makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[CommandAction::NONE_SELECTED],nullptr);
+		makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[CommandAction::NONE_SELECTED], nullptr);
 	}
 	else {
-		makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[CommandAction::NONE],nullptr);
+		makeAndDrawButton(graphics, x, y, BUTTON_SIZE, BUTTON_SIZE, *buttons[CommandAction::NONE], nullptr);
 	}
 }
 
 
 void Hud::makeAndDrawButton(Graphics& graphics, int x, int y, int w, int h, Sprite& sprite, std::shared_ptr<Command> command) {
-	HudButton temp = HudButton(sprite, Rectangle(x, y, w, h),command);
+	HudButton temp = HudButton(sprite, Rectangle(x, y, w, h), command);
 	clickableCommands.push_back(temp);
 	sprite.draw(graphics, x, y, w, h);
 }
@@ -188,19 +194,32 @@ bool Hud::click(std::tuple<int, int> clicked) {
 						loopIndex = -1;
 					}
 				}
-				if (thingy.isClicked(x, y) ){
+				if (thingy.isClicked(x, y)){
 					printf("%d\n", commandIndex);
 					if (index == clickableCommands.size() - 1) {
 						insertMode = InsertMode::MAIN;
 					}
 					else if (inLoop) {
-						if (loopIndex == loopCommand->size()){
+						if (thingy.command != nullptr) {
+							if (thingy.command->getCommand() == CommandAction::LOOP_DOWN) {
+								loopCommand->decreaseLoops();
+							}
+							else if (thingy.command->getCommand() == CommandAction::LOOP_UP) {
+								loopCommand->increaseLoops();
+							}
+							else {
+								player->removeCommand(commandIndex);
+								insertMode = InsertMode::MAIN;
+							}
+						}
+						else if (loopIndex == loopCommand->size() + 2){
 							insertMode = InsertMode::LOOP;
 							loopLocation = commandIndex;
 						}
 						else if (loopIndex != -1) {
 							loopCommand->removeCommand(loopIndex);
 						}
+
 						else {
 							player->removeCommand(commandIndex);
 							insertMode = InsertMode::MAIN;
@@ -217,7 +236,7 @@ bool Hud::click(std::tuple<int, int> clicked) {
 				}
 				index++;
 				commandIndex++;
-				
+
 			}
 		}
 	}
@@ -233,6 +252,9 @@ void Hud::initializeSprites(Graphics& graphics) {
 	buttons[CommandAction::TURN_LEFT] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 2, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
 	buttons[CommandAction::NONE] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 4, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
 	buttons[CommandAction::NONE_SELECTED] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 5, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
+
+	buttons[CommandAction::LOOP_UP] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 0, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
+	buttons[CommandAction::LOOP_DOWN] = std::unique_ptr<Sprite>(new Sprite(graphics, BUTTON_FILE_PATH, BUTTON_WIDTH * 6, 0, BUTTON_WIDTH, BUTTON_HEIGHT));
 
 }
 

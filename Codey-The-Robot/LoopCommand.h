@@ -16,6 +16,9 @@ public:
 	int size();
 	int getLoops();
 
+	void increaseLoops();
+	void decreaseLoops();
+
 	void removeCommand(int index);
 protected:
 	CommandAction command;

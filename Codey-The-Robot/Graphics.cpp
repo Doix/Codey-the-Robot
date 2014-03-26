@@ -76,6 +76,8 @@ Graphics::~Graphics()
 	renderer = nullptr;
 	SDL_DestroyWindow(window);
 	window = nullptr;
+	SDL_DestroyTexture(textTexture);
+	textTexture = nullptr;
 
 	for (auto& entry : spriteCache) {
 		SDL_DestroyTexture(entry.second);

@@ -33,12 +33,16 @@ namespace{
 
 	const int CODEY_ID = 0;
 	const int LOOPY_ID = 1;
-
 	const std::string CODEY_FILE_PATH = "content/codey.png";
 
 	const int LOOPY_HEIGHT = 60;
 	const int LOOPY_WIDTH = 44;
 	const std::string LOOPY_FILE_PATH = "content/loopy.png";
+
+	const int MOBO_HEIGHT = 91;
+	const int MOBO_WIDTH = 66;
+	const int MOBO_ID = 2;
+	const std::string MOBO_FILE_PATH = "content/MotherBoard.png";
 }
 
 
@@ -131,6 +135,12 @@ void TutorialText::initSprites(Graphics& graphics){
 		LOOPY_FILE_PATH,
 		150, 943,
 		LOOPY_WIDTH, LOOPY_HEIGHT, 10, 3));
+
+	speakerSprites[MOBO_ID] = std::unique_ptr<Sprite>(new AnimatedSprite(
+		graphics,
+		MOBO_FILE_PATH,
+		0, 0,
+		MOBO_WIDTH, MOBO_HEIGHT, 6, 2));
 }
 
 std::tuple<int, int, int> TutorialText::getSpriteDimension() const{
@@ -145,6 +155,11 @@ std::tuple<int, int, int> TutorialText::getSpriteDimension() const{
 		std::get<0>(temp) = PORTRAIT_X_POS;
 		std::get<1>(temp) = PORTRAIT_LOOPY_WIDTH;
 		std::get<2>(temp) = PORTRAIT_LOOPY_HEIGHT;
+		break;
+	case(2) ://Queeny
+		std::get<0>(temp) = PORTRAIT_X_POS - 20;
+		std::get<1>(temp) = PORTRAIT_CODEY_WIDTH;
+		std::get<2>(temp) = PORTRAIT_CODEY_HEIGHT;
 		break;
 	}
 	return temp;

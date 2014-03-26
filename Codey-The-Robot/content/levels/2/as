@@ -3,5 +3,5 @@ void update () {
 }
 
 void init() {
-
+	level.setTutorialText("Greeting's child. Do not be afraid. For i am the Motherboard.", 2);
 }

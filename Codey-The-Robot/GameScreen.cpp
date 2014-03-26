@@ -21,6 +21,9 @@ void GameScreen::draw() {
 	if (!(level->tutorialComplete)){
 		level->drawTutorial();
 	}
+	if (level->levelBeaten){
+		level->drawWinScreen();
+	}
 	
 }
 
@@ -55,8 +58,13 @@ void GameScreen::update(int elapsedTimeInMs) {
 			}
 		}
 	}
-	else if (game->getInput()->wasKeyPressed(SDLK_RETURN)){
-		level->nextTutorialText();
+	if (game->getInput()->wasKeyPressed(SDLK_RETURN)){
+		if (level->levelBeaten){
+			game->setScreen(new MapScreen(game));
+		}
+		else if (!(level->tutorialComplete)){
+			level->nextTutorialText();
+		}
 		return;
 	}
 	

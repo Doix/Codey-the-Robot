@@ -18,7 +18,7 @@ public:
 	void draw(Graphics& graphics) const;
 	void nextText();
 
-	void setText(std::string message, int speakerId);
+	void setText(std::string message);
 private:
 	void renderTextBox(Graphics& graphics) const;
 		

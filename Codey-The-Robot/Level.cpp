@@ -33,13 +33,15 @@ void MessageCallback(const asSMessageInfo *msg, void *){
 	}
 }
 
-Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics), tutorialComplete(true) {
+Level::Level(std::string name, Graphics* graphics) : name(name), graphics(graphics), tutorialComplete(true) , levelBeaten(false){
 	map.reset(Map::createMapFromFile(*graphics, "content/levels/" + name + "/map"));
 	LoadEntities();
 
 	setupAngelscript();
 
 	tutorialText.reset(new TutorialText(*graphics));
+	winMessage.reset(new MessageBox(*graphics));
+	winMessage->setText("Congratulations, you beat the level. \n\nPush Enter to continue return to the map screen.");
 
 	//setTutorialText("Well, HOWDY there pard'ner, my name\'s Loopy Leo!", "Loopy");
 	//setTutorialText("Hi, I\'m Codey and I'm here to save the World", "Codey");
@@ -124,7 +126,7 @@ void Level::update(int elapsedTimeInMs) {
 	if (!tutorialComplete){
 		tutorialText->update(elapsedTimeInMs);
 	}
-	else{
+	else if(!levelBeaten){
 		map->update(elapsedTimeInMs);
 		for (auto player : players)
 			player->update(elapsedTimeInMs, *map);
@@ -147,11 +149,16 @@ void Level::draw() {
 		player->draw(*graphics);
 
 	for (auto enemy : enemies) 
-		enemy->draw(*graphics);		
+		enemy->draw(*graphics);	
+	
 }
 
 void Level::drawTutorial(){
 	tutorialText->draw(*graphics);
+}
+
+void Level::drawWinScreen(){
+	winMessage->draw(*graphics);
 }
 
 std::vector<std::shared_ptr<Codey>> Level::getPlayers() {
@@ -164,8 +171,7 @@ void print(int i)
 }
 
 void Level::levelWon() {
-	//TODO: SHOW WINSCREEN AND STUFF!
-	printf("won!\n");
+	levelBeaten = true;	
 }
 
 void Level::setTutorialText(string &msg, int speakerId)

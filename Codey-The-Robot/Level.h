@@ -9,6 +9,7 @@
 #include "Codey.h"
 #include "angelscript.h"
 #include "TutorialText.h"
+#include "MessageBox.h"
 
 using std::string;
 
@@ -20,6 +21,7 @@ public:
 	void update(int elapsedTimeInMs);
 	void draw();
 	void drawTutorial();
+	void drawWinScreen();
 	std::vector < std::shared_ptr<Codey>> getPlayers();
 	void start();
 	void levelWon();
@@ -28,6 +30,8 @@ public:
 	void nextTutorialText();
 	bool tutorialComplete;
 	void restart();
+
+	bool levelBeaten;
 
 private:
 	Graphics* graphics;
@@ -39,6 +43,8 @@ private:
 	asIScriptEngine* engine;
 	void setupAngelscript();
 
+	std::unique_ptr<MessageBox> winMessage;
+	
 	std::unique_ptr<TutorialText> tutorialText;
 };
 

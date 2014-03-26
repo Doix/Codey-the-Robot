@@ -5,7 +5,7 @@
 #include "Sprite.h"
 
 namespace{
-	const int TEXT_X_POS = 350;
+	const int TEXT_X_POS = 200;
 	const int TEXT_Y_POS = 150;
 	const int TEXT_WIDTH = 450;
 	const int TEXT_HEIGHT = 200;
@@ -33,7 +33,6 @@ messageComplete(false)
 
 MessageBox::~MessageBox()
 {
-
 }
 
 void MessageBox::draw(Graphics& graphics) const{
@@ -47,7 +46,7 @@ void MessageBox::nextText(){
 	}
 }
 
-void MessageBox::setText(std::string message, int speakerId){
+void MessageBox::setText(std::string message){
 	std::stringstream ss(message);
 	std::string tutText;
 	while (std::getline(ss, tutText)) {

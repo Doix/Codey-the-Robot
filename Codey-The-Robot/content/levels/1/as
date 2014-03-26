@@ -1,5 +1,5 @@
 void update () {
-	if (codey0.getRow() == 1 && codey0.getCol() == 1) {
+	if (codey0.getRow() == 3 && codey0.getCol() == 3) {
 		level.win();
 	}
 }

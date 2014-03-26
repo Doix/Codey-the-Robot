@@ -20,10 +20,10 @@ public:
 	
 	void draw(Graphics& graphics) const;
 	void update(int elapsedTimeInMs);
-	void nextTutorialText();
+	void nextText();
 
 	bool tutorialComplete;
-	void setTutorialText(std::string message, int speakerId);
+	void setText(std::string message, int speakerId);
 private:
 	void initSprites(Graphics& graphics);
 	std::map<int, std::unique_ptr<Sprite>> speakerSprites;

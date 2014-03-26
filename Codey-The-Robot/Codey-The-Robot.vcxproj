@@ -49,6 +49,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapCodey.cpp" />
     <ClCompile Include="MapScreen.cpp" />
+    <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="SpriteState.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="LoopyLeo.h" />
     <ClInclude Include="MapCodey.h" />
     <ClInclude Include="MapScreen.h" />
+    <ClInclude Include="MessageBox.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="LoopCommand.h" />
     <ClInclude Include="Map.h" />

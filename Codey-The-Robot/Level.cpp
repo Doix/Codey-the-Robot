@@ -170,12 +170,12 @@ void Level::levelWon() {
 
 void Level::setTutorialText(string &msg, int speakerId)
 {			
-	tutorialText->setTutorialText(msg, speakerId);
+	tutorialText->setText(msg, speakerId);
 	tutorialComplete = false;
 }
 
 void Level::nextTutorialText(){
-	tutorialText->nextTutorialText();
+	tutorialText->nextText();
 	if (tutorialText->tutorialComplete){
 		tutorialComplete = true;
 	}

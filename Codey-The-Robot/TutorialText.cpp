@@ -39,7 +39,6 @@ namespace{
 	const int LOOPY_HEIGHT = 60;
 	const int LOOPY_WIDTH = 44;
 	const std::string LOOPY_FILE_PATH = "content/loopy.png";
-
 }
 
 
@@ -74,7 +73,7 @@ void TutorialText::update(int elapsedTimeInMs){
 }
 
 
-void TutorialText::setTutorialText(std::string message, int speakerId){
+void TutorialText::setText(std::string message, int speakerId){
 	++totalSpeakers;
 
 	std::tuple < vector<std::string>, int > temp;
@@ -103,7 +102,7 @@ void TutorialText::renderTextBox(Graphics& graphics) const{
 	tutorialBox->draw(graphics, BOX_X_POS, BOX_Y_POS, BOX_WIDTH, BOX_HEIGHT);
 }
 
-void TutorialText::nextTutorialText(){
+void TutorialText::nextText(){
 	
 	++currentLineNo;
 	if (!(currentLineNo < currentSpeakerNoOfLines)){

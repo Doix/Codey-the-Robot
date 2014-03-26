@@ -33,6 +33,10 @@ private:
 	SDL_Renderer* renderer;
 	TTF_Font *gFont = nullptr;
 	SDL_Color textColor;
+	SDL_Texture* textTexture;
+	SDL_Rect textRectClip;
+	SDL_Rect textDestinationRect;
+	std::string previousText;
 	
 };
 

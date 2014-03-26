@@ -31,6 +31,12 @@
     <Filter Include="Header Files\Characters">
       <UniqueIdentifier>{081bd50b-5e5d-4285-a776-4e77a3296be9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TextClasses">
+      <UniqueIdentifier>{dc2d42ec-10fd-4242-b0a7-93f0fe9baf65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TextClasses">
+      <UniqueIdentifier>{75f3a212-446a-45ba-b217-fe48db09cbc1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -150,14 +156,17 @@
     <ClCompile Include="ChopperEnemy.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="TutorialText.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DogEnemy.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
     <ClCompile Include="HudButton.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialText.cpp">
+      <Filter>Source Files\TextClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="MessageBox.cpp">
+      <Filter>Source Files\TextClasses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,9 +281,6 @@
     <ClInclude Include="ChopperEnemy.h">
       <Filter>Header Files\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="TutorialText.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="add_on\weakref\weakref.h">
       <Filter>Header Files\AngelScript</Filter>
     </ClInclude>
@@ -283,6 +289,12 @@
     </ClInclude>
     <ClInclude Include="HudButton.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialText.h">
+      <Filter>Header Files\TextClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="MessageBox.h">
+      <Filter>Header Files\TextClasses</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
